@@ -12,10 +12,8 @@
         box-shadow: none;
     }
 
-    &__card-content.card-content {
-        display: grid;
-        grid-template-rows: 70px repeat(4, 50px);
-        row-gap: 1rem;
+    &__card-content.card-content div {
+        margin-top: 2rem;
     }
 
     &__info {
@@ -24,29 +22,7 @@
 
     &__complete-name-box {
         text-align: center;
-        grid-row: 1;
     }
-
-    &__pseudo-box{
-        grid-row: 2;
-    }
-
-    &__email-box{
-        grid-row: 3;
-    }
-
-    &__existance-box{
-        grid-row: 4;
-    }
-
-    &__status-box{
-        grid-row: 5;
-    }
-
-    &__role-box{
-        grid-row: 6;
-    }
-
     &__complete-name {
         font-size: 20px;
         font-weight: 700;

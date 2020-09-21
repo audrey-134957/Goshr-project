@@ -34,20 +34,10 @@
             </div>
             <div class="user-card__card-content card-content">
 
-                @if($adminUser->name && $adminUser->firstname !== NULL)
                 <div class="user-card__complete-name-box">
-                    @php
-                    $completeName = $adminUser->firstname. ' '.$adminUser->name;
-                    @endphp
-                    <span class="user-card__complete-name">{{$completeName}}</span>
+                    <span class="user-card__complete-name">{{$adminUser->getUserCompleteName()}}</span>
                 </div>
-                @endif
-
-                <div class="user-card__pseudo-box user-card__info">
-                    <span class="user-card__title title" style="display: block;">pseudonyme</span>
-                    <span class="section__user-info section__user-username">{{$adminUser->username}}</span>
-                </div>
-
+  
                 <div class="user-card__email-box user-card__info">
                     <span class="user-card__title title" style="display: block;">email</span>
                     <span>{{$adminUser->email}}</span>
@@ -55,7 +45,7 @@
 
                 <div class="user-card__existance-box user-card__info">
                     <span class="user-card__title title" style="display: block;">ancienneté</span>
-                    <span>membre depuis le 10 jan 2000</span>
+                    <span>membre depuis <br> le {{$adminUser->getUserCreationDate()}}</span>
                 </div>
 
                 <div class="user-card__status-box user-card__info">

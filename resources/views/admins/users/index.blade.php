@@ -31,10 +31,7 @@
 
                 @if($user->name && $user->firstname !== NULL)
                 <div class="user-card__complete-name-box">
-                    @php
-                    $completeName = $user->firstname. ' '.$user->name;
-                    @endphp
-                    <span class="user-card__complete-name">{{$completeName}}</span>
+                    <span class="user-card__complete-name">{{$user->getUserCompleteName()}}</span>
                 </div>
                 @endif
 
@@ -50,7 +47,7 @@
 
                 <div class="user-card__existance-box user-card__info">
                     <span class="user-card__title title" style="display: block;">ancienneté</span>
-                    <span>membre depuis le 10 jan 2000</span>
+                    <span>{{$user->getUserCreationDate()}}</span>
                 </div>
 
                 <div class="user-card__status-box user-card__info">

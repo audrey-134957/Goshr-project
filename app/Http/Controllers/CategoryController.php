@@ -87,8 +87,6 @@ class CategoryController extends Controller
 
         session(['oldCategoryName' => $category->name]);
 
-
-
         $category->name = ucfirst($request->edit_category_name);
         $category->slug = Str::slug($request->edit_category_name);
         $category->save();
@@ -103,6 +101,7 @@ class CategoryController extends Controller
 
         // je recupère tous mes utilisateurs
         $users = User::where('role_id', NULL)->get();
+
         foreach ($users as $user) {
             // je notifie chaque utilisateur
             $user->notify(new SendMailToUserReferingToUpdatingCategory($category, $user));
