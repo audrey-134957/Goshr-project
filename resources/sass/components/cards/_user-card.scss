@@ -1,0 +1,75 @@
+.user-card {
+    padding: 2rem 1rem;
+    border-radius: 5px;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    row-gap: 1rem;
+
+    &__card-header.card-header {
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+
+    &__card-content.card-content {
+        display: grid;
+        grid-template-rows: 70px repeat(4, 50px);
+        row-gap: 1rem;
+    }
+
+    &__info {
+        text-align: center;
+    }
+
+    &__complete-name-box {
+        text-align: center;
+        grid-row: 1;
+    }
+
+    &__pseudo-box{
+        grid-row: 2;
+    }
+
+    &__email-box{
+        grid-row: 3;
+    }
+
+    &__existance-box{
+        grid-row: 4;
+    }
+
+    &__status-box{
+        grid-row: 5;
+    }
+
+    &__role-box{
+        grid-row: 6;
+    }
+
+    &__complete-name {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    &__role-box {
+        margin-bottom: 3rem;
+    }
+
+    &__title.title {
+        font-size: 13px;
+        text-transform: uppercase;
+        margin-bottom: 0.1rem;
+    }
+
+    &__card-footer.card-footer {
+        border-top: 0;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__button.button.is-rounded {
+        padding: 0 10px;
+        height: 30px;
+    }
+}
