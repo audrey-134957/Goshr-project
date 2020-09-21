@@ -24,7 +24,7 @@ class SendMailToUserReferingToUpdatingCategory extends Notification
      */
     public function __construct(Category $category, User $user)
     {
-        $this->cateogory = $category;
+        $this->category = $category;
         $this->user = $user;
     }
 
@@ -49,6 +49,6 @@ class SendMailToUserReferingToUpdatingCategory extends Notification
     {
         return (new MailMessage)
             ->subject("Du nouveau dans les catégories!")
-            ->markdown('mails.category-updated', ['user' => $notifiable]);
+            ->markdown('mails.category-updated', ['user' => $notifiable, 'category' => $this->category]);
     }
 }

@@ -55,7 +55,13 @@ class CategoryController extends Controller
                 'adminId' => auth()->user()->id
             ])->with('error', "Une erreur s'est produite lors de la création de la catégorie");
         }
-        
+
+        $users = User::where('role_id', NULL)->get();
+
+        foreach($users as $user){
+            $user->notify(new SendMailToUserReferingToCreatingCategory($category, $user));
+        }
+
         //je redirige l'administrateur avec un status de confirmation
         return redirect()->route('admin.indexCategories', [
             'adminId' => auth()->user()->id
@@ -79,6 +85,10 @@ class CategoryController extends Controller
         $category = Category::where('slug', $category)->firstOrFail();
         // j'édite la catégorie
 
+        session(['oldCategoryName' => $category->name]);
+
+
+
         $category->name = ucfirst($request->edit_category_name);
         $category->slug = Str::slug($request->edit_category_name);
         $category->save();
@@ -88,19 +98,19 @@ class CategoryController extends Controller
             // je redirige l'administraeur avec un message d'erreur
             return redirect()->route('admin.indexCategories', [
                 'adminId' => auth()->user()->id
-            ])->with('error', "Une erreur s'est produite lors de la modification de la catégorie");
+            ])->with('error', "Une erreur s'est produite lors de la modification de la catégorie.");
         }
 
         // je recupère tous mes utilisateurs
         $users = User::where('role_id', NULL)->get();
         foreach ($users as $user) {
             // je notifie chaque utilisateur
-            $user->notify(new SendMailToUserReferingToUpdatingCategory($user, $category));
+            $user->notify(new SendMailToUserReferingToUpdatingCategory($category, $user));
         }
         // je redirige l'administraeur avec un status de confirmation
         return redirect()->route('admin.indexCategories', [
             'adminId' => auth()->user()->id
-        ])->with('status', 'La catégorie a bien été modifiée');
+        ])->with('status', 'La catégorie a bien été modifiée.');
     }
 
     /**

@@ -25,12 +25,6 @@ class Category extends Model
         static::saving(function ($category) {
 
             $category->slug = Str::slug($category->name);
-
-            $users = User::where('role_id', NULL)->get();
-
-            foreach($users as $user){
-                $user->notify(new SendMailToUserReferingToCreatingCategory($category, $user));
-            }
         });
     }
 
