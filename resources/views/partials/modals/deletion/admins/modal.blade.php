@@ -21,11 +21,7 @@
 
             <!-- * Footer * -->
             <footer class="modal-card-foot">
-                <form action="{{route('admin.deleteAdmin', [
-                    'adminId' => auth()->user()->id,
-                    'adminUserFirstname' => $adminUser->firstname_slug,
-                    'adminUserName' => $adminUser->name_slug
-                    ])}}" method="POST">
+                <form action="{{route('admin.deleteAdmin', ['adminId' => auth()->user()->id, 'adminUser' => $adminUser->id])}}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button type="submit" class="modal-submit-button button is-rounded is-success">Confirmer</button>

@@ -8,7 +8,7 @@
 
 
 <div class="search-box">
-    <form action="{{route('admin.search', [ 'adminId' => auth()->user()->id, 'adminUser' => $adminUser->id])}}" method="GET" class="search-box__form">
+    <form action="{{route('admin.search', [ 'adminId' => auth()->user()->id])}}" method="GET" class="search-box__form">
 
         <input type="search" class="search-box__search-input input is-rounded" name="q" placeholder="Rechercher...">
         <butonn class="search-box__button search-box__button--submit button is-rounded">
@@ -50,11 +50,7 @@
                 </div>
             </div>
             <div class="user-card__card-footer card-footer">
-                <a href="{{route('admin.editAdmin', [
-                    'adminId' => auth()->user()->id,
-                'adminUserFirstname' => $adminUser->firstname_slug,
-                'adminUserName' => $adminUser->name_slug
-                ])}}" class="user-card__button user-card__button--edit button is-rounded is-info is-outlined" style="padding:0;width:40px;height:40px;"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="{{route('admin.editAdmin', ['adminId' => auth()->user()->id, 'adminUser' => $adminUser->id])}}" class="user-card__button user-card__button--edit button is-rounded is-info is-outlined" style="padding:0;width:40px;height:40px;"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
                 <button class="user-card__button modal-button button is-rounded is-link is-outlined" type="button" style="padding:0;width:40px;height:40px;"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                 @include('partials.modals.deletion.admins.modal')
