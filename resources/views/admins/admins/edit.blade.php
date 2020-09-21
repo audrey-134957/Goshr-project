@@ -30,18 +30,6 @@
 
             <div class="d-flex">
                 <div class="d-flex__left">
-
-                    <!-- * Champs pseudonyme * -->
-                    <div class="user-profile-creation__field user-profile-creation__username-field field">
-                        <label class="user-profile-creation__label user-profile-creation__label--username label">Pseudo</label>
-                        <div class="control">
-                            <input class="user-profile-creation__input user-profile-creation__input--username @error('username') is-danger @enderror is-rounded input" type="text" name="username" value="{{$adminUser->username}}">
-                        </div>
-                        @error('username')
-                        <p class="help is-danger">{{ $message }}</p>
-                        @enderror
-                    </div>
-
                     <!-- * Champs email * -->
                     <div class="user-profile-edition__field user-profile-edition__email-field field">
                         <label class="user-profile-edition__label user-profile-edition__label--email label">Email</label>
@@ -101,6 +89,7 @@
                 </div>
             </div>
             <div class="user-profile-edition__field user-profile-edition__role-select field">
+            <label class="user-profile-edition__label user-profile-edition__label--email label">Rôle</label>
                 <div class="select @error ('admin_role') is-danger @enderror is-rounded">
                     <select name="admin_role">
                         @foreach($roles as $role)

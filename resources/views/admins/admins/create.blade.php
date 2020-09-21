@@ -70,6 +70,7 @@
                 </div>
             </div>
             <div class="user-profile-creation__field user-profile-creation__role-select field">
+            <label class="user-profile-creation__label user-profile-edition__label--email label">Rôle</label>
                 <div class="select @error ('admin_role') is-danger @enderror is-rounded">
                     <select name="admin_role">
                         @foreach($roles as $role)
