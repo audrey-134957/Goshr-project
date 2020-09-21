@@ -597,10 +597,10 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
         Route::post('/administrateurs', [AdminController::class, 'storeAdmin'])->name('storeAdmin');
 
-        Route::get('/administrateurs/administrateur-{adminUserFirstname}-{adminUserName}', [AdminController::class, 'editAdmin'])->name('editAdmin');
+        Route::get('/administrateurs/administrateur-{adminUser}', [AdminController::class, 'editAdmin'])->name('editAdmin');
 
-        Route::patch('/administrateurs/administrateur-{adminUserFirstname}-{adminUserName}/modifier-l-administrateur', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
+        Route::patch('/administrateurs/administrateur-{adminUser}/modifier-l-administrateur', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
 
-        Route::delete('/administrateurs/administrateur-{adminUserFirstname}-{adminUserName}', [AdminController::class, 'destroyAdmin'])->name('deleteAdmin');
+        Route::delete('/administrateurs/administrateur-{adminUser}', [AdminController::class, 'destroyAdmin'])->name('deleteAdmin');
     });
 });

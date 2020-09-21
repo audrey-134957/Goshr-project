@@ -47,7 +47,7 @@
 
                 <div class="user-card__existance-box user-card__info">
                     <span class="user-card__title title" style="display: block;">ancienneté</span>
-                    <span>{{$user->getUserCreationDate()}}</span>
+                    <span>membre depuis <br> le {{$user->getUserCreationDate()}}</span>
                 </div>
 
                 <div class="user-card__status-box user-card__info">

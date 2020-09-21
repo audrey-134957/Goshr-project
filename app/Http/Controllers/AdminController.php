@@ -29,9 +29,13 @@ class AdminController extends Controller
      */
     public function edit($adminId)
     {
+
+        $roles = Role::all();
+
         //je montre la view et lui passe l'admin.
         return view('admins.edit', [
-            'adminId' => auth()->user()->id
+            'adminId' => auth()->user()->id,
+            'roles' => $roles
         ]);
     }
 
@@ -109,7 +113,15 @@ class AdminController extends Controller
             //sinon je modifie entièrement l'admin.
             auth()->user()->name = $request->name;
             auth()->user()->firstname = $request->firtname;
+            auth()->user()->role_id = $request->admin_role;
             auth()->user()->save();
+
+            $adminUser->username = $request->username;
+            $adminUser->email = $request->email;
+            $adminUser->firstname = $request->firstname;
+            $adminUser->name = $request->name;
+            $adminUser->role_id = $request->admin_role;
+            $adminUser->save();
 
             //si l'admin ou son profil est sauvé
             if (!auth()->user()->save() || !auth()->user()->profile->save()) {
@@ -222,11 +234,6 @@ class AdminController extends Controller
             ])->with('error', "Une erreur s'est produite lors de la création du compte administrateur.");
         }
 
-        //si l'utilisateur est sauvé
-        $admins = User::where('role_id', '!=', NULL)
-            ->where('id', '!=', auth()->user()->id)
-            ->get();
-
         //je notifie un nouvel utilisateur
         $admin->notify(new SendValidationMailToAdmin($admin));
         // ... je redirige l'utilisateur vers la page d'accueil avec une notification sur le navigateur du succès de sa connexion.
@@ -265,19 +272,17 @@ class AdminController extends Controller
     /**
      * Update the admin in database.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\AdminUpdateAdmin $request
      * @param  string $adminFirstname | slug of the authenticated super-admin firstname
      * @param  string $adminName | slug of the authenticated super-admin's name
      * @param  string $adminUserFirstname | slug of the admin user's firstname
      * @param  string $adminUserName | slug of the admin user's name
      * @return \Illuminate\Http\Response
      */
-    public function updateAdmin(AdminUpdateAdmin $request, $adminId, $adminUserFirstname, $adminUserName)
+    public function updateAdmin(AdminUpdateAdmin $request, $adminId, $admin)
     {
 
-        $adminUser = User::where('firstname_slug', $adminUserFirstname)
-            ->where('name_slug', $adminUserName)
-            ->where('role_id', '!=', NULL)->firstOrFail();
+        $adminUser = User::where('role_id', '!=', NULL)->findOrFail($admin);
 
         // si un fichier image est contenu dans le champs image
         if ($request->avatar) {
@@ -314,17 +319,13 @@ class AdminController extends Controller
             if (!$adminUser->save()) {
                 //sinon je le redirige en lui signalant le.s erreur.s
                 return redirect()->route('admin.editAdmin', [
-                    'adminId' => auth()->user()->id,
-                    'adminUserFirstname' => $adminUser->firstname_slug,
-                    'adminUserName' => $adminUser->name_slug
+                    'adminId' => auth()->user()->id
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
 
             // je le redirige sur son compte avec un status pour l'informer de la mise à jour de son profil
             return redirect()->route('admin.editAdmin', [
-                'adminId' => auth()->user()->id,
-                'adminUserFirstname' => $adminUser->firstname_slug,
-                'adminUserName' => $adminUser->name_slug
+                'adminId' => auth()->user()->id
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
 
@@ -334,9 +335,7 @@ class AdminController extends Controller
             if (!Hash::check($request->password, $adminUser->password)) {
                 //en cas d'erreur, je redirige l'admin sur son compte en lui signalant qu'il y a une erreur
                 return redirect()->route('admin.editAdmin', [
-                    'adminId' => auth()->user()->id,
-                    'adminUserFirstname' => $adminUser->firstname_slug,
-                    'adminUserName' => $adminUser->name_slug
+                    'adminId' => auth()->user()->id
                 ])->with('error', "Une erreur s'est produite lors du changement du mot de passe.");
             }
             // si la saisie entrée pour le champs password correspond avec le mot de passe actuel de l'admin
@@ -348,9 +347,7 @@ class AdminController extends Controller
             if (!$adminUser->save()) {
                 //en cas d'erreur, je redirige l'admin sur son compte en lui signalant qu'il y a une erreur
                 return redirect()->route('admin.editAdmin', [
-                    'adminId' => auth()->user()->id,
-                    'adminUserFirstname' => $adminUser->firstname_slug,
-                    'adminUserName' => $adminUser->name_slug
+                    'adminId' => auth()->user()->id
                 ])->with('error', "Une erreur s'est produite lors du changement du mot de passe.");
             }
 
@@ -358,12 +355,10 @@ class AdminController extends Controller
             $adminUser->notify(new SendEmailToAdminReferingToUpdatingPassword());
 
             return redirect()->route('admin.editAdmin', [
-                'adminId' => auth()->user()->id,
-                'adminUserFirstname' => $adminUser->firstname_slug,
-                'adminUserName' => $adminUser->name_slug
+                'adminId' => auth()->user()->id
             ])->with('status', 'Le mot de passe a bien bien été modffié.');
+
         } else {
-            $adminUser->username = $request->username;
             $adminUser->email = $request->email;
             $adminUser->firstname = $request->firstname;
             $adminUser->name = $request->name;
@@ -374,16 +369,12 @@ class AdminController extends Controller
             if (!$adminUser->save()) {
                 //je redirige l'admin vers la page d'édition en lui indiquant le.s erreur.s
                 return redirect()->route('admin.editAdmin', [
-                    'adminId' => auth()->user()->id,
-                    'adminUserFirstname' => $adminUser->firstname_slug,
-                    'adminUserName' => $adminUser->name_slug
+                    'adminId' => auth()->user()->id
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
             //je redirige l'admin vers la page d'édition avec un status de confirmation
             return redirect()->route('admin.editAdmin', [
-                'adminId' => auth()->user()->id,
-                'adminUserFirstname' => $adminUser->firstname_slug,
-                'adminUserName' => $adminUser->name_slug
+                'adminId' => auth()->user()->id
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
     }
@@ -397,12 +388,10 @@ class AdminController extends Controller
      * @param  string $adminUserName | slug of the admin user's name
      * @return \Illuminate\Http\Response
      */
-    public function destroyAdmin($adminId, $adminUserFirstname, $adminUserName)
+    public function destroyAdmin($adminId, $admin)
     {
         //je trouve l'utilisateur
-        $adminUser = User::where('firstname_slug', $adminUserFirstname)
-            ->where('name_slug', $adminUserName)
-            ->where('role_id', '!=', NULL)->firstOrFail();
+        $adminUser = User::where('role_id', '!=', NULL)->findOrFail($admin);
 
         // j'autorise l'action de pouvoir supprimer le profil uniquement à l'utilisateur connecté.
         // $this->authorize('delete', $);
@@ -410,9 +399,7 @@ class AdminController extends Controller
         if (!$adminUser) {
             //je redirige l'utilisateur vers la home avec un message lui confirmation la suppression de son compte.
             return redirect()->route('admin.editAdmin', [
-                'adminId' => auth()->user()->id,
-                'adminUserFirstname' => $adminUser->firstname_slug,
-                'adminUserName' => $adminUser->name_slug
+                'adminId' => auth()->user()->id
             ])->with('error', "Ce compte n'a pas été trouvé.");
         }
         //je notifie l'utilisateur que son compte est supprimé

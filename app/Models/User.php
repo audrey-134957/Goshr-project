@@ -186,7 +186,7 @@ class User extends Model implements Authenticatable
 
 
     public function getUserCompleteName(){
-        $completeName = $this->firstname. ' '.$this->name;
+        $completeName = $this->firstname.' '.$this->name;
 
         return $completeName;
     }

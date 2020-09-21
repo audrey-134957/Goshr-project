@@ -107,6 +107,18 @@
                     </div>
                 </div>
             </div>
+            <div class="user-profile-edition__field user-profile-edition__role-select field">
+                <div class="select @error ('admin_role') is-danger @enderror is-rounded">
+                    <select name="admin_role">
+                        @foreach($roles as $role)
+                        <option value="{{$role->id}}" {{auth()->user()->role_id === $role->id ? 'selected' : ''}}>{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                @error('admin_role')
+                <p class="help is-danger">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
         <button class="user-profile-edition__button user-profile-edition__button--update  button is-rounded" type="submit">modifier</button>
     </form>
