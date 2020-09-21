@@ -8,13 +8,7 @@
 
 <div class="user-profile-edition" style="overflow: auto;">
 
-    <form action="{{route('admin.updateAdmin',
-                    [
-                        'adminId' => auth()->user()->id,
-                        'adminUserFirstname' => $adminUser->firstname_slug,
-                        'adminUserName' => $adminUser->name_slug
-                    ])
-                    }}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('admin.updateAdmin', [ 'adminId' => auth()->user()->id,'adminUser' => $adminUser->id]) }}" method="POST" enctype="multipart/form-data">
 
         @method('PATCH')
         @csrf
