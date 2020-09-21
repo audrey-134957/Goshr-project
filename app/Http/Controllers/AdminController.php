@@ -116,13 +116,6 @@ class AdminController extends Controller
             auth()->user()->role_id = $request->admin_role;
             auth()->user()->save();
 
-            $adminUser->username = $request->username;
-            $adminUser->email = $request->email;
-            $adminUser->firstname = $request->firstname;
-            $adminUser->name = $request->name;
-            $adminUser->role_id = $request->admin_role;
-            $adminUser->save();
-
             //si l'admin ou son profil est sauvé
             if (!auth()->user()->save() || !auth()->user()->profile->save()) {
                 //je redirige l'admin vers la page d'édition en lui indiquant le.s erreur.s
