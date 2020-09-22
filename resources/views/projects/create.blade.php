@@ -173,7 +173,7 @@
             <!-- *  Footer * -->
 
             <div class="project-form__sub-footer">
-                <button class="project-form__button button is-rounded" type="submit" name="submit" value="draft" style="margin-bottom: 1rem;">
+                <button class="project-form__button button is-rounded" type="submit" name="submit" value="draft">
                     <span>ajouter au brouillon</span>
                 </button>
                 <button class="project-form__button project-form__button--submit button is-rounded" type="submit" name="submit" value="publish">

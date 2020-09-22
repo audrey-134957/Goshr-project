@@ -23,13 +23,7 @@
                 <a href="{{route('projects.edit', [$project, $slug, 'token' => $project->user->bank_of_token->token_project])}}" class="project-article__button project-article__link-button button is-rounded is-warning is-outlined"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
                 <button class="project-article__button button is-rounded is-danger is-outlined modal-button" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                @include('partials.modals.deletion-modal', [
-                'modalTitle' => 'Supprimer ce projet',
-                'question' => 'Souhaites-tu vraiment supprimer ce projet ?',
-                'complementaryText' => '',
-                'route' => route('projects.delete', [$project, $slug]),
-                'confirmChoice' => 'Supprimer le projet'
-                ])
+                @include('partials.modals.deletion.project.modal')
                 @endcanany
 
                 @can('doReport', $project)

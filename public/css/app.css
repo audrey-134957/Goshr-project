@@ -18002,6 +18002,7 @@ input[type=radio],
   background-color: #fff;
   padding: 1rem 0;
   margin-top: 0.5in;
+  margin-bottom: 1rem;
 }
 
 .project-form__button {
