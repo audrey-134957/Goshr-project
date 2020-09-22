@@ -7,7 +7,7 @@
         display: none;
     }
 
-    form{
+    form {
         overflow: auto;
     }
 
@@ -39,7 +39,6 @@
     .field {
         margin-bottom: 2.5rem;
     }
-
 
     &__avatar,
     &__bio {
@@ -151,5 +150,11 @@
 
     &__modal-activation {
         clear: right;
+    }
+
+    &__buttons-box {
+        clear: right;
+        overflow: auto;
+        float: right;
     }
 }

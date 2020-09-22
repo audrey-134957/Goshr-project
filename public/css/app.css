@@ -18216,6 +18216,12 @@ input[type=radio],
   clear: right;
 }
 
+.user-profile-creation__buttons-box {
+  clear: right;
+  overflow: auto;
+  float: right;
+}
+
 .motives-list ul {
   display: flex;
   flex-wrap: nowrap;
