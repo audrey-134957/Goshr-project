@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminStoreAdmin;
 use App\Http\Requests\AdminUpdateAdmin;
 use App\Models\Role;
 use App\Models\User;
@@ -23,16 +24,13 @@ class AdminController extends Controller
     /**
      * Show the form for edit the admin.
      * 
-     * @param  string $adminFirstname | slug of the authenticated super-admin firstname
-     * @param  string $adminName | slug of the authenticated super-admin's name
+     * @param  int $adminId | id of the authenticated admin
      * @return \Illuminate\Http\Response
      */
     public function edit($adminId)
     {
-
         $roles = Role::all();
 
-        //je montre la view et lui passe l'admin.
         return view('admins.edit', [
             'adminId' => auth()->user()->id,
             'roles' => $roles
@@ -42,33 +40,32 @@ class AdminController extends Controller
     /**
      * Update the admin in database.
      * @param  \Illuminate\Http\EditAdmin $request
-     * @param  string $adminFirstname | slug of the authenticated super-admin firstname
-     * @param  string $adminName | slug of the authenticated super-admin's name
+     * @param  int $adminId | id of the authenticated admin
      * @return \Illuminate\Http\Response
      */
     public function update(EditAdmin $request, $adminId)
     {
         // si un fichier image est contenu dans le champs image
         if ($request->avatar) {
-            // je stocke le pseudonyme de l'utilisateur dans la variable
-            $adminFolder = auth()->user()->username;
+            // je stocke l'identifiant de l'utilisateur dans la variable
+            $adminIdentifier = auth()->user()->user_identifier;
             //je stoke le chemin du dossier que je vais créer par la suite dans une variable
-            $storagePath = 'avatars/admin/' . $adminFolder;
+            $storagePath = 'avatars/admin/admin_' . $adminIdentifier;
             // j'apelle fonction deleteOldAvatar() qui va se charger de supprimer l'ancienne photo de profil de l'utilisateur et qui va laisser place la nouvelle photo de profil
             $this->deleteOldUserAvatar();
-            //si le dossier n'existe pas, je le créer
+            //si le dossier n'existe pas
             if (!Storage::exists($storagePath)) {
-                // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
-                $imagePath = $request->avatar->store($storagePath, 'public');
+                //je viens le créer
+                Storage::makeDirectory($storagePath);
             }
-
+            //je donne un nom au fichier téléchargé que je viens stoker en variable.
             $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
+            // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
+            $imagePath = $request->avatar->storeAs($storagePath,  $new_name, 'public');
             //je viens redimensionner mon image
-            $image = Image::make(public_path("/storage/{$imagePath}"))->fit(800, 800);
-
+            $image = Image::make(public_path("/storage/{$imagePath}"))->fit(350, 350);
             //je vais stoker mon image
             $image->save();
-
             // je mets à jour le profil de l'admin
             auth()->user()->update(array_merge(
                 //je viens passer en premier argument mon tableau $adminDatas
@@ -101,14 +98,16 @@ class AdminController extends Controller
             }
             // le nouveau mot de passe de l'admin sera haché et remplacera l'ancien mot de passe
             auth()->user()->password = bcrypt($request->password_new);
+            // je sauve mon utilisateur administrateur
             auth()->user()->save();
-
             //je notifie l'admin de la mise à jour de mon mot de passe
             auth()->user()->notify(new SendEmailToAdminReferingToUpdatingPassword());
+
             //je redirige l'admin sur son compte en lui signalant que son mot de passse a été modifié
             return redirect()->route('admin.edit', [
                 'adminId' => auth()->user()->id
             ])->with('status', 'Le mot de passe a bien bien été modffié.');
+
         } else {
             //sinon je modifie entièrement l'admin.
             auth()->user()->name = $request->name;
@@ -116,25 +115,28 @@ class AdminController extends Controller
             auth()->user()->role_id = $request->admin_role;
             auth()->user()->save();
 
-            //si l'admin ou son profil est sauvé
-            if (!auth()->user()->save() || !auth()->user()->profile->save()) {
+            //si l'admin ou son profil n'est pas sauvé
+            if (!auth()->user()->save()) {
                 //je redirige l'admin vers la page d'édition en lui indiquant le.s erreur.s
                 return redirect()->route('admin.edit', [
                     'adminId' => auth()->user()->id
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
-            //je redirige l'admin vers la page d'édition avec un status de confirmation
+
+            //sinon, je redirige l'admin vers la page d'édition avec un status de confirmation
             return redirect()->route('admin.edit', [
                 'adminId' => auth()->user()->id
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
 
+        //si l'email de l'administrateur connecté est différent de celui donnée dans le champs
         if (auth()->user()->email !== $request->email) {
+            //je viens mettre à jour l'email
             auth()->user()->email = $request->email;
             auth()->user()->save();
 
             //si l'admin ou son profil est sauvé
-            if (!auth()->user()->save() || !auth()->user()->profile->save()) {
+            if (!auth()->user()->save()) {
                 //je redirige l'admin vers la page d'édition en lui indiquant le.s erreur.s
                 return redirect()->route('admin.edit', [
                     'adminId' => auth()->user()->id
@@ -206,12 +208,11 @@ class AdminController extends Controller
     /**
      * Store the admin in database.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\AdminStoreAdmin  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeAdmin(StoreAdmin $request)
+    public function storeAdmin(AdminStoreAdmin $request)
     {
-
         /* Store new user */
         $admin = new User();
         $admin->email = $request->email;
@@ -221,13 +222,15 @@ class AdminController extends Controller
         $admin->role_id = $request->admin_role;
         $admin->save();
 
+        //si le nouvel administrateur n'est pas sauvé
         if (!$admin->save()) {
+            //je redirige l'administrateur connecté vers la page de création de l'administrateur avec la.les erreur.s
             return redirect()->route('admin.createAdmin', [
                 'adminId' => auth()->user()->id
             ])->with('error', "Une erreur s'est produite lors de la création du compte administrateur.");
         }
 
-        //je notifie un nouvel utilisateur
+        //sinon, je notifie un nouvel utilisateur
         $admin->notify(new SendValidationMailToAdmin($admin));
         // ... je redirige l'utilisateur vers la page d'accueil avec une notification sur le navigateur du succès de sa connexion.
         return redirect()->route('admin.indexAdmins', [
@@ -239,10 +242,8 @@ class AdminController extends Controller
      * Show the admin edition form from super admin account.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  string $adminFirstname | slug of the authenticated super-admin firstname
-     * @param  string $adminName | slug of the authenticated super-admin's name
-     * @param  string $adminUserFirstname | slug of the admin user's firstname
-     * @param  string $adminUserName | slug of the admin user's name
+     * @param  string $adminId | id of the authenticated super-admin
+     * @param  string $adminUser | id of the admin
      * @return \Illuminate\Http\Response
      */
     public function editAdmin($adminId, $adminUser)
@@ -255,7 +256,7 @@ class AdminController extends Controller
 
         return view('admins.admins.edit', [
             'adminId' => auth()->user()->id,
-            'adminUser' => $adminUser,
+            'adminUser' => $adminUser->id,
             'roles' => $roles
         ]);
     }
@@ -264,39 +265,32 @@ class AdminController extends Controller
      * Update the admin in database.
      *
      * @param  \Illuminate\Http\AdminUpdateAdmin $request
-     * @param  string $adminFirstname | slug of the authenticated super-admin firstname
-     * @param  string $adminName | slug of the authenticated super-admin's name
-     * @param  string $adminUserFirstname | slug of the admin user's firstname
-     * @param  string $adminUserName | slug of the admin user's name
+     * @param  string $adminId | id of the authenticated admin
+     * @param  string $adminUser | id of the admin
      * @return \Illuminate\Http\Response
      */
     public function updateAdmin(AdminUpdateAdmin $request, $adminId, $adminUser)
     {
-
         $adminUser = User::where('role_id', '!=', NULL)->findOrFail($adminUser);
-
         // si un fichier image est contenu dans le champs image
         if ($request->avatar) {
-            // je stocke le pseudonyme de l'utilisateur dans la variable
-            $adminFolder = $adminUser->username;
+            // je stocke l'identifiant de l'utilisateur dans la variable
+            $adminIdentifier = $adminUser->user_identifier;
             //je stoke le chemin du dossier que je vais créer par la suite dans une variable
-            $storagePath = 'avatars/admin/' . $adminFolder;
+            $storagePath = 'avatars/admin/admin_' . $adminIdentifier;
             // j'apelle fonction deleteOldAvatar() qui va se charger de supprimer l'ancienne photo de profil de l'utilisateur et qui va laisser place la nouvelle photo de profil
             $this->deleteOldUserAvatar();
             //si le dossier n'existe pas, je le créer
             if (!Storage::exists($storagePath)) {
-                // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
-                $imagePath = $request->avatar->store($storagePath, 'public');
+                Storage::makeDirectory($storagePath);
             }
-
             $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
+            // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
+            $imagePath = $request->avatar->storeAs($storagePath, $new_name, 'public');
             //je viens redimensionner mon image
             $image = Image::make(public_path("/storage/{$imagePath}"))->fit(800, 800);
-
-
             //je vais stoker mon image
             $image->save();
-
             // je mets à jour le profil de l'admin
             $adminUser->update(array_merge(
                 //je viens passer en premier argument mon tableau $adminDatas
@@ -311,14 +305,14 @@ class AdminController extends Controller
                 //sinon je le redirige en lui signalant le.s erreur.s
                 return redirect()->route('admin.editAdmin', [
                     'adminId' => auth()->user()->id,
-                    'adminUser' => $adminUser
+                    'adminUser' => $adminUser->id
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
 
             // je le redirige sur son compte avec un status pour l'informer de la mise à jour de son profil
             return redirect()->route('admin.editAdmin', [
                 'adminId' => auth()->user()->id,
-                'adminUser' => $adminUser
+                'adminUser' => $adminUser->id
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
 
@@ -329,7 +323,7 @@ class AdminController extends Controller
                 //en cas d'erreur, je redirige l'admin sur son compte en lui signalant qu'il y a une erreur
                 return redirect()->route('admin.editAdmin', [
                     'adminId' => auth()->user()->id,
-                    'adminUser' => $adminUser
+                    'adminUser' => $adminUser->id
                 ])->with('error', "Une erreur s'est produite lors du changement du mot de passe.");
             }
             // si la saisie entrée pour le champs password correspond avec le mot de passe actuel de l'admin
@@ -342,7 +336,7 @@ class AdminController extends Controller
                 //en cas d'erreur, je redirige l'admin sur son compte en lui signalant qu'il y a une erreur
                 return redirect()->route('admin.editAdmin', [
                     'adminId' => auth()->user()->id,
-                    'adminUser' => $adminUser
+                    'adminUser' => $adminUser->id
                 ])->with('error', "Une erreur s'est produite lors du changement du mot de passe.");
             }
 
@@ -351,9 +345,8 @@ class AdminController extends Controller
 
             return redirect()->route('admin.editAdmin', [
                 'adminId' => auth()->user()->id,
-                'adminUser' => $adminUser
+                'adminUser' => $adminUser->id
             ])->with('status', 'Le mot de passe a bien bien été modffié.');
-
         } else {
             $adminUser->email = $request->email;
             $adminUser->firstname = $request->firstname;
@@ -366,13 +359,13 @@ class AdminController extends Controller
                 //je redirige l'admin vers la page d'édition en lui indiquant le.s erreur.s
                 return redirect()->route('admin.editAdmin', [
                     'adminId' => auth()->user()->id,
-                    'adminUser' => $adminUser
+                    'adminUser' => $adminUser->id
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
             //je redirige l'admin vers la page d'édition avec un status de confirmation
             return redirect()->route('admin.editAdmin', [
                 'adminId' => auth()->user()->id,
-                'adminUser' => $adminUser
+                'adminUser' => $adminUser->id
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
     }
@@ -380,10 +373,8 @@ class AdminController extends Controller
     /**
      * Delete the admin in database.
      *
-     * @param  string $adminFirstname | slug of the authenticated super-admin firstname
-     * @param  string $adminName | slug of the authenticated super-admin's name
-     * @param  string $adminUserFirstname | slug of the admin user's firstname
-     * @param  string $adminUserName | slug of the admin user's name
+     * @param  string $adminId | id of the authenticated admin
+     * @param  string $adminUser | id of the admin
      * @return \Illuminate\Http\Response
      */
     public function destroyAdmin($adminId, $adminUser)

@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidateEmail;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAdmin extends FormRequest
+class AdminStoreAdmin extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,6 +13,7 @@ class StoreAdmin extends FormRequest
      */
     public function authorize()
     {
+        //si l'administrateur est un super administrateur, il pourra créer un administrateur
         if (auth()->user()->role_id === 2) {
             return true;
         }

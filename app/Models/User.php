@@ -78,6 +78,7 @@ class User extends Model implements Authenticatable
 
             $nameSlug = Str::slug($user->name);
             $firstnameSlug = Str::slug($user->firstname);
+            $identifier = mt_rand(000000, 999999);
             //comme bcrypt chiffre le "Str::random", il va rajouter des caractères spéciaux à la route. On aura un problème de route.
             //Il faut donc fait appel aux str_replace pour remplacer les '/' par des '$' dans le $token
             $user->token = str_replace('/', '$', $token);
@@ -85,6 +86,7 @@ class User extends Model implements Authenticatable
 
             $user->name_slug =  $nameSlug;
             $user->firstname_slug = $firstnameSlug;
+            $user->user_identifier = $identifier;
         });
 
         static::saving(function ($user){
