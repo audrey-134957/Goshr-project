@@ -18,10 +18,19 @@
         overflow-x: auto !important;
         padding: 1rem 0;
 
+        @media screen and (min-width: 1024px){
+            flex-wrap: wrap;
+        }
+
         .label {
             flex: 0 0 auto;
+
             &:not(:last-child) {
                 margin-right: 1rem;
+            }
+
+            @media screen and (min-width: 1024px){
+                margin-bottom: 1.5rem;
             }
         }
 

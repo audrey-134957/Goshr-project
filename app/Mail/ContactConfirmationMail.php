@@ -7,20 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable
+class ContactConfirmationMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $message;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct()
     {
-        $this->message = $message;
+        //
     }
 
     /**
@@ -30,8 +28,7 @@ class ContactMail extends Mailable
      */
     public function build()
     {
-        return $this->from($this->message['email'], $this->message['complete_name'])
-        ->subject('Un message a été envoyé par un utilisateur')
-        ->markdown('mails.message-received');
+        return $this->from('help.goshr@gmail.com')->subject('Confirmation de la réception de ton message')
+                    ->markdown('mails.message-sended');
     }
 }

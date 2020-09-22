@@ -10,26 +10,12 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-    
+
+
     /**
-     * Create a new policy instance.
+     * Determine whether the user can create project.
      *
-     * @return void
      */
-    public function __construct()
-    {
-        //
-    }
-
-    public function before($user, $ability)
-    {
-
-        if ($user->role_id == 1 || $user->role_id ==  2) {
-            return true;
-        }
-    }
-
-
     public function create()
     {
         if (auth()->check() && auth()->user()->role_id == NULL) {
@@ -38,7 +24,7 @@ class ProjectPolicy
     }
 
     /**
-     * Determine whether the user can show the model.
+     * Determine whether the user can show project.
      *
      * @param  \App\User  $user
      * @param  \App\Project  $project
@@ -50,7 +36,7 @@ class ProjectPolicy
     }
 
     /**
-     * Determine whether the user can edit the model.
+     * Determine whether the user can edit project.
      *
      * @param  \App\User  $user
      * @param  \App\Project  $project
@@ -62,7 +48,7 @@ class ProjectPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update project.
      *
      * @param  \App\User  $user
      * @param  \App\Project  $project
@@ -75,7 +61,7 @@ class ProjectPolicy
 
 
     /**
-     * Determine whether the user can  destroy the model.
+     * Determine whether the user can  destroy project.
      *
      * @param  \App\User  $user
      * @param  \App\Project  $project
@@ -86,8 +72,13 @@ class ProjectPolicy
         return $user->id === $project->user_id;
     }
 
-
-
+    /**
+     * Determine whether the user can report project.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Project  $project
+     * @return mixed
+     */
     public function doReport(User $user, Project $project)
     {
 

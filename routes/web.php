@@ -20,6 +20,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\BanController;
+use App\Http\Controllers\ContactController;
 
 
 /*
@@ -160,12 +161,12 @@ Route::middleware(['guest.or.member'])->group(function () {
     /**
      * @description Show the contact form
      */
-    Route::get('/contactez-nous', [ContactController::class, 'create'])->name('contact.create');
+    // Route::get('/contactez-nous', [ContactController::class, 'create'])->name('contact.create');
 
     /**
      * @description Send the sender's message
      */
-    Route::post('/contactez-nous', [ContactController::class, 'store'])->name('contact.store');
+    // Route::post('/contactez-nous', [ContactController::class, 'store'])->name('contact.store');
 });
 
 Route::middleware(['member'])->group(function () {

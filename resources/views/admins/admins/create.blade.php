@@ -47,10 +47,10 @@
                 </div>
                 <div class="d-flex__right">
                     <!-- * Champs nouveau mot de passe * -->
-                    <div class="user-profile-creation__field user-profile-creation__password-field user-profile-creation__password-field--new box__password--new field">
+                    <div class="user-profile-creation__field user-profile-creation__password-field field">
                         <label class="user-profile-creation__label user-profile-creation__label--password box__password--new label">Mot de passe</label>
                         <div class="control">
-                            <input class="user-profile-creation__input user-profile-creation__input--password box__password--new @error('password') is-danger @enderror is-rounded input" type="password" name="password">
+                            <input class="user-profile-creation__input user-profile-creation__input--password  @error('password') is-danger @enderror is-rounded input" type="password" name="password">
                         </div>
                         @error('password')
                         <p class="help is-danger">{{ $message }}</p>
@@ -58,7 +58,7 @@
                     </div>
 
                     <!-- * Champs confirmation du nouveau mot de passe * -->
-                    <div class="user-profile-creation__field user-profile-creation__password-field user-profile-creation__password-field--new-confirmation box__password--new-confirmation field">
+                    <div class="user-profile-creation__field user-profile-creation__password-field user-profile-creation__password-field--confirmation field">
                         <label class="user-profile-creation__label user-profile-creation__label--password box__password--new-confirmation label">Confirmation du mot de passe</label>
                         <div class="control">
                             <input class="user-profile-creation__input user-profile-creation__input--password box__password--new-confirmation @error('password_confirmation') is-danger @enderror is-rounded input" type="password" name="password_confirmation">

@@ -17244,40 +17244,64 @@ input[type=radio],
 /* Footer */
 
 .footer {
-  background-color: #fff;
+  background-color: #0c1a0c;
   width: 100%;
-  padding: 1rem 12%;
+  padding: 5rem 12%;
+  color: whitesmoke;
   /* Footer  navigation*/
   /* lists items */
   /* item */
   /* links */
 }
 
-.footer .footer__navigation {
+@media screen and (min-width: 768px) {
+  .footer {
+    padding: 5rem 8%;
+  }
+}
+
+.footer__navigation {
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
 }
 
-@media screen and (min-width: 425px) {
-  .footer .footer__navigation {
-    grid-template-columns: repeat(2, 1fr);
+@media screen and (min-width: 768px) {
+  .footer__navigation {
+    grid-template-columns: 40% auto auto;
   }
 }
 
-.footer .footer__list-items {
-  justify-self: center;
-  width: 10rem;
+.footer__list-items {
+  width: 8rem;
   line-height: 2.5rem;
 }
 
-.footer .footer__item--is-faq,
-.footer .footer__item--is-cgu {
+@media screen and (min-width: 768px) {
+  .footer__list-items {
+    justify-self: center;
+  }
+}
+
+.footer__item--is-faq,
+.footer__item--is-cgu {
   text-transform: uppercase;
 }
 
-.footer .footer__link {
-  color: #808080;
+.footer__mail-address,
+.footer__link {
+  color: whitesmoke;
+}
+
+.footer__mail-address {
+  border: solid 1px whitesmoke;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.footer span {
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .comments-section__title {
@@ -17617,7 +17641,7 @@ input[type=radio],
   margin-top: 0.2in;
   overflow: auto;
   position: relative;
-  max-width: 90%;
+  max-width: 90% !important;
   margin: auto;
   padding: 1rem 0;
   border-radius: 15px;
@@ -17711,6 +17735,13 @@ input[type=radio],
   padding: 1rem 0;
 }
 
+@media screen and (min-width: 1024px) {
+  .project-form__categories-list,
+  .project-form__difficulty-levels-list {
+    flex-wrap: wrap;
+  }
+}
+
 .project-form__categories-list .label,
 .project-form__difficulty-levels-list .label {
   flex: 0 0 auto;
@@ -17719,6 +17750,13 @@ input[type=radio],
 .project-form__categories-list .label:not(:last-child),
 .project-form__difficulty-levels-list .label:not(:last-child) {
   margin-right: 1rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .project-form__categories-list .label,
+  .project-form__difficulty-levels-list .label {
+    margin-bottom: 1.5rem;
+  }
 }
 
 .project-form__categories-list .label-name,
@@ -17917,7 +17955,7 @@ input[type=radio],
   margin-top: 0.2in;
   overflow: auto;
   position: relative;
-  max-width: 90%;
+  max-width: 90% !important;
   margin: auto;
   padding: 1rem 0;
   border-radius: 15px;

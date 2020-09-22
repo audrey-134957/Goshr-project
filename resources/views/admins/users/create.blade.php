@@ -18,7 +18,7 @@
 
                  <!-- * Champs pseudo * -->
                  <div class="user-profile-creation__field user-profile-creation__email-field field">
-                        <label class="user-profile-creation__label user-profile-creation__label--username label">Peudo</label>
+                        <label class="user-profile-creation__label user-profile-creation__label--username label">Pseudo</label>
                         <div class="control">
                             <input class="user-profile-creation__input user-profile-creation__input--username @error('username') is-danger @enderror is-rounded input" type="text" name="username" value="{{old('username')}}">
                         </div>
@@ -64,22 +64,22 @@
 
                     <!-- * Champs nouveau mot de passe * -->
                     <div class="user-profile-creation__field user-profile-creation__password-field user-profile-creation__password-field--new box__password--new field">
-                        <label class="user-profile-creation__label user-profile-creation__label--password box__password--new label">Nouveau mot de passe</label>
+                        <label class="user-profile-creation__label user-profile-creation__label--password label">Nouveau mot de passe</label>
                         <div class="control">
-                            <input class="user-profile-creation__input user-profile-creation__input--password box__password--new @error('password_new') is-danger @enderror is-rounded input" type="password" name="password_new">
+                            <input class="user-profile-creation__input user-profile-creation__input--password box__password--new @error('password') is-danger @enderror is-rounded input" type="password" name="password">
                         </div>
-                        @error('password_new')
+                        @error('password')
                         <p class="help is-danger">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- * Champs confirmation du nouveau mot de passe * -->
                     <div class="user-profile-creation__field user-profile-creation__password-field user-profile-creation__password-field--new-confirmation box__password--new-confirmation field">
-                        <label class="user-profile-creation__label user-profile-creation__label--password box__password--new-confirmation label">Confirmation du nouveau mot de passe</label>
+                        <label class="user-profile-creation__label user-profile-creation__label--password box__password--confirmation label">Confirmation du nouveau mot de passe</label>
                         <div class="control">
-                            <input class="user-profile-creation__input user-profile-creation__input--password box__password--new-confirmation @error('password_new_confirmation') is-danger @enderror is-rounded input" type="password" name="password_new_confirmation">
+                            <input class="user-profile-creation__input user-profile-creation__input--password box__password--new-confirmation @error('password_confirmation') is-danger @enderror is-rounded input" type="password" name="password_confirmation">
                         </div>
-                        @error('password_new_confirmation')
+                        @error('password_confirmation')
                         <p class="help is-danger">{{ $message }}</p>
                         @enderror
                     </div>

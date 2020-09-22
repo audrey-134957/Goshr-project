@@ -63,7 +63,7 @@ class ProfileController extends Controller
 
         $token = $user->token_account;
         //j'utilise uniquement le propriétaire du profil à modifier son compte
-        $this->authorize('update', $user->profile);
+        // $this->authorize('update', $user->profile);
 
         //je récupère la date de création de l'utilisateur que je transforme en locale FR
         $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
@@ -200,7 +200,7 @@ class ProfileController extends Controller
         //je trouve l'utilisateur
         $user = auth()->user();
         // j'autorise l'action de pouvoir supprimer le profil uniquement à l'utilisateur connecté.
-        $this->authorize('delete', $user->profile);
+        // $this->authorize('delete', $user->profile);
 
 
         //si l'utilisateur existe
@@ -212,7 +212,7 @@ class ProfileController extends Controller
             $user->delete();
 
             //je redirige l'utilisateur vers la home avec un message lui confirmation la suppression de son compte.
-            return redirect()->route('home.index')->with('status', 'Votre compte a bien été supprimé.');
+            return redirect()->route('home.index')->with('status', 'Ton compte a bien été supprimé.');
         }
     }
 
@@ -428,7 +428,7 @@ class ProfileController extends Controller
         //je trouve l'utilisateur
         $admin = auth()->user();
         //je retrouve l'utilsateur
-        $user = User::where('username', $user)->firstOrFail();
+        $user = User::findOrFail($user);
         // j'autorise l'action de pouvoir supprimer le profil uniquement à l'utilisateur connecté.
         $this->authorize('delete', $user->profile);
         //si l'utilisateur existe

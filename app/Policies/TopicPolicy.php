@@ -12,17 +12,7 @@ class TopicPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * 
+     * Determine whether the user can create topic.
      *
      * @return mixed
      */
@@ -34,7 +24,7 @@ class TopicPolicy
     }
 
     /**
-     * 
+     * Determine whether the user can update topic.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Topic  $topic
@@ -46,7 +36,7 @@ class TopicPolicy
     }
 
     /**
-     * 
+     * Determine whether the user can answer to topic.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Topic  $topic
@@ -58,7 +48,7 @@ class TopicPolicy
     }
 
     /**
-     * 
+     * Determine whether the user can report the topic.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Topic  $topic

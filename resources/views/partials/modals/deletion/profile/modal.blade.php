@@ -8,7 +8,7 @@
 
         <!-- * Header * -->
         <header class="modal-card-head">
-            <h1 class="modal-card-title">Suppression de l'utilisateur {{$user->username}}</h1>
+            <h1 class="modal-card-title">Voulez-vous vraiment supprimer votre compte?</h1>
         </header>
 
         <!-- * Body * -->
@@ -16,15 +16,15 @@
 
             <!-- * Content * -->
             <section class="modal-card-body">
-                <p>Confirmez-vous la suppression du compte ?</p>
+                <p>Toutes tes données personnelles, vos projets et posts seront supprimer <strong>de manière définitive</strong></p>
             </section>
 
             <!-- * Footer * -->
             <footer class="modal-card-foot">
-                <form action="{{route('admin.deleteUser', ['adminId' => auth()->user()->id, 'user' => $user->id])}}" method="POST">
+            <form action="{{route('profiles.delete', ['user' => auth()->user()->id])}}" method="POST">
                     @method('DELETE')
                     @csrf
-                    <button type="submit" class="modal-submit-button button is-rounded is-success">Confirmer</button>
+                    <button type="submit" class="modal-submit-button button is-rounded is-success">Supprimer</button>
                     <button type="button" class="modal-close-button button is-rounded">Annuler</button>
                 </form>
             </footer>

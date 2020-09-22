@@ -66,17 +66,13 @@
 
             <span class="project-article__difficulty-level project-article__difficulty-level--{{$project->difficulty_level->en_name}}">{{$project->difficulty_level->name}}</span>
 
-            <span class="project-article__duration"><i class="project-article__icon project-article__icon--clock fa fa-clock-o" aria-hidden="true"></i>
-                {{$project->duration()}}</span>
+            <span class="project-article__duration"><i class="project-article__icon project-article__icon--clock fa fa-clock-o" aria-hidden="true"></i>{{$project->duration()}}</span>
 
-
-            <span class="project-article__materials"><i class="project-article__icon project-article__icon--material fa fa-shopping-basket" aria-hidden="true"></i>
-                {{$project->materials->count(). ' mat.'}}</span>
-
+            <span class="project-article__materials"><i class="project-article__icon project-article__icon--material fa fa-shopping-basket" aria-hidden="true"></i>{{$project->materials->count(). ' mat.'}}</span>
         </div>
 
         <div class="project-article__media media">
-            <a href="{{route('profiles.indexPublishedProjects', ['user' => $project->user])}}">
+            <a href="{{route('projects.show', ['project' => $project, 'slug' => $project->slug])}}">
                 <div class="project-article__media-left media-left">
                     <figure class="project-article__image image is-40x40">
                         <img class="is-rounded" src="{{$project->user->getImage($project->user)}}" alt="Placeholder image">
@@ -112,22 +108,18 @@
 
         @foreach($projects as $project)
         <div class="project-card card">
-            <a href="{{route('projects.show', ['project' => $project, 'slug' => $project->slug])}}">
-
-                <div class="project-card__card-image card-image">
-                    <figure class="project-card__thumbnail-figure image is-4by3">
-                        <img class="project-card__thumbnail" src="{{$project->getThumbnail($project)}}" alt="Placeholder image">
+            <a class="project-card__authors-profile-link" href="{{route('profiles.indexPublishedProjects', ['user' => $project->user])}}" w>
+                <div class="project-card__media-left">
+                    <figure class="project-card__image image is-40x40">
+                        <img class="is-rounded" src="{{$project->user->getImage($project->user)}}" alt="Placeholder image">
                     </figure>
-
-                    <div class="project-card__media media">
-                        <div class="project-card__media-left">
-                            <figure class="project-card__image image is-40x40">
-                                <img class="is-rounded" src="{{$project->user->getImage($project->user)}}" alt="Placeholder image">
-                            </figure>
-                            <small class="project-card__author-username">{{$project->user->username}}</small>
-                        </div>
-                    </div>
+                    <small class="project-card__author-username">{{$project->user->username}}</small>
                 </div>
+            </a>
+            <a href="{{route('projects.show', ['project' => $project, 'slug' => $project->slug])}}">
+                <figure class="project-card__thumbnail-figure image is-4by3">
+                    <img class="project-card__thumbnail" src="{{$project->getThumbnail($project)}}" alt="Placeholder image">
+                </figure>
 
                 <div class="project-card__card-content card-content">
 
@@ -161,8 +153,6 @@
         </div>
         @endforeach
     </div>
-
-
 </article>
 
 

@@ -36,7 +36,7 @@ class AdminStoreUser extends FormRequest
             'name'                           => 'nullable|alpha_dash|min:3|max:250',
             'firstname'                      => 'nullable|alpha_dash|min:3|max:250',
             'email'                          => ['required', 'email', 'unique:users,email' , new ValidateEmail()],
-            'password'                       => 'required|min:6|max:25|confirmed'
+            'password'                   => 'required|min:6|max:25|confirmed'
         ];
     }
 

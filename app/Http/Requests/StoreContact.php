@@ -26,7 +26,7 @@ class StoreContact extends FormRequest
     public function rules()
     {
         return [
-            'complete_name' => 'required|min:3|max:150|alpha_spaces',
+            'complete_name' => 'required|min:3|max:150|string',
             'email'         => ['required', 'email', new ValidateEmail()],
             'subject'       => 'required|min:6|string',
             'message'       => 'required'
@@ -39,7 +39,7 @@ class StoreContact extends FormRequest
             'complete_name.required'        => 'Le contenu est requis pour être envoyé.',
             'complete_name.min'             => 'Le contenu doit contenir au minimum :min caractères.',
             'complete_name.max'             => 'Le contenu doit contenir au maximum :min caractères.',
-            'complete_name.alpha_spaces'    => 'Seules les lettres et les espcaes sont acceptés dans ce champs.',
+            'complete_name.string'          => 'Ce champs semble contenir des caractères non valides.',
 
             'email.required'                => 'Ton email est requis pour ce champs.',
             'email.email'                   => 'Ton email ne semble pas être valide.',

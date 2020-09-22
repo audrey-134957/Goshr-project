@@ -96,6 +96,12 @@ class User extends Model implements Authenticatable
 
             $user->name_slug =  $nameSlug;
             $user->firstname_slug = $firstnameSlug;
+
+            if($user->role_id === NULL){
+                $profile = new Profile();
+                $profile->user_id = $user->id;
+                $profile->save();
+            }
         });
 
         //chose à faire automatiquement après la suppression de l'utilisateur

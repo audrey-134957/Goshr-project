@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreContact;
+use App\Mail\ContactConfirmationMail;
 use App\Mail\ContactMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -30,12 +31,19 @@ class ContactController extends Controller
     {
 
         // l'email est envoyé à l'adresse mail de l'équipe du site
-        Mail::to('my@email.fr')->send(new ContactMail([
+
+        Mail::to($request->email)->send(new ContactConfirmationMail());
+
+        $message = [
             'complete_name' => $request->complete_name,
             'email'         => $request->email,
             'subject'       => $request->subject,
             'message'       => purifier($request->message)
-        ]));
+        ];
+
+        // dd($message['email']);
+
+        Mail::to('help.goshr@gmail.com')->send(new ContactMail($message));
 
         // s'il n'y a des erreurs dans le formulaire
         if (count(Mail::failures()) > 0) {

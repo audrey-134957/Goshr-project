@@ -31,10 +31,7 @@
             <div class="user-profile-edition__field box__bio field">
                 <label class="user-profile-edition__label user-profile-edition__label--bio label">Biographie</label>
                 <div class="control">
-                    <textarea class="user-profile-edition__textarea textarea @error('biography') is-danger @enderror" rows="8" name="biography">
-                    @if(!empty($user->profile->biography))
-                        {!! nl2br(e($user->profile->biography)) !!}
-                        @endif
+                    <textarea class="user-profile-edition__textarea textarea @error('biography') is-danger @enderror" rows="8" name="biography">@if(!empty($user->profile->biography)){!! nl2br(e($user->profile->biography)) !!}@endif
                     </textarea>
                 </div>
                 @error('biography')
