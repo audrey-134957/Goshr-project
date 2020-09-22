@@ -6,7 +6,7 @@
 
             <div class="topics-section__textzone @guest topics-section__textzone--call-to-action @endguest">
 
-                @if(!auth()->check() || auth()->check() && auth()->user()->id !== $project->user_id)
+                @if(auth()->check() && auth()->user()->id !== $project->user_id)
 
                 <div class="topics-section__media media">
                     <div class="media-left">
@@ -15,7 +15,7 @@
                         </figure>
                     </div>
                 </div>
-
+                @endif
 
                 <div class="topics-section__textzone">
                     <form action="{{route('topics.store', [$project, $slug])}}" method="POST">
@@ -27,7 +27,7 @@
                     <p class="help is-danger">{{ $message }}</p>
                     @enderror
                 </div>
-                @endif
+
             </div>
 
 

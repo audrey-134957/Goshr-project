@@ -12,9 +12,11 @@
         padding: 5rem 8%;
     }
 
-    &__contact-box {
+    &__title {
         display: block;
         margin-bottom: 2rem;
+        font-weight: 700;
+        font-size: 1rem;
     }
 
     &__navigation {
@@ -63,10 +65,5 @@
         &:hover {
             background-color: rgb(245, 245, 245);
         }
-    }
-
-    span {
-        font-weight: 700;
-        font-size: 1rem;
     }
 }

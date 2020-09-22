@@ -15891,6 +15891,7 @@ input[type=radio],
   max-width: 20rem;
   border-radius: 20px;
   position: relative;
+  margin: auto;
 }
 
 .project-card__checkbox-box {
@@ -17270,9 +17271,11 @@ input[type=radio],
   }
 }
 
-.footer__contact-box {
+.footer__title {
   display: block;
   margin-bottom: 2rem;
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .footer__navigation {
@@ -17316,11 +17319,6 @@ input[type=radio],
 
 .footer__mail-address:hover {
   background-color: whitesmoke;
-}
-
-.footer span {
-  font-weight: 700;
-  font-size: 1rem;
 }
 
 .comments-section__title {

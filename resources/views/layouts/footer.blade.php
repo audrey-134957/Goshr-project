@@ -3,7 +3,7 @@
         <footer class="footer">
             <nav class="footer__navigation">
                 <div class="footer__contact-box">
-                    <span>Contactez-nous</span>
+                    <span class="footer__title">Contactez-nous</span>
                     <a class="footer__mail-address" href="mailto:help.goshr@gmail.com">help.goshr@gmail.com</a>
                 </div>
                 <ul class="footer__list-items footer__list-items--infos">

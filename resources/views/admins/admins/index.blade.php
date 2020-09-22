@@ -65,5 +65,4 @@
     </div>
 </section>
 
-
 @endsection
