@@ -17270,6 +17270,11 @@ input[type=radio],
   }
 }
 
+.footer__contact-box {
+  display: block;
+  margin-bottom: 2rem;
+}
+
 .footer__navigation {
   display: grid;
   grid-template-columns: 1fr;

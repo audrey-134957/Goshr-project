@@ -12,6 +12,11 @@
         padding: 5rem 8%;
     }
 
+    &__contact-box {
+        display: block;
+        margin-bottom: 2rem;
+    }
+
     &__navigation {
         display: grid;
         grid-template-columns: 1fr;
