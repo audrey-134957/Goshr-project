@@ -16,6 +16,14 @@
         margin-top: 2rem;
     }
 
+    &__image {
+        margin: auto;
+    }
+
+    &__title {
+        display: block;
+    }
+
     &__info {
         text-align: center;
     }
@@ -46,6 +54,8 @@
 
     &__button.button.is-rounded {
         padding: 0 10px;
-        height: 30px;
+        padding: 0;
+        width: 40px;
+        height: 40px;
     }
 }

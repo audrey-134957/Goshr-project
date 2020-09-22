@@ -6,7 +6,7 @@
 
 @section('layout-content')
 
-<div class="user-profile-edition" style="overflow: auto;">
+<div class="user-profile-edition">
 
     <form action="{{route('admin.updateAdmin', [ 'adminId' => auth()->user()->id,'adminUser' => $adminUser->id]) }}" method="POST" enctype="multipart/form-data">
 

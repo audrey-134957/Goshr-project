@@ -71,6 +71,7 @@
                     </button>
 
                     @include('partials.modals.reports.comment.modal')
+                    
                     @else
                     <span class="comment-card__report-tag tag is-medium is-right">
                         <i class="comment-card__check-report-icon fa fa-check" aria-hidden="true"></i>

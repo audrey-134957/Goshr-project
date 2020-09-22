@@ -16222,6 +16222,14 @@ input[type=radio],
   margin-top: 2rem;
 }
 
+.user-card__image {
+  margin: auto;
+}
+
+.user-card__title {
+  display: block;
+}
+
 .user-card__info {
   text-align: center;
 }
@@ -16253,7 +16261,9 @@ input[type=radio],
 
 .user-card__button.button.is-rounded {
   padding: 0 10px;
-  height: 30px;
+  padding: 0;
+  width: 40px;
+  height: 40px;
 }
 
 .cta-modal.modal.is-active {
@@ -17208,6 +17218,53 @@ input[type=radio],
   align-items: flex-start;
 }
 
+.category-creation-box {
+  padding: 16px;
+  margin: 0.5rem;
+  max-width: 60rem;
+}
+
+.category-creation-box__label.label {
+  font-weight: 500 !important;
+  font-size: 18px;
+}
+
+.category-creation-box__input-box.field {
+  max-width: 60% !important;
+  width: 100%;
+}
+
+.category-creation-box__category-field {
+  max-width: 60rem;
+  width: 100%;
+}
+
+.category-creation-box__submit-button {
+  margin-left: 0.5rem;
+}
+
+.category-card {
+  padding: 1rem;
+  border-radius: 5px;
+  max-width: 40rem;
+  margin: 1rem 0.5rem;
+}
+
+.category-card__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-card .btn-edit-cat {
+  margin-right: 0.5rem;
+}
+
+.category-card__input-box.field {
+  max-width: 100% !important;
+  width: 100%;
+}
+
 .header {
   background-image: url("/images/fronts/home.jpg");
   background-size: cover;
@@ -17966,82 +18023,6 @@ input[type=radio],
 
 .suggestion-projects-list {
   margin-top: 2in !important;
-}
-
-.profile-header {
-  margin-top: 0.2in;
-  overflow: auto;
-  position: relative;
-  max-width: 90% !important;
-  margin: auto;
-  padding: 1rem 0;
-  border-radius: 15px;
-}
-
-@media screen and (min-width: 768px) {
-  .profile-header {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    -moz-column-gap: 3rem;
-         column-gap: 3rem;
-    align-items: flex-start;
-    align-items: center;
-  }
-}
-
-.profile-header__presentation {
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-.profile-header__member-infos {
-  display: inline-block;
-  margin-left: 1rem;
-}
-
-.profile-header__member-infos > span {
-  display: block;
-  color: #808080;
-}
-
-.profile-header__member-username {
-  font-size: 23px;
-  font-weight: 500;
-  margin-bottom: 1rem;
-}
-
-.profile-header__biography-box {
-  padding: 1rem;
-}
-
-@media screen and (max-width: 767px) {
-  .profile-header__biography-box {
-    margin-top: 2rem;
-  }
-}
-
-.profile-header__title {
-  font-weight: 500;
-  font-size: 18px;
-  border-bottom: solid 2.5px #808080;
-  display: inline-block;
-  padding-bottom: 0.5rem;
-}
-
-.profile-header__biography {
-  margin-top: 1.5rem;
-}
-
-.profile-header__button--edit {
-  float: right;
-  margin: 1rem;
-  background-color: transparent;
-  grid-column: 2/3;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  justify-self: end;
 }
 
 .section {
