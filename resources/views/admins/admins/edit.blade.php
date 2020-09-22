@@ -1,8 +1,8 @@
 @extends('partials.admin-base-layout')
 
-@section('admin-title', "Modifier le compte administrateur $adminUser->firstname_slug $adminUser->name_slug")
+@section('admin-title', "Modifier le compte administrateur n° $adminUser->id")
 
-@section('admin-header-subtitle', "Modifier le compte administrateur $adminUser->firstname_slug $adminUser->name_slug")
+@section('admin-header-subtitle', "Modifier le compte administrateur n° $adminUser->id")
 
 @section('layout-content')
 

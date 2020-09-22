@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 
 use App\Notifications\SendEmailToUserReferingToDeletingProfile;
-use App\Notifications\SendEmailToUserReferingToUpdatingEmail;
-use App\Notifications\SendEmailToUserReferingToUpdatingPassword;
-use App\Notifications\SendEmailToUserToLetHisKnowHisPasswordHasBeenEditedByAdmin;
 
 
 class ProfileController extends Controller
@@ -135,8 +132,6 @@ class ProfileController extends Controller
             if (Hash::check($request->password, $user->password)) {
                 // le nouveau mot de passe de l'utilisateur sera haché et remplacera l'ancien mot de passe
                 $user->update(['password' => bcrypt($request->password_new)]);
-                //je notifie l'utilisateur de la mise à jour de mon mot de passe
-                $user->notify(new SendEmailToUserReferingToUpdatingPassword($user));
                 //je redirige l'utilisateur sur son compte en lui signalant que son mot de passse a été modifié
                 return redirect()->route('profiles.edit', ['user' => $user, 'token' => $user->token_account])->with('status', 'Le mot de passe a bien été modifié!');
             } else {
@@ -145,33 +140,51 @@ class ProfileController extends Controller
             }
         }
 
-        if ($user->email !== $request->email) {
-            $user->update(['email' => $request->email]);
+        // if ($user->email !== $request->email) {
+        //     $user->update(['email' => $request->email]);
+        //     //je redirige l'utilisateur sur son compte en lui signalant que son mail a été modifié
+        //     return redirect()->route('profiles.edit', ['user' => $user, 'token' => $user->token_account])->with('status', "L'email a bien été modifié.");
+        // }
 
-            //l'utilisateur recevra une notification par mail.
-            $user->notify(new SendEmailToUserReferingToUpdatingEmail($user));
-            //je redirige l'utilisateur sur son compte en lui signalant que son mail a été modifié
-            return redirect()->route('profiles.edit', ['user' => $user, 'token' => $user->token_account])->with('status', "L'email a bien été modifié.");
-        }
+        // if ($user->firstname !== $request->firstname) {
 
-        if ($user->firstname !== $request->firstname) {
+        //     $user->update([
+        //         'firstname' => $request->firstname
+        //     ]);
+        // }
 
-            $user->update([
-                'firstname' => $request->firstname
-            ]);
-        }
+        // if ($user->name !== $request->name) {
+        //     $user->update([
+        //         'name' => $request->name
+        //     ]);
+        // }
 
-        if ($user->name !== $request->name) {
-            $user->update([
-                'name' => $request->name
-            ]);
-        }
+        // if ($user->profile->biography !== $request->biography) {
+        //     $user->profile->update([
+        //         'biography' => purifier($request->biography),
+        //     ]);
+        // }
 
-        if ($user->profile->biography !== $request->biography) {
-            $user->profile->update([
-                'biography' => purifier($request->biography),
-            ]);
-        }
+           // je modifie mon utilisateur
+           $user->email = $request->email;
+           $user->firstname = $request->firstname;
+           $user->name = $request->name;
+           $user->save();
+
+           //je modifie la biographie de l'utilisateur
+           $user->profile->biography = purifier($request->biography);
+           $user->profile->save();
+
+           //si l'utilisateur est sauvé ou que son profil est modifié
+           if (!$user->save() || !$user->profile->save()) {
+               //je redirige l'administrateur avec un message d'erreur
+               return redirect()->route('admin.editUser', [
+                   'adminId' => auth()->user()->id,
+                   'user' => $user
+               ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
+
+               //si l'utilsateur n'est pas modifié
+           }
 
         return redirect()->route('profiles.edit', ['user' => $user, 'token' => $user->token_account])->with('status', 'Les changements ont bien été pris en compte!');
     }
@@ -269,7 +282,7 @@ class ProfileController extends Controller
     /**
      * Delete the user and this profile in database.
      *
-     * @param string $admin | username of the admin
+     * @param string $adminId | id of the admin
      * @param string $user | username of the user
      * @return \Illuminate\Http\Response
      */
@@ -296,16 +309,12 @@ class ProfileController extends Controller
      * Delete the user and this profile in database.
      *
      * @param  \Illuminate\Http\Requests\AdminEditProfile  $request
-     * @param string $admin | username of the admin
+     * @param string $adminId | id of the admin
      * @param string $user | username of the user
      * @return \Illuminate\Http\Response
      */
     public function adminUpdateUserProfile(AdminEditProfile $request, $adminId, $user)
     {
-        //je retrouve l'administrateur connecté
-        $admin = auth()->user();
-
-
         //je retrouve l'utilisateur du compte sélectionné
         $user = User::where('username', $user)->firstOrFail();
         //j'autorise égalelent le détenteur du profil à le modifier.
@@ -325,50 +334,54 @@ class ProfileController extends Controller
             //si le dossier n'existe pas, je le créer
             if (!Storage::exists($storagePath)) {
                 // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
-                $imagePath = $request->avatar->store($storagePath, 'public');
+                Storage::makeDirectory($storagePath);
             }
+
+            //je donne un nom au fichier téléchargé que je viens stoker en variable.
+            $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
+            // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
+            $imagePath = $request->avatar->storeAs($storagePath,  $new_name, 'public');
             //je viens redimensionner mon image
-            $image = Image::make(public_path("/storage/{$imagePath}"))->fit(800, 800);
-            //je vais stoker mon image
+            $image = Image::make(public_path("/storage/{$imagePath}"))->fit(350, 350);
+
             $image->save();
+
             // je mets à jour le profil de l'utilisateur
-            $user->profile->update(array_merge(
+            $user->update(array_merge(
                 //je viens passer en premier argument mon tableau $userDatas
                 $request->only('email', 'name', 'firstname'),
                 //et en deuxième argument, la clé imgae qui nous emmenera vers $imagePath. Ainsi ce tableau viendra écrasera la valeur précédente concernant l'image
                 ['avatar' => $imagePath]
             ));
-            //s'il l'utilisateur n'a pas été sauvé, que redirige l'administrateur avec un message d'erreur
-            return redirect()->route('admin.editUser', [
-                'adminId' => auth()->user()->id,
-                'user' => $user
-            ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
+
             //si l'utilisateur est sauvé en base de données
-            if (!$user->save()) {
-                //je le notifie que son compte a été modifié par un admin
-
-
-                // je le redirige sur son compte avec un status pour l'informer de la mise à jour de son profil
+            if (!$user->update()) {
+                //s'il l'utilisateur n'a pas été sauvé, que redirige l'administrateur avec un message d'erreur
                 return redirect()->route('admin.editUser', [
                     'adminId' => auth()->user()->id,
                     'user' => $user
-                ])->with('status', 'Les changements ont bien été pris en compte.');
+                ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
+            // je le redirige sur son compte avec un status pour l'informer de la mise à jour de son profil
+            return redirect()->route('admin.editUser', [
+                'adminId' => auth()->user()->id,
+                'user' => $user
+            ])->with('status', 'Les changements ont bien été pris en compte.');
+
             //sinon si il y a une valeur dans password new
         } elseif ($request->password_new) {
             //je modifie le mot de passe de l'utilisateur 
-            $user->update(['password' => bcrypt($request->password_new)]);
+            $user->password = bcrypt($request->password_new);
+            $user->save();
 
             //si l'utilisateur est modifié
-            if (!$user->update()) {
+            if (!$user->save()) {
                 //s'il l'utilisateur n'a pas été sauvé, que redirige l'administrateur avec un message d'erreur
                 return redirect()->route('admin.editUser', [
                     'adminId' => auth()->user()->id,
                     'user' => $user
                 ])->with('error', 'Il y a eu une erreur lors du changement du mot de passe.');
             }
-            //je le notifie par mail
-            $user->notify(new SendEmailToUserToLetHisKnowHisPasswordHasBeenEditedByAdmin($user));
             // // je le redirige sur son compte avec un status pour l'informer de la mise à jour de son mot de passe
             return redirect()->route('admin.editUser', [
                 'adminId' => auth()->user()->id,
@@ -377,22 +390,17 @@ class ProfileController extends Controller
         } else {
 
             // je modifie mon utilisateur
-            $user->update(
-                [
-                    'email' => $request->email,
-                    'firstname' => $request->firstname,
-                    'name' => $request->name,
-                    'avatar' => $request->avatar,
-                ]
-            );
-            //je modifie la biographie de l'utilisateur
-            $user->profile->update([
-                'biography' => purifier($request->biography),
-            ]);
+            $user->email = $request->email;
+            $user->firstname = $request->firstname;
+            $user->name = $request->name;
+            $user->save();
 
+            //je modifie la biographie de l'utilisateur
+            $user->profile->biography = purifier($request->biography);
+            $user->profile->save();
 
             //si l'utilisateur est sauvé ou que son profil est modifié
-            if (!$user->update() || !$user->profile->update()) {
+            if (!$user->save() || !$user->profile->save()) {
                 //je redirige l'administrateur avec un message d'erreur
                 return redirect()->route('admin.editUser', [
                     'adminId' => auth()->user()->id,
@@ -411,7 +419,7 @@ class ProfileController extends Controller
 
     /**
      * Delete the user and this profile in database.
-     * @param string $admin | username of the admin
+     * @param string $adminId | id of the admin
      * @param string $user | username of the user
      * @return \Illuminate\Http\Response
      */

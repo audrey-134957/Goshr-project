@@ -8,9 +8,6 @@ use App\Models\Role;
 use App\Models\User;
 
 use App\Http\Requests\EditAdmin;
-use App\Http\Requests\StoreAdmin;
-use App\Notifications\SendEmailToAdminReferingToDeletingProfile;
-use App\Notifications\SendEmailToAdminReferingToUpdatingPassword;
 use App\Notifications\SendValidationMailToAdmin;
 
 use Illuminate\Support\Facades\Hash;
@@ -100,14 +97,11 @@ class AdminController extends Controller
             auth()->user()->password = bcrypt($request->password_new);
             // je sauve mon utilisateur administrateur
             auth()->user()->save();
-            //je notifie l'admin de la mise à jour de mon mot de passe
-            auth()->user()->notify(new SendEmailToAdminReferingToUpdatingPassword());
 
             //je redirige l'admin sur son compte en lui signalant que son mot de passse a été modifié
             return redirect()->route('admin.edit', [
                 'adminId' => auth()->user()->id
-            ])->with('status', 'Le mot de passe a bien bien été modffié.');
-
+            ])->with('status', 'Le mot de passe a bien bien été modifié.');
         } else {
             //sinon je modifie entièrement l'admin.
             auth()->user()->name = $request->name;
@@ -256,7 +250,7 @@ class AdminController extends Controller
 
         return view('admins.admins.edit', [
             'adminId' => auth()->user()->id,
-            'adminUser' => $adminUser->id,
+            'adminUser' => $adminUser,
             'roles' => $roles
         ]);
     }
@@ -308,7 +302,6 @@ class AdminController extends Controller
                     'adminUser' => $adminUser->id
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
-
             // je le redirige sur son compte avec un status pour l'informer de la mise à jour de son profil
             return redirect()->route('admin.editAdmin', [
                 'adminId' => auth()->user()->id,
@@ -317,15 +310,7 @@ class AdminController extends Controller
         }
 
         // s'il il y a une saisie dans le champs password
-        if ($request->password) {
-
-            if (!Hash::check($request->password, $adminUser->password)) {
-                //en cas d'erreur, je redirige l'admin sur son compte en lui signalant qu'il y a une erreur
-                return redirect()->route('admin.editAdmin', [
-                    'adminId' => auth()->user()->id,
-                    'adminUser' => $adminUser->id
-                ])->with('error', "Une erreur s'est produite lors du changement du mot de passe.");
-            }
+        if ($request->password_new) {
             // si la saisie entrée pour le champs password correspond avec le mot de passe actuel de l'admin
             // le nouveau mot de passe de l'admin sera haché et remplacera l'ancien mot de passe
             $adminUser->password = bcrypt($request->password_new);
@@ -340,14 +325,12 @@ class AdminController extends Controller
                 ])->with('error', "Une erreur s'est produite lors du changement du mot de passe.");
             }
 
-            //je notifie l'admin de la mise à jour de mon mot de passe
-            $adminUser->notify(new SendEmailToAdminReferingToUpdatingPassword());
-
             return redirect()->route('admin.editAdmin', [
                 'adminId' => auth()->user()->id,
                 'adminUser' => $adminUser->id
             ])->with('status', 'Le mot de passe a bien bien été modffié.');
         } else {
+
             $adminUser->email = $request->email;
             $adminUser->firstname = $request->firstname;
             $adminUser->name = $request->name;
@@ -391,8 +374,6 @@ class AdminController extends Controller
                 'adminId' => auth()->user()->id
             ])->with('error', "Ce compte n'a pas été trouvé.");
         }
-        //je notifie l'utilisateur que son compte est supprimé
-        $adminUser->notify(new SendEmailToAdminReferingToDeletingProfile($adminUser));
         //je supprime l'utilisateur
         $adminUser->delete();
         //je redirige l'utilisateur vers la home avec un message lui confirmation la suppression de son compte.

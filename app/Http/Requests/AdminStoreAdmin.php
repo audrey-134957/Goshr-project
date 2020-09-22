@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidateEmail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminStoreAdmin extends FormRequest

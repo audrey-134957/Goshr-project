@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\Notification;
 
-use App\Notifications\SendEmailToUserToLetHimKnowCategoryHasBeenDeleted;
 use App\Notifications\SendMailToUserReferingToCreatingCategory;
 use Carbon\Carbon;
 

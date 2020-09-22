@@ -12,5 +12,6 @@ Confirme ton adresse mail valider ton compte en cliquant sous le lien qui t'est 
 confirmer mon compte
 @endcomponent
    
+L'équipe Goshr.
 
 @endcomponent

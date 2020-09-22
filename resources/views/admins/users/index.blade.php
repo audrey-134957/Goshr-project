@@ -10,9 +10,9 @@
 <div class="search-box">
     <form action="{{route('admin.search', ['adminId' => auth()->user()->id])}}" method="GET" class="search-box__form">
         <input type="search" class="search-box__search-input input is-rounded" name="q" placeholder="Rechercher...">
-        <butonn class="search-box__button search-box__button--submit button is-rounded">
+        <button class="search-box__button search-box__button--submit button is-rounded" type="submit">
             <i class="fa fa-search" aria-hidden="true"></i>
-        </butonn>
+        </button>
     </form>
 </div>
 
