@@ -21,4 +21,22 @@
         background-color: #ffe3e3 !important;
         color: #f50000 !important;
     }
+
+    &--back.is-success,
+    &--back.is-danger{
+        @media screen and (max-width: 1024px - 1px) {
+            top: -1rem;
+            left: 0;
+        }
+        @media screen and (min-width: 1024px) {
+        top: 74.02px;
+        left: 0;
+        }
+
+        .notification__text{
+            @media screen and (min-width: 1024px) {
+                margin-left: 25%;
+            }
+        }
+    }
 }

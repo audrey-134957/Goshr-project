@@ -31,8 +31,16 @@
     <!-- * Main * -->
 
     <main class="admin-main">
-        <x-flash-message></x-flash-message>
+        @if(session('status'))
+<div class="notification notification--back notification--success is-success">
+    <p class="notification__text">{{ session('status') }}</p>
+</div>
 
+@elseif(session('error'))
+<div class="notification notification--back notification--danger is-danger">
+    <p class="notification__text">{{ session('error') }}</p>
+</div>
+@endif
         <!-- * Contenu de la page * -->
 
         @yield('layout-content')

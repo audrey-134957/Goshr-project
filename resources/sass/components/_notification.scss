@@ -10,11 +10,11 @@
     &__notification-detail{
         grid-column: 2/3;
     }
-    .menu__notification-text{
+    &__notification-text{
         font-size:$notification-text;
     }
 
-    .menu__notification-time{
+    &__notification-time{
         grid-column-end: span 2;
         justify-self: end;
         color:$label-color;

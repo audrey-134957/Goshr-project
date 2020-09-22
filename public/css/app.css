@@ -15596,6 +15596,29 @@ a.has-text-danger-dark:focus {
   color: #f50000 !important;
 }
 
+@media screen and (max-width: 1023px) {
+  .notification--back.is-success,
+  .notification--back.is-danger {
+    top: -1rem;
+    left: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .notification--back.is-success,
+  .notification--back.is-danger {
+    top: 74.02px;
+    left: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .notification--back.is-success .notification__text,
+  .notification--back.is-danger .notification__text {
+    margin-left: 25%;
+  }
+}
+
 .search-box {
   overflow: auto;
   max-width: 35rem;
@@ -15734,19 +15757,6 @@ input[type=radio],
   width: 100%;
   margin: 1in 0;
   padding: 1rem 3%;
-}
-
-@media screen and (max-width: 1023px) {
-  .admin-main .notification {
-    top: 0;
-    left: 0;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .admin-main .notification {
-    left: 250px;
-  }
 }
 
 .navbar {
@@ -16385,11 +16395,11 @@ input[type=radio],
   grid-column: 2/3;
 }
 
-.menu__notification .menu__notification-text {
+.menu__notification__notification-text {
   font-size: 16px;
 }
 
-.menu__notification .menu__notification-time {
+.menu__notification__notification-time {
   grid-column-end: span 2;
   justify-self: end;
   color: #808080;
@@ -16980,7 +16990,7 @@ input[type=radio],
   grid-area: menu;
   background-color: #2b2b2c;
   padding: 1rem 1.5rem;
-  z-index: 100;
+  z-index: 120;
   height: 100%;
 }
 
