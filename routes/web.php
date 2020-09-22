@@ -467,12 +467,12 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          * @description Show the admin edition form
          */
 
-        Route::get('/mon-compte', [AdminController::class, 'edit'])->name('edit');
+        Route::get('/mon-compte/', [AdminController::class, 'edit'])->name('edit');
 
         /**
          * @description Update the admin in database
          */
-        Route::patch('/mon-compte/modifier', [AdminController::class, 'update'])->name('update');
+        Route::patch('/mon-compte/modifier/{token}', [AdminController::class, 'update'])->name('update');
 
         /**
          * @description Logout the admin

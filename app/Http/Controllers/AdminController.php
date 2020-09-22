@@ -40,8 +40,9 @@ class AdminController extends Controller
      * @param  int $adminId | id of the authenticated admin
      * @return \Illuminate\Http\Response
      */
-    public function update(EditAdmin $request, $adminId)
+    public function update(EditAdmin $request, $adminId, $token)
     {
+        $token = auth()->user()->token;
         // si un fichier image est contenu dans le champs image
         if ($request->avatar) {
             // je stocke l'identifiant de l'utilisateur dans la variable
@@ -75,12 +76,14 @@ class AdminController extends Controller
             if (!auth()->user()->save()) {
                 //sinon je le redirige en lui signalant le.s erreur.s
                 return redirect()->route('admin.edit', [
-                    'adminId' => auth()->user()->id
+                    'adminId' => auth()->user()->id,
+                    'token' => $token
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
             // je le redirige sur son compte avec un status pour l'informer de la mise à jour de son profil
             return redirect()->route('admin.edit', [
-                'adminId' => auth()->user()->id
+                'adminId' => auth()->user()->id,
+                'token' => $token
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
 
@@ -90,7 +93,8 @@ class AdminController extends Controller
             if (!Hash::check($request->password, auth()->user()->password)) {
                 //en cas d'erreur, je redirige l'admin sur son compte en lui signalant qu'il y a une erreur
                 return redirect()->route('admin.edit', [
-                    'adminId' => auth()->user()->id
+                    'adminId' => auth()->user()->id,
+                    'token' => $token
                 ])->with('error', "Une erreur s'est produite lors du changement du mot de passe.");
             }
             // le nouveau mot de passe de l'admin sera haché et remplacera l'ancien mot de passe
@@ -100,7 +104,8 @@ class AdminController extends Controller
 
             //je redirige l'admin sur son compte en lui signalant que son mot de passse a été modifié
             return redirect()->route('admin.edit', [
-                'adminId' => auth()->user()->id
+                'adminId' => auth()->user()->id,
+                'token' => $token
             ])->with('status', 'Le mot de passe a bien bien été modifié.');
         } else {
             //sinon je modifie entièrement l'admin.
@@ -113,13 +118,15 @@ class AdminController extends Controller
             if (!auth()->user()->save()) {
                 //je redirige l'admin vers la page d'édition en lui indiquant le.s erreur.s
                 return redirect()->route('admin.edit', [
-                    'adminId' => auth()->user()->id
+                    'adminId' => auth()->user()->id,
+                    'token' => $token
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
 
             //sinon, je redirige l'admin vers la page d'édition avec un status de confirmation
             return redirect()->route('admin.edit', [
-                'adminId' => auth()->user()->id
+                'adminId' => auth()->user()->id,
+                'token' => $token
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
 
@@ -133,12 +140,14 @@ class AdminController extends Controller
             if (!auth()->user()->save()) {
                 //je redirige l'admin vers la page d'édition en lui indiquant le.s erreur.s
                 return redirect()->route('admin.edit', [
-                    'adminId' => auth()->user()->id
+                    'adminId' => auth()->user()->id,
+                    'token' => $token
                 ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
             }
             //je redirige l'admin vers la page d'édition avec un status de confirmation
             return redirect()->route('admin.edit', [
-                'adminId' => auth()->user()->id
+                'adminId' => auth()->user()->id,
+                'token' => $token
             ])->with('status', 'Les changements ont bien été pris en compte.');
         }
     }

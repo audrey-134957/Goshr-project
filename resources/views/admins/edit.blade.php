@@ -8,7 +8,7 @@
 @section('layout-content')
 
 <div class="user-profile-edition">
-    <form action="{{route('admin.update', ['adminId' => auth()->user()->id]) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('admin.update', ['adminId' => auth()->user()->id], 'token' => auth()->user()->token) }}" method="POST" enctype="multipart/form-data">
         @method('PATCH')
         @csrf
 
