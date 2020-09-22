@@ -37,7 +37,7 @@
             @include('admins.partials.modals.deletion.category.admin-modal')
         </div>
     </div>
-    <form action="{{route('admin.updateCategory', ['adminId' => auth()->user()->id, 'category' => $category->slug])}}" method="POST" class="form--edit is-hidden" style="display:flex;margin-top:1rem;">
+    <form action="{{route('admin.updateCategory', ['adminId' => auth()->user()->id, 'category' => $category->slug])}}" method="POST" class="category-card__edit-form form--edit is-hidden">
         @csrf
         @method('PATCH')
         <div class="category-card__input-box section__field field">
@@ -45,7 +45,7 @@
                 <input class="section__input input is-rounded" type="text" name="edit_category_name" placeholder="nom de la catégorie" value="{{$category->name}}">
             </div>
         </div>
-        <button class="button is-rounded" style="margin-left: 0.5rem;" type="submit">
+        <button class="category-card__edit-button button is-rounded" type="submit">
             modifier
         </button>
     </form>

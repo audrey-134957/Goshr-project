@@ -43,4 +43,13 @@
         max-width: 100% !important;
         width: 100%;
     }
+
+    &__edit-form {
+        display: flex;
+        margin-top: 1rem;
+    }
+
+    &__edit-button {
+        margin-left: 0.5rem;
+    }
 }

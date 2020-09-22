@@ -17265,6 +17265,15 @@ input[type=radio],
   width: 100%;
 }
 
+.category-card__edit-form {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.category-card__edit-button {
+  margin-left: 0.5rem;
+}
+
 .header {
   background-image: url("/images/fronts/home.jpg");
   background-size: cover;
