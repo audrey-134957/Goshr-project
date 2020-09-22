@@ -42,7 +42,7 @@
 
     &__authors-profile-link {
         position: absolute;
-        top:110pt;
+        top: 110pt;
         left: 1rem;
         z-index: 10;
     }
@@ -110,5 +110,29 @@
     &__content p span {
         text-align: left;
         font-size: 16px !important;
+    }
+
+    &__action-buttons-box {
+        position: relative;
+        z-index: 10;
+        float: right;
+        top: 1rem !important;
+        right: 1rem !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 5.5rem;
+    }
+
+    &__edit-button {
+        padding: 0;
+        width: 40px;
+        height: 40px;
+    }
+
+    &__delete-button {
+        padding: 0;
+        width: 40px;
+        height: 40px;
     }
 }

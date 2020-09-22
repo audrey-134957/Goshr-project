@@ -10,6 +10,7 @@
 
     <form class="contact-box__form" action="" method="POST">
         @csrf
+        <!-- * Champs om et prénom de l'expéditaire * -->
         <div class="contact-box__field field">
             <label class="contact-box__label label">Ton nom et prénom</label>
             <div class="control">
@@ -19,6 +20,7 @@
             <p class="help is-danger">{{$message}}</p>
             @enderror
         </div>
+        <!-- * Champs email * -->
         <div class="contact-box__field field">
             <label class="contact-box__label label">Ton email</label>
             <div class="control">
@@ -28,6 +30,7 @@
             <p class="help is-danger">{{$message}}</p>
             @enderror
         </div>
+        <!-- * Champs objet * -->
         <div class="contact-box__field field">
             <label class="contact-box__label label">L'objet de ton message</label>
             <div class="control">
@@ -38,7 +41,7 @@
             <p class="help is-danger">{{$message}}</p>
             @enderror
         </div>
-
+        <!-- * Champs message* -->
         <div class="contact-box__field field">
             <label class="contact-box__label label">Ton message</label>
             <div class="control">

@@ -31,7 +31,7 @@
         @method('PATCH')
         @csrf
 
-        <div class="user-profile-edition__fields fields" style="margin-top:1in;">
+        <div class="user-profile-edition__fields fields">
 
 
             <div class="user-profile-edition__field field">

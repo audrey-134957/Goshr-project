@@ -58,19 +58,13 @@
                 <small class="project-card__author-username">{{$project->user->username}}</small>
             </div>
         </a>
-        <div style="position:relative;z-index:10;float:right;top:1rem !important;right:1rem !important;display:flex;align-items:center;justify-content:space-between;width:5.5rem;">
+        <div class="project-card__action-buttons-box">
             @auth
             @canany(['update', 'delete'], $project)
-            <a href="{{route('projects.edit', [$project, 'slug'=> $project->slug, 'token' => $project->user->bank_of_token->token_project])}}" class="button is-rounded is-warning is-outlined" style="padding:0;width:40px;height:40px;"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            <a href="{{route('projects.edit', [$project, 'slug'=> $project->slug, 'token' => $project->user->bank_of_token->token_project])}}" class="project-card__edit-button button is-rounded is-warning is-outlined"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-            <button class="button is-rounded is-danger is-outlined modal-button" type="button" style="padding:0;width:40px;height:40px;"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-            @include('partials.modals.deletion-modal', [
-            'modalTitle' => 'Suppression du projet',
-            'question' => 'Souhaites-tu vraiment supprimer ce projet?',
-            'complementaryText' => '',
-            'route' => route('projects.delete', [$project, 'slug' => $project->slug]),
-            'confirmChoice' => 'Supprimer ce projet'
-            ])
+            <button class="project-card__delete-button button is-rounded is-danger is-outlined modal-button" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+            @include('partials.modals.deletion.project.modal')
             @endcanany
             @endauth
         </div>

@@ -16008,6 +16008,30 @@ input[type=radio],
   font-size: 16px !important;
 }
 
+.project-card__action-buttons-box {
+  position: relative;
+  z-index: 10;
+  float: right;
+  top: 1rem !important;
+  right: 1rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 5.5rem;
+}
+
+.project-card__edit-button {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.project-card__delete-button {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+}
+
 .comment-card {
   clear: right;
   background-color: rgba(241, 241, 241, 0.158);
@@ -18272,7 +18296,7 @@ input[type=radio],
 }
 
 .user-profile-edition__fields {
-  margin: 2rem auto 2rem;
+  margin: 1in auto 2rem;
   overflow: auto;
 }
 
