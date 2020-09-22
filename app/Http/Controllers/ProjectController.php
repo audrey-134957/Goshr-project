@@ -206,15 +206,18 @@ class ProjectController extends Controller
             ->findOrFail($project);
 
         //si le projet est de niveau moyen
-        if ($project->difficulty_level->level === 2) {
-            $difficultyClassName = 'medium';
-            //sinon si le projet est de niveau difficile
-        } elseif ($project->difficulty_level->level === 3) {
-            $difficultyClassName = 'hard';
-            //sinon 
+        if ($project->comments->count() <= 1) {
+            $commentTitleBox = 'commentaire';
         } else {
-            $difficultyClassName = 'easy';
+            $commentTitleBox = 'commentaires';
         }
+
+        if ($project->topics->count() <= 1) {
+            $topicTitleBox = 'question';
+        } else {
+            $topicTitleBox = 'questions';
+        }
+
 
         //je récupère le slug du projet que je stocke en variable
         $slug = $project->slug;
@@ -257,7 +260,8 @@ class ProjectController extends Controller
                 'slug' => $slug,
                 'token' => $token,
                 'motives' => $motives,
-                'difficultyClassName' => $difficultyClassName
+                'commentTitleBox' => $commentTitleBox,
+                'topicTitleBox' => $topicTitleBox
             ]
         );
     }

@@ -1,6 +1,5 @@
 <aside class="topics-section section--Q-A box" id="q-a">
-    @php
-    if($project->topics->count() <= 1){ $topicTitle='question' ; } else{ $topicTitle='questions' ; } @endphp <h1 class="topics-section__title title">{{$project->topics->count() . ' ' . $topicTitle}}</h1>
+    <h1 class="topics-section__title title">{{$project->topics->count() . ' ' . $topicTitleBox}}</h1>
         <hr>
         <div class="topics-section__box-content">
 
@@ -36,14 +35,8 @@
             @endguest
 
 
-
             <div class="topics-section__list @if( !auth()->check() || auth()->check() && auth()->user()->id !== $project->user_id)  topics-section__list--margin-top @endif">
                 @forelse($project->topics as $topic)
-                @php
-                $topic_id = $topic->id;
-                $topic_creation_date = \Carbon\Carbon::parse($topic->created_at)->locale('fr');
-                $transform_topic_creation_date = $topic_creation_date->isoFormat('D MMM YYYY à HH:mm');
-                @endphp
                 <div class="topic-card" id="topic-{{$topic->id}}">
                     <div class="topic-card__content">
                         <div class="media">
@@ -56,7 +49,7 @@
 
                         <div class="topic-card__right-part">
                             <span class="topic-card__author-username">{{$topic->user->username}}</span>
-                            <time class="topic-card__publish-date">le {{$transform_topic_creation_date}}</time>
+                            <time class="topic-card__publish-date">le {{$topic->publishDate()}}</time>
 
                             <p class="topic-card__topic">{{$topic->content}}</p>
                         </div>
@@ -141,11 +134,6 @@
                 <!-- ------------------- pour chaque topic enfant [1.1]---------------------- -->
 
                 @foreach($topic->topics as $topicReply)
-                @php
-                $topic_id = $topicReply->id;
-                $topicReply_creation_date = \Carbon\Carbon::parse($topicReply->created_at)->locale('fr');
-                $transform_topic_reply_creation_date = $topicReply_creation_date->isoFormat('D MMM YYYY à HH:mm');
-                @endphp
 
                 <div class="topic-card topic-card--reply section__author-infos section__author-infos--topics section__author-infos--topics--reply" id="topic-{{$topicReply->id}}">
 
@@ -160,7 +148,7 @@
 
                         <div class="topic-card__right-part">
                             <span class="topic-card__author-username">{{$topicReply->user->username}}</span>
-                            <time class="topic-card__publish-date">le {{$transform_topic_creation_date}}</time>
+                            <time class="topic-card__publish-date">le {{$topicReply->publishDate()}}</time>
 
                             <p class="topic-card__topic">{{$topicReply->content}}</p>
                         </div>
