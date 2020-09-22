@@ -37,7 +37,7 @@
             </div>
             <div class="ban-card__card-footer card-footer">
                 <button class="ban-card__button modal-button is-primary is-light button is-rounded">retirer du ban</button>
-                @include('partials.modals.deletion.ban.admin-modal')
+                @include('admins.partials.modals.deletion.ban.admin-modal')
             </div>
         </div>
 

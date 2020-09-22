@@ -31,7 +31,7 @@ class CategoryController extends Controller
         // je récupères les catégories
         $categories = Category::all();
 
-        return view('categories.admin-index', ['categories' => $categories]);
+        return view('admins.categories.index', ['categories' => $categories]);
     }
 
     /**

@@ -53,10 +53,10 @@
                 <a href="{{route('admin.editAdmin', ['adminId' => auth()->user()->id, 'adminUser' => $adminUser->id])}}" class="user-card__button user-card__button--edit button is-rounded is-info is-outlined" style="padding:0;width:40px;height:40px;"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
                 <button class="user-card__button modal-button button is-rounded is-link is-outlined" type="button" style="padding:0;width:40px;height:40px;"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                @include('partials.modals.deletion.admins.admin-modal')
+                @include('admins.partials.modals.deletion.admins.admin-modal')
 
                 <button class="user-card__button modal-button button is-danger is-rounded is-outlined" type="button" style="padding:0;width:40px;height:40px;"><i class="fa fa-ban" aria-hidden="true"></i></button>
-                @include('partials.modals.bans.admins.admin-modal')
+                @include('admins.partials.modals.bans.admins.admin-modal')
 
             </div>
         </div>

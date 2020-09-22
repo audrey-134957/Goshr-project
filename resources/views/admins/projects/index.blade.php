@@ -7,7 +7,6 @@
 @section('layout-content')
 
 <div class="search-box">
-
     <form action="{{route('admin.searchProjects', ['adminId' => auth()->user()->id])}}" method="GET" class="search-box__form">
         <input type="search" class="search-box__search-input input is-rounded" name="q" placeholder="Rechercher...">
         <button class="search-box__button search-box__button--submit button is-rounded">
@@ -21,10 +20,8 @@
         @csrf
         @method('DELETE')
         <div class="projects-list">
-
-
             <div class="projects-list__header">
-                <span class="projects-list__projects-number">{{$projects->count()}} {{$text}}</span>
+                <span class="projects-list__projects-number">{{$projects->count().' '.$text}}</span>
                 <button class="projects-list__button projects-list__button--delete-selection button is-rounded" type="submit" name="submit" value="selection">
                     supprimer la sélection
                 </button>
