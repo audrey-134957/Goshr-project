@@ -32,9 +32,7 @@
 
 
             @guest
-            @include('partials.modals.call-to-action-modal', [
-            'modalTitle' => 'Rejoignez la communauté Goshr'
-            ])
+            @include('partials.modals.call-to-action.modal')
             @endguest
 
 
