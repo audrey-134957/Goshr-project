@@ -17299,6 +17299,10 @@ input[type=radio],
   border-radius: 5px;
 }
 
+.footer__mail-address:hover {
+  background-color: whitesmoke;
+}
+
 .footer span {
   font-weight: 700;
   font-size: 1rem;
