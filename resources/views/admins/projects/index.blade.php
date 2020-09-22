@@ -17,11 +17,6 @@
 </div>
 
 <section class="section">
-
-
-    <!-- si j'appuis sur le bouton 'supprimer la selection', ma route sera route('admin.deleteProjectsSelection', [ 'adminName' => auth()->user()->name_slug,
-            'adminFirstname' => auth()->user()->firstname_slug] )}}, si sinon elle sera route('admin.deleteProject', [ 'adminName' => auth()->user()->name_slug,
-            'adminFirstname' => auth()->user()->firstname_slug, 'project' => $project] ) -->
     <form id="selection-form" action="{{route('admin.deleteProjectsSelection', ['adminId' => auth()->user()->id] )}}" method="POST">
         @csrf
         @method('DELETE')

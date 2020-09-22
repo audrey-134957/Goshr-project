@@ -20,7 +20,7 @@
             <div class="project-article__float-right">
                 @auth
                 <button class="project-article__button button is-rounded is-danger is-outlined modal-button" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                @include('partials.modals.deletion.project.modal')
+                @include('partials.modals.deletion.project.admin-modal')
                 @endauth
             </div>
         </div>
@@ -108,7 +108,7 @@
                             <!-- ------------------- BOUTON MODIFIER LE TOPIC ---------------------- -->
 
                             <button class="topic-card__button topic-card__button--edit button modal-button is-white is-rounded" type="button"><i class="topic-card__icon topic-card__icon--pencil fa fa-trash-o" aria-hidden="true"></i></button>
-                            @include('partials.modals.deletion.topic.modal')
+                            @include('partials.modals.deletion.topic.admin-modal')
 
                             <!-- ------------------- END: BOUTON POUR MODIFIER LE TOPIC ---------------------- -->
 
@@ -154,7 +154,7 @@
                         @auth
                         <div class="topic-card__footer">
                             <button class="topic-card__button topic-card__button--edit modal-button button is-white is-rounded" type="button"><i class="topic-card__icon topic-card__icon--pencil fa fa-trash-o" aria-hidden="true"></i></button>
-                            @include('partials.modals.deletion.topic-reply.modal')
+                            @include('partials.modals.deletion.topic-reply.admin-modal')
 
                         </div>
                         @endauth
@@ -208,7 +208,7 @@
                         <div class="comment-card__footer">
                             @auth
                             <button class="comment-card__button comment-card__button--edit modal-button button is-white is-rounded" type="button"><i class="comment-card__icon comment-card__icon--pencil fa fa-trash-o" aria-hidden="true"></i></button>
-                            @include('partials.modals.deletion.comment.modal')
+                            @include('partials.modals.deletion.comment.admin-modal')
                             @endauth
                         </div>
                     </div>
@@ -244,7 +244,7 @@
 
                         <div class="comment-card__footer">
                             <button class="comment-card__button comment-card__button--edit modal-button button is-white is-rounded" type="button"><i class="comment-card__icon comment-card__icon--pencil fa fa-trash-o" aria-hidden="true"></i></button>
-                            @include('partials.modals.deletion.comment-reply.modal')
+                            @include('partials.modals.deletion.comment-reply.admin-modal')
                         </div>
 
                         @endauth

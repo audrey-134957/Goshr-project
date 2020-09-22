@@ -34,7 +34,7 @@
             <button class="modal-button button is-rounded" type="button">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>
-            @include('partials.modals.deletion.category.modal')
+            @include('partials.modals.deletion.category.admin-modal')
         </div>
     </div>
     <form action="{{route('admin.updateCategory', ['adminId' => auth()->user()->id, 'category' => $category->slug])}}" method="post" class="form--edit is-hidden" style="display:flex;margin-top:1rem;">

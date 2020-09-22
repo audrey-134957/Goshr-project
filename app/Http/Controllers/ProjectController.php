@@ -559,7 +559,7 @@ class ProjectController extends Controller
             $text = 'projet';
         }
 
-        return view('projects.admin-index', [
+        return view('admins.projects.index', [
             'adminId' => auth()->user()->id,
             'projects'      => $projects,
             'text'  => $text
@@ -580,7 +580,7 @@ class ProjectController extends Controller
 
         $motives = Motive::all();
 
-        return view('projects.admin-show', [
+        return view('admins.projects.show', [
             'project'               => $project,
             'slug'                  => $slug,
             'motives'               => $motives

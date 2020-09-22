@@ -16,7 +16,7 @@
 
             <!-- * Content * -->
             <section class="modal-card-body">
-                <p>Confirmez-vous la suppression  du bannissement ?</p>
+                <p>Confirmez-vous la suppression du bannissement ?</p>
             </section>
 
             <!-- * Footer * -->

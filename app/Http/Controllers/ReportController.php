@@ -57,7 +57,7 @@ class ReportController extends Controller
         }
 
 
-        return view('reports.admin-index', [
+        return view('admins.reports.index', [
             'motives' => $motives,
             'motiveName' => $motiveName,
             'reports' => $reports
@@ -234,7 +234,7 @@ class ReportController extends Controller
 
         $project = Project::where('slug', $project)->firstOrFail();
 
-        return view('reports.project.show', [
+        return view('admins.reports.project.show', [
             'adminId' => auth()->user()->id,
             'report' => $report,
             'project' => $project
@@ -247,7 +247,7 @@ class ReportController extends Controller
 
         $topic = Topic::findOrFail($topic);
 
-        return view('reports.topic.show', [
+        return view('admins.reports.topic.show', [
             'adminId' => auth()->user()->id,
             'report' => $report,
             'topic' => $topic
@@ -261,7 +261,7 @@ class ReportController extends Controller
 
         $comment = Comment::findOrFail($comment);
 
-        return view('reports.comment.show', [
+        return view('admins.reports.comment.show', [
             'adminId' => auth()->user()->id,
             'report' => $report,
             'comment' => $comment
