@@ -24,7 +24,7 @@
 
 
             <div class="projects-list__header">
-                <span class="projects-list__projects-number">{{$projects->count()}} {{$text}}</span>
+                <span class="projects-list__projects-number">{{$projects->count() .' '. $text}}</span>
                 <button class="projects-list__button projects-list__button--delete-selection button is-rounded" type="submit" name="submit" value="selection">
                     supprimer la sélection
                 </button>
@@ -32,8 +32,7 @@
 
 
             @foreach($projects as $project)
-
-            <div class="project-card card" style="position:relative;">
+            <div class="project-card card">
                 <div class="project-card__checkbox-box">
                     <button class="project-card__button--delete button is-rounded is-danger is-outlined modal-button" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                     <label class="project-card__checkbox-label checkbox">

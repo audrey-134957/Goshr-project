@@ -98,4 +98,11 @@
         margin-left: 0.5rem;
         background-color: rgba(241, 241, 241, 0.2008);
     }
+
+    &--back {
+        max-width: 60rem;
+        border: solid 1px whitesmoke;
+        background-color: white;
+        margin-top: 1in;
+    }
 }

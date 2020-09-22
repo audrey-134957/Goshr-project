@@ -15,14 +15,14 @@
         {!! $report->content() !!}
     </div>
 
-    <div style="margin-top:1rem;">
+    <div class="report-header__motives-list">
         @foreach($report->motives as $motive)
-        <span class="tag is-rounded is-info is-light" style="margin:0.4rem;white-space:normal;height:fit-content;padding:0.2rem 1rem;">{{$motive->name}}</span>
+        <span class="report-header__tag tag is-rounded is-info is-light">{{$motive->name}}</span>
         @endforeach
     </div>
 </div>
 
-<div class="comment-card" style="max-width: 60rem;border:solid 1px whitesmoke;background-color:white;margin-top:1in;">
+<div class="comment-card comment-card--back">
     <div class="comment-card__content">
         <div class="media">
             <div class="media-left">
@@ -41,8 +41,7 @@
     </div>
 </div>
 
-<form action="{{route('admin.storeAdminDecisionForCommentReport', [ 'adminName' => auth()->user()->name_slug,
-            'adminFirstname' => auth()->user()->firstname_slug, 'report'=> $report,'comment' => $comment])}}" method="POST" style="display: flex;justify-content:flex-end;max-width:60rem;">
+<form  class="report-decision-form" action="{{route('admin.storeAdminDecisionForCommentReport', ['adminId' => auth()->user()->id, 'report'=> $report,'comment' => $comment])}}" method="POST">
     @csrf
     @method('DELETE')
     <button class="button is-danger is-light is-rounded" type="submit" name="submit" value="approve">approuver</button>

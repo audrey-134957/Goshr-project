@@ -16107,6 +16107,13 @@ input[type=radio],
   background-color: rgba(241, 241, 241, 0.2008);
 }
 
+.comment-card--back {
+  max-width: 60rem;
+  border: solid 1px whitesmoke;
+  background-color: white;
+  margin-top: 1in;
+}
+
 .topic-card {
   clear: right;
   background-color: rgba(241, 241, 241, 0.158);
@@ -16260,7 +16267,6 @@ input[type=radio],
 }
 
 .user-card__button.button.is-rounded {
-  padding: 0 10px;
   padding: 0;
   width: 40px;
   height: 40px;
@@ -18463,5 +18469,24 @@ input[type=radio],
   .bans-list__bans-number {
     grid-column-end: span 4;
   }
+}
+
+.report-header {
+  margin-top: 1rem;
+}
+
+.report-header__tag {
+  margin: 0.4rem;
+  white-space: normal;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding: 0.2rem 1rem;
+}
+
+.report-decision-form {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 60rem;
 }
 
