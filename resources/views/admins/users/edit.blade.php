@@ -6,7 +6,7 @@
 
 @section('layout-content')
 
-<div class="user-profile-edition" style="overflow: auto;">
+<div class="user-profile-edition">
     <form action="{{route('admin.updateUser', ['adminId' => auth()->user()->id, 'user' => $user]) }}" method="POST" enctype="multipart/form-data">
         @method('PATCH')
         @csrf
@@ -105,7 +105,7 @@
 
         <button class="user-profile-edition__button user-profile-edition__button--update  button is-rounded" type="submit">modifier</button>
     </form>
-    <div class="" style="clear:right;overflow:auto;float:right;">
+    <div class="user-profile-edition__buttons-box">
         <button class="user-profile-edition__button button is-rounded showUserDeletingModal">supprimer le compte</button>
         @include('partials.modals.deletion.users.modal')
 

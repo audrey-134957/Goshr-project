@@ -105,7 +105,7 @@
 
         <button class="user-profile-edition__button user-profile-edition__button--update  button is-rounded" type="submit">modifier</button>
     </form>
-    <div class="user-profile-creation__buttons-box">
+    <div class="user-profile-edition__buttons-box">
         <button class="user-profile-edition__button button modal-button is-rounded showUserDeletingModal">supprimer le compte</button>
         @include('partials.modals.deletion.admins.admin-modal')
 

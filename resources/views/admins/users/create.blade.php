@@ -7,7 +7,7 @@
 @section('layout-content')
 
 
-<div class="user-profile-creation" style="overflow: auto;">
+<div class="user-profile-creation">
     <form action="{{route('admin.storeUser', ['adminId' => auth()->user()->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
 

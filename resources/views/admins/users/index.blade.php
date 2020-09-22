@@ -23,7 +23,7 @@
         @foreach($users as $user)
         <div class="user-card card">
             <div class="user-card__card-header card-header">
-                <figure class="user-card__image image is-48x48" style="margin: auto;">
+                <figure class="user-card__image image is-48x48">
                     <img class="is-rounded" src="{{$user->getImage($user)}}" alt="Placeholder image">
                 </figure>
             </div>
@@ -36,22 +36,22 @@
                 @endif
 
                 <div class="user-card__pseudo-box user-card__info">
-                    <span class="user-card__title title" style="display: block;">pseudonyme</span>
+                    <span class="user-card__title title">pseudonyme</span>
                     <span class="section__user-info section__user-username">{{$user->username}}</span>
                 </div>
 
                 <div class="user-card__email-box user-card__info">
-                    <span class="user-card__title title" style="display: block;">email</span>
+                    <span class="user-card__title title">email</span>
                     <span>{{$user->email}}</span>
                 </div>
 
                 <div class="user-card__existance-box user-card__info">
-                    <span class="user-card__title title" style="display: block;">ancienneté</span>
+                    <span class="user-card__title title">ancienneté</span>
                     <span>membre depuis <br> le {{$user->getUserCreationDate()}}</span>
                 </div>
 
                 <div class="user-card__status-box user-card__info">
-                    <span class="user-card__title title" style="display: block;">status</span>
+                    <span class="user-card__title title">status</span>
                     <span>{{$user->level->name}}</span>
                 </div>
             </div>

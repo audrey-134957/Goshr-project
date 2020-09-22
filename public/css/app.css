@@ -18231,12 +18231,6 @@ input[type=radio],
   clear: right;
 }
 
-.user-profile-creation__buttons-box {
-  clear: right;
-  overflow: auto;
-  float: right;
-}
-
 .motives-list ul {
   display: flex;
   flex-wrap: nowrap;
@@ -18418,6 +18412,12 @@ input[type=radio],
 
 .user-profile-edition__modal-activation {
   clear: right;
+}
+
+.user-profile-edition__buttons-box {
+  clear: right;
+  overflow: auto;
+  float: right;
 }
 
 .reported-content {

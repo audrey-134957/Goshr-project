@@ -13,18 +13,27 @@
             @method('PATCH')
             @csrf
 
-            @include('partials.fields.auth-field', [
-            'labelName' => 'Nouveau mot de passe',
-            'typeName' => 'password',
-            'fieldName' => 'password'
-            ])
+            <!-- * Champs nouveau mot de passe * -->
+            <div class="auth-box__field field">
+                <label class="auth-box__label label">Nouveau mot de passe</label>
+                <div class="control">
+                    <input class="auth-box__input input @error('password_confirmation') is-danger @enderror is-rounded" type="password" name="password">
+                </div>
+                @error('password')
+                <p class="help is-danger">{{ $message }}</p>
+                @enderror
+            </div>
 
-            @include('partials.fields.auth-field', [
-            'labelName' => 'Confirmation du nouveau mot de passe',
-            'typeName' => 'password',
-            'fieldName' => 'password_confirmation'
-            ])
-
+            <!-- * Champs confirmation du mot de passe * -->
+            <div class="auth-box__field field">
+                <label class="auth-box__label label">Confirmation du nouveau mot de passe</label>
+                <div class="control">
+                    <input class="auth-box__input input @error('password_confirmation') is-danger @enderror is-rounded" type="password" name="password_confirmation">
+                </div>
+                @error('password_confirmation')
+                <p class="help is-danger">{{ $message }}</p>
+                @enderror
+            </div>
             <button class="auth-box__button auth-box__button--is-submit button is-rounded" type="submit">Réinitialiser mon mot de passe</button>
         </form>
     </div>
