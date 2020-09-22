@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidateEmail;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AdminStoreUser extends FormRequest
@@ -18,7 +19,7 @@ class AdminStoreUser extends FormRequest
      */
     public function authorize()
     {
-        if(auth()->check()){
+        if(auth()->check() && auth()->user()->role_id !== NULL){
                 return true;
         }
     }
@@ -31,6 +32,7 @@ class AdminStoreUser extends FormRequest
     public function rules()
     {
         return [
+            'username'                       => 'required|min:3|max:80|alpha_dash|unique:users,username',
             'name'                           => 'nullable|alpha_dash|min:3|max:250',
             'firstname'                      => 'nullable|alpha_dash|min:3|max:250',
             'email'                          => ['required', 'email', 'unique:users,email' , new ValidateEmail()],
@@ -41,6 +43,12 @@ class AdminStoreUser extends FormRequest
     public function messages()
     {
         return [
+            'username.required'         => 'Un pseudo doit être renseigné.',
+            'username.alpha_dash'       => 'Seules les lettres, les chiffres, les tirets ( - ) et les underscores ( _ ) sont acceptés pour votre pseudo.',
+            'username.min'              => 'Ton pseudo doit contenir au minimum :min caractères.',
+            'username.max'              => 'Ton pseudo doit contenir  au maximum :max caractères.',
+            'username.unique'           => 'Il semblerait que ce pseudo soit déjà pris.',
+
             'name.alpha_dash'           => 'Seules les lettres, les chiffres, les tirets ( - ) et les underscores ( _ ) sont acceptés pour ton nom.',
             'name.min'                  => 'Ton nom doit comporter au minimum :min caractères.',
             'name.max'                  => 'Ton nom doit comporter au maximum :min caractères.',

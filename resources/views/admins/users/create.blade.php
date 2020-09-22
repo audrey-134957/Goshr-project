@@ -15,11 +15,23 @@
 
             <div class="d-flex">
                 <div class="d-flex__left">
+
+                 <!-- * Champs pseudo * -->
+                 <div class="user-profile-creation__field user-profile-creation__email-field field">
+                        <label class="user-profile-creation__label user-profile-creation__label--username label">Peudo</label>
+                        <div class="control">
+                            <input class="user-profile-creation__input user-profile-creation__input--username @error('username') is-danger @enderror is-rounded input" type="text" name="username" value="{{old('username')}}">
+                        </div>
+                        @error('username')
+                        <p class="help is-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <!-- * Champs email * -->
                     <div class="user-profile-creation__field user-profile-creation__email-field field">
                         <label class="user-profile-creation__label user-profile-creation__label--email label">Email</label>
                         <div class="control">
-                            <input class="user-profile-creation__input user-profile-creation__input--email @error('email') is-danger @enderror is-rounded input" type="email" name="email">
+                            <input class="user-profile-creation__input user-profile-creation__input--email @error('email') is-danger @enderror is-rounded input" type="email" name="email" value="{{old('email')}}">
                         </div>
                         @error('email')
                         <p class="help is-danger">{{ $message }}</p>
@@ -30,7 +42,7 @@
                     <div class="user-profile-creation__field user-profile-creation__name-field field">
                         <label class="user-profile-creation__label user-profile-creation__label--name label">Nom</label>
                         <div class="control">
-                            <input class="user-profile-creation__input user-profile-creation__input--name @error('name') is-danger @enderror is-rounded input" type="text" name="name">
+                            <input class="user-profile-creation__input user-profile-creation__input--name @error('name') is-danger @enderror is-rounded input" type="text" name="name" value="{{old('name')}}">
                         </div>
                         @error('name')
                         <p class="help is-danger">{{ $message }}</p>
@@ -41,7 +53,7 @@
                     <div class="user-profile-creation__field user-profile-creation__firstname-field field">
                         <label class="user-profile-creation__label user-profile-creation__label--firstname label">Prénom</label>
                         <div class="control">
-                            <input class="user-profile-creation__input user-profile-creation__input--firstname @error('firstname') is-danger @enderror is-rounded input" type="text" name="firstname">
+                            <input class="user-profile-creation__input user-profile-creation__input--firstname @error('firstname') is-danger @enderror is-rounded input" type="text" name="firstname" value="{{old('firstname')}}">
                         </div>
                         @error('firstname')
                         <p class="help is-danger">{{ $message }}</p>
