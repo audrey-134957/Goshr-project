@@ -15573,6 +15573,7 @@ a.has-text-danger-dark:focus {
 .notification {
   width: 100%;
   margin-right: 1.5rem !important;
+  left: 0;
 }
 
 .notification__text {
@@ -15600,7 +15601,6 @@ a.has-text-danger-dark:focus {
   .notification--back.is-success,
   .notification--back.is-danger {
     top: -1rem;
-    left: 0;
   }
 }
 
@@ -15608,7 +15608,6 @@ a.has-text-danger-dark:focus {
   .notification--back.is-success,
   .notification--back.is-danger {
     top: 74.02px;
-    left: 0;
   }
 }
 
