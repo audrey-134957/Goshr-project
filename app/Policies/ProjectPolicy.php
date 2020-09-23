@@ -10,7 +10,18 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
-
+    /**
+     * Grant all abilities to administrator.
+     *
+     * @param  \App\Models\User  $user
+     * @return bool
+     */
+    public function before(User $user)
+    {
+        if ($user->role_id !== NULL) {
+            return true;
+        }
+    }
 
     /**
      * Determine whether the user can create project.

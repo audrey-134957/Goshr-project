@@ -11,6 +11,28 @@ class ProfilePolicy
     use HandlesAuthorization;
 
     /**
+     * Grant all abilities to administrator.
+     *
+     * @param  \App\Models\User  $user
+     * @return bool
+     */
+    public function before(User $user)
+    {
+        if ($user->role_id !== NULL) {
+            return true;
+        }
+    }
+
+    /**
+     * Determine whether the user can create comment.
+     */
+    public function create()
+    {
+        return true;
+    }
+
+
+    /**
      * Determine whether the user can view listing of users.
      *
      * @param  \App\User  $user
@@ -18,7 +40,7 @@ class ProfilePolicy
      */
     public function viewAny(User $user)
     {
-        if($user->role_id == 1 || $user->role_id == 2){
+        if ($user->role_id == 1 || $user->role_id == 2) {
             return true;
         }
     }
@@ -48,11 +70,10 @@ class ProfilePolicy
      */
     public function delete(User $user, Profile $profile)
     {
-        if($user->role_id == 1 || $user->role_id == 2){
+        if ($user->role_id == 1 || $user->role_id == 2) {
             return true;
         }
         // un utilisateur pourra supprime son profil uniquement si le pseudonyme de celui qui détient le profil correspond.
         return $user->username === $profile->user->username;
     }
-
 }

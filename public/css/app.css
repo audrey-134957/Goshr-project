@@ -16432,15 +16432,15 @@ input[type=radio],
   font-size: 16px;
 }
 
-.menu__notification__notification-detail {
+.menu__notification .menu__notification-detail {
   grid-column: 2/3;
 }
 
-.menu__notification__notification-text {
+.menu__notification .menu__notification-text {
   font-size: 16px;
 }
 
-.menu__notification__notification-time {
+.menu__notification .menu__notification-time {
   grid-column-end: span 2;
   justify-self: end;
   color: #808080;

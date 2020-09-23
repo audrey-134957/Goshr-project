@@ -7,14 +7,14 @@
     margin:1rem;
     font-size: 16px;
 
-    &__notification-detail{
+    .menu__notification-detail{
         grid-column: 2/3;
     }
-    &__notification-text{
+    .menu__notification-text{
         font-size:$notification-text;
     }
 
-    &__notification-time{
+    .menu__notification-time{
         grid-column-end: span 2;
         justify-self: end;
         color:$label-color;

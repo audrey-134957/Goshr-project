@@ -2,12 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Project;
-use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TopicPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -24,65 +22,52 @@ class TopicPolicy
         }
     }
 
-    /**
+     /**
      * Determine whether the user can create topic.
      *
      * @return mixed
      */
     public function create()
     {
-        if (auth()->check()) {
             return true;
-        }
     }
 
-    /**
+     /**
      * Determine whether the user can update topic.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Topic  $topic
      * @return mixed
      */
-    public function update(User $user, Topic $topic)
+    public function update(User $user)
     {
-        return $user->id === $topic->user_id;
+        return $user->id === $;
     }
 
-    /**
+
+     /**
      * Determine whether the user can  destroy project.
      *
      * @param  \App\User  $user
      * @param  \App\Project  $project
      * @return mixed
      */
-    public function destroy(User $user, Topic $topic)
+    public function destroy(User $user, Project $project)
     {
-        if (auth()->check() && auth()->user()->role_id !== NULL) {
-            return $user->id;
-        }
+        return $user->id === $project->user_id;
     }
-
+    
     /**
-     * Determine whether the user can answer to topic.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Topic  $topic
-     * @return mixed
-     */
-    public function answerToTopic(User $user, Topic $topic)
-    {
-        return $user->id === $topic->user_id || $user->id === $topic->topicable->user_id;
-    }
-
-    /**
+     * 
      * Determine whether the user can report the topic.
      *
      * @param  \App\User  $user
      * @param  \App\Models\Topic  $topic
      * @return mixed
      */
-    public function doReport(User $user, Topic $topic)
+    public function doReport(User $user)
     {
         return $user->id !== $topic->user_id;
     }
+}
 }
