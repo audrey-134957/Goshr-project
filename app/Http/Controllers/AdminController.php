@@ -282,7 +282,10 @@ class AdminController extends Controller
             //je stoke le chemin du dossier que je vais créer par la suite dans une variable
             $storagePath = 'avatars/admin/admin_' . $adminIdentifier;
             // j'apelle fonction deleteOldAvatar() qui va se charger de supprimer l'ancienne photo de profil de l'utilisateur et qui va laisser place la nouvelle photo de profil
-            $this->deleteOldUserAvatar();
+            if ($adminUser->avatar) {
+                //je le supprime
+                Storage::delete('public/' . $adminUser->avatar);
+            }
             //si le dossier n'existe pas, je le créer
             if (!Storage::exists($storagePath)) {
                 Storage::makeDirectory($storagePath);
