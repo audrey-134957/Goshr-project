@@ -20,7 +20,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\BanController;
-use App\Http\Controllers\ContactController;
 
 
 /*

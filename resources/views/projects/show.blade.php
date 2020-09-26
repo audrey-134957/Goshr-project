@@ -97,6 +97,7 @@
 
     @include('layouts.comments-section')
 
+    @unless($projects)
     <div class="suggestion-projects-list projects-list" id="suggestion">
         <h2 class="projects-list__title title">Suggestion de projets</h2>
 
@@ -147,6 +148,7 @@
         </div>
         @endforeach
     </div>
+    @endunless
 </article>
 
 
