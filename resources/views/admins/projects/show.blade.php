@@ -183,10 +183,6 @@
             <div class="comments-section__box-content">
                 <div class="comments-section__list">
                     @forelse($project->comments as $comment)
-                    @php
-                    $commentCreationDate = \Carbon\Carbon::parse($comment->created_at)->locale('fr');
-                    $transformCommentCreationDate = $commentCreationDate->isoFormat('D MMM YYYY à HH:mm');
-                    @endphp
                     <div class="comment-card" id="commentaire-{{$comment->id}}">
                         <div class="comment-card__content">
                             <div class="media">
@@ -199,7 +195,7 @@
 
                             <div class="comment-card__right-part">
                                 <span class="comment-card__author-username">{{$comment->user->username}}</span>
-                                <time class="comment-card__publish-date">le {{$transformCommentCreationDate }}</time>
+                                <time class="comment-card__publish-date">le {{$comment->publishDate() }}</time>
 
                                 <p class="comment-card__comment">{{$comment->content}}</p>
                             </div>
@@ -216,11 +212,6 @@
                     <!-- ------------------- pour chaque commentaire enfant [1.1]---------------------- -->
 
                     @foreach($comment->comments as $commentReply)
-                    @php
-                    $commentReplyCreationDate = \Carbon\Carbon::parse($commentReply->created_at)->locale('fr');
-                    $transformCommentReplyCreationDate = $commentReplyCreationDate->isoFormat('D MMM YYYY à HH:mm');
-                    @endphp
-
                     <div class="comment-card comment-card--reply section__comment-box-header section__author-infos section__author-infos--comments section__author-infos--comments--reply">
 
                         <div class="comment-card__content">
@@ -234,7 +225,7 @@
 
                             <div class="comment-card__right-part">
                                 <span class="comment-card__author-username">{{$commentReply->user->username}}</span>
-                                <time class="comment-card__publish-date">le {{$transformCommentReplyCreationDate}}</time>
+                                <time class="comment-card__publish-date">le {{$ommentReply->publishDate()}}</time>
 
                                 <p class="comment-card__comment">{{$commentReply->content}}</p>
                             </div>

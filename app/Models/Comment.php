@@ -55,7 +55,6 @@ class Comment extends Model
 
     public function publishDate(){
 
-        
         $commentCreationDate = \Carbon\Carbon::parse($this->created_at)->locale('fr');
         $transformCommentCreationDate = $commentCreationDate->isoFormat('D MMM YYYY à HH:mm');
 
