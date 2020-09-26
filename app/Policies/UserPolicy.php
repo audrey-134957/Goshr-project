@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -30,17 +31,6 @@ class UserPolicy
     public function create()
     {
             return true;
-    }
-
-     /**
-     * Determine whether the user can update topic.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Topic  $topic
-     * @return mixed
-     */
-    public function update(User $user)
-    {
     }
 
 
