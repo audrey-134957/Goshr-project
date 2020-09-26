@@ -4,7 +4,12 @@
 <!-- * Contenu * -->
 
 @section('layout-content')
+
+je suis sur le la route
+
+{{dump(Route::currentRouteAction())}}
 <header class="profile-header box">
+
     <div class="profile-header__presentation">
         <figure class="profile-header__image image is-128x128">
             <img class="is-rounded" src="{{$user->getImage($user)}}" alt="Placeholder image">

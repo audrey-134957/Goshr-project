@@ -27,27 +27,27 @@ class ProfileController extends Controller
      * @param string $user | username of the user
      * @return \Illuminate\Http\Response
      */
-    public function show($user)
-    {
+    // public function show($user)
+    // {
 
-        $user = User::where('username', $user)->firstOrFail();
+    //     $user = User::where('username', $user)->firstOrFail();
 
-        $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
-            ->where('status_id', 2)
-            ->orderBy('created_at', 'DESC')
-            ->get();
+    //     $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
+    //         ->where('status_id', 2)
+    //         ->orderBy('created_at', 'DESC')
+    //         ->get();
 
-        //je récupère la date de création de l'utilisateur que je transforme en locale FR
-        $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
-        //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
-        $transformUserCreationDate = $userCreationDate->isoFormat('LL');
+    //     //je récupère la date de création de l'utilisateur que je transforme en locale FR
+    //     $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
+    //     //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
+    //     $transformUserCreationDate = $userCreationDate->isoFormat('LL');
 
-        return view('profiles.show', [
-            'user'                      => $user,
-            'projects'                  => $projects,
-            'transformUserCreationDate' => $transformUserCreationDate,
-        ]);
-    }
+    //     return view('profiles.show', [
+    //         'user'                      => $user,
+    //         'projects'                  => $projects,
+    //         'transformUserCreationDate' => $transformUserCreationDate,
+    //     ]);
+    // }
 
     /**
      * Show the profile edition form.
@@ -57,6 +57,7 @@ class ProfileController extends Controller
      */
     public function edit($user)
     {
+        dd('edit');
         //je retrouve l'utilisateur connecté
         // $user = User::where('username', $user)->firstOrFail();
         $user =  auth()->user();
@@ -174,8 +175,7 @@ class ProfileController extends Controller
         //je trouve l'utilisateur
         $user = auth()->user();
         // j'autorise l'action de pouvoir supprimer le profil uniquement à l'utilisateur connecté.
-        // $this->authorize('delete', $user->profile);
-
+        $this->authorize('delete', $user->profile);
 
         //si l'utilisateur existe
         if ($user) {
@@ -191,65 +191,7 @@ class ProfileController extends Controller
     }
 
 
-    /**
-     * Show listing of the published projects from author's profile.
-     *
-     * @param string $user | username of the user
-     * @return \Illuminate\Http\Response
-     */
-    public function listPublishedProjectsFromProfile($user)
-    {
-        //je retrouve l'utilisateur du profile
-        $user = User::where('username', $user)->firstOrFail();
 
-        //je retrouve les projets publiés de l'utilisateur
-        $projects = $user->projects()
-            ->with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
-            ->where('status_id', 2)
-            ->where('user_id', $user->id)
-            ->get();
-
-        //je récupère la date de création de l'utilisateur que je transforme en locale FR
-        $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
-        //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
-        $transformUserCreationDate = $userCreationDate->isoFormat('LL');
-
-        return view('profiles.show', [
-            'user' => $user,
-            'projects' => $projects,
-            'transformUserCreationDate' => $transformUserCreationDate
-        ]);
-    }
-
-    /**
-     * Show listing of the drafted projects from author's profile.
-     *
-     * @param string $user | username of the user
-     * @return \Illuminate\Http\Response
-     */
-    public function listDraftedProjectsFromProfile($user)
-    {
-        //je retrouve l'utilisateur du profile
-        $user = User::where('username', $user)->firstOrFail();
-        //je retrouve le token qui me permettra de modifier le projet brouillon sélectionné
-        $token = $user->bank_of_token->token_project_draft;
-        //je retrouve les projects publiés de l'utilisateur
-        $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
-            ->where('status_id', 1)
-            ->get();
-
-        //je récupère la date de création de l'utilisateur que je transforme en locale FR
-        $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
-        //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
-        $transformUserCreationDate = $userCreationDate->isoFormat('LL');
-
-        return view('profiles.show', [
-            'user' => $user,
-            'projects' => $projects,
-            'transformUserCreationDate' => $transformUserCreationDate,
-            'token' => $token
-        ]);
-    }
 
     /*********** Super Admin ***********/
 

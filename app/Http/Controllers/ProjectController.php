@@ -14,7 +14,7 @@ use App\Notifications\SendMailToAuthorConcerningProjectDeletion;
 use App\Notifications\SendMailToUserToNotifyProjectDeletion;
 use App\Models\Project;
 use App\Models\UnityOfMeasurement;
-
+use App\Models\User;
 use App\Traits\ProjectTrait;
 use App\Traits\MaterialTrait;
 
@@ -473,14 +473,16 @@ class ProjectController extends Controller
     /* User Profile */
 
     /**
-     * Display published projects from user's profile.
+     * Show listing of the published projects from author's profile.
      *
+     * @param string $user | username of the user
      * @return \Illuminate\Http\Response
      */
-    public function listPublishedProjectsFromProfile()
+    public function listPublishedProjectsFromProfile($user)
     {
         //je récupère l'utilisateur connecté
-        $user = auth()->user();
+        $user = User::where('username', $user)->firstOrFail();
+
 
         //je recupère les projets de l'utilisateur connecté
         $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
@@ -497,14 +499,15 @@ class ProjectController extends Controller
 
 
     /**
-     * Display drafted projects from user's profile.
+     * Show listing of the drafted projects from author's profile.
      *
+     * @param string $user | username of the user
      * @return \Illuminate\Http\Response
      */
-    public function listDraftedProjectFromProfile()
+    public function listDraftedProjectFromProfile($user)
     {
         //je récupère l'utilisateur connecté
-        $user = auth()->user();
+        $user = User::where('username', $user)->firstOrFail();
 
         //je recupère les projets de l'utilisateur connecté
         $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
