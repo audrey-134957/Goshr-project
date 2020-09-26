@@ -467,7 +467,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          * @description Show the admin edition form
          */
 
-        Route::get('/mon-compte/', [AdminController::class, 'edit'])->name('edit');
+        Route::get('/mon-compte/{token}', [AdminController::class, 'edit'])->name('edit');
 
         /**
          * @description Update the admin in database

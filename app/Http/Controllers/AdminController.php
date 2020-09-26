@@ -42,7 +42,7 @@ class AdminController extends Controller
      */
     public function update(EditAdmin $request, $adminId, $token)
     {
-        $token = auth()->user()->token;
+        $token = auth()->user()->token_account;
         // si un fichier image est contenu dans le champs image
         if ($request->avatar) {
             // je stocke l'identifiant de l'utilisateur dans la variable

@@ -108,6 +108,7 @@ class ValidationController extends Controller
             // il sera redirigé vers la page admin
             return redirect()->route('admin.edit', [
                 'adminId' => auth()->user()->id,
+                'token' => auth()->user()->token_account
             ])->with('status', 'Votre compte a bien été validé. ');
         }
     }

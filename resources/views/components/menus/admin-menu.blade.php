@@ -10,7 +10,7 @@
         <ul class="admin-menu__list-items">
             <!-- * Mon compte * -->
             <li class="admin-menu__item admin-menu__item--category">
-                <a href="{{route('admin.edit', ['adminId' => auth()->user()->id])}}" class="admin-menu__link">
+                <a href="{{route('admin.edit', ['adminId' => auth()->user()->id, 'token' => auth()->user()->token_account])}}" class="admin-menu__link">
                     <i class="admin-menu__icon fa fa-cogs" aria-hidden="true"></i>
                     <span class="admin-menu__link-name">Mon compte</span>
                 </a>
