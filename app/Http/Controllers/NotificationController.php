@@ -25,16 +25,18 @@ class NotificationController extends Controller
      */
     public function showCommentFromNotification($project, DatabaseNotification $notification)
     {
-
+        //je récupère l'identifiant du commentaire qui est mentionné dans la notification
         $commentId = $notification['data']['commentId'];
+        //je retrouve le commentaire
         $commentFounded = Comment::find($commentId);
-        
+        //je récupère l'identifiant du commentaire-réponse qui est mentionné dans la notification
         $commentReplyId = $notification['data']['commentReplyId'];
+        //si le topic ou le commentaire-réponse n'est pas retrouvé
         $commentReplyFounded = Comment::find($commentReplyId);
-
-        if ($commentFounded == NULL || $commentReplyFounded) {
+        //si le commentaire ou le commentaire réponse ne sont pas trouvé
+        if ($commentFounded == NULL || $commentReplyFounded == NULL) {
+            //je supprime la notification
             $notification->delete();
-
             return back();
         }
 
@@ -78,15 +80,18 @@ class NotificationController extends Controller
     public function showTopicFromNotification($project, DatabaseNotification $notification)
     {
 
+        //je récupère l'identifiant du topic qui est mentionné dans la notification
         $topicId = $notification['data']['topicId'];
+        //je retrouve le topic
         $topicFounded = Topic::find($topicId);
-
+        //je récupère l'identifiant du topic-réponse qui est mentionné dans la notification
         $topicReplyId = $notification['data']['topicReplyId'];
+        //je retrouve le topic-réponse
         $topicReplyFounded = Topic::find($topicReplyId);
-
-        if ($topicFounded == NULL || $topicReplyFounded) {
+        //si le topic ou le topic-réponse n'est pas retrouvé
+        if ($topicFounded == NULL || $topicReplyFounded == NULL) {
+            //je supprime la notification
             $notification->delete();
-
             return back();
         }
 
