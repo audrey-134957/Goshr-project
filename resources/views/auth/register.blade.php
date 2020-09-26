@@ -28,7 +28,7 @@
             <div class="auth-box__field field">
                 <label class="auth-box__label label">Email</label>
                 <div class="control">
-                    <input class="auth-box__input input @error('email') is-danger @enderror is-rounded" type="email" name="password">
+                    <input class="auth-box__input input @error('email') is-danger @enderror is-rounded" type="email" name="email">
                 </div>
                 @error('email')
                 <p class="help is-danger">{{ $message }}</p>

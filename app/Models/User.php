@@ -89,15 +89,9 @@ class User extends Model implements Authenticatable
             $user->user_identifier = $identifier;
         });
 
-        static::saving(function ($user){
-
-            $nameSlug = Str::slug($user->name);
-            $firstnameSlug = Str::slug($user->firstname);
-
-            $user->name_slug =  $nameSlug;
-            $user->firstname_slug = $firstnameSlug;
-
+        static::created(function ($user){
             if($user->role_id === NULL){
+                
                 $profile = new Profile();
                 $profile->user_id = $user->id;
                 $profile->save();
@@ -105,7 +99,7 @@ class User extends Model implements Authenticatable
         });
 
         //chose à faire automatiquement après la suppression de l'utilisateur
-        self::deleted(function ($user) {
+        static::deleted(function ($user) {
 
             //je stoke le pseudonyme de l'utilisateur dans une variable
             $userFolder = $user->username;

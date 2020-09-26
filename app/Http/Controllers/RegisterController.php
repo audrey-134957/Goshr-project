@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ban;
 use App\Http\Requests\StoreRegister;
+use App\Models\Profile;
 use App\Models\User;
 use App\Notifications\SendValidationMailToUser;
 

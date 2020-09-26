@@ -86,15 +86,10 @@ class ProfileController extends Controller
      */
     public function update(EditProfile $request, $user)
     {
-        $user = User::where('username', $user)->firstOrFail();
-        $profile = $user->profile;
-
-        dd($profile);
         //je retrouve l'utilisateur connecté
         $user = auth()->user();
-
         //j'autorise égalelent le détenteur du profil à le modifier.
-        $this->authorize('update', $user->profile);
+       $this->authorize('update', $user->profile);
 
         // si un fichier image est contenu dans le champs image
         if ($request->avatar) {
@@ -143,31 +138,6 @@ class ProfileController extends Controller
                 return redirect()->route('profiles.edit', ['user' => $user, 'token' => $user->token_account])->with('error', 'Il y a eu une erreur lors du changement du mot de passe.');
             }
         }
-
-        // if ($user->email !== $request->email) {
-        //     $user->update(['email' => $request->email]);
-        //     //je redirige l'utilisateur sur son compte en lui signalant que son mail a été modifié
-        //     return redirect()->route('profiles.edit', ['user' => $user, 'token' => $user->token_account])->with('status', "L'email a bien été modifié.");
-        // }
-
-        // if ($user->firstname !== $request->firstname) {
-
-        //     $user->update([
-        //         'firstname' => $request->firstname
-        //     ]);
-        // }
-
-        // if ($user->name !== $request->name) {
-        //     $user->update([
-        //         'name' => $request->name
-        //     ]);
-        // }
-
-        // if ($user->profile->biography !== $request->biography) {
-        //     $user->profile->update([
-        //         'biography' => purifier($request->biography),
-        //     ]);
-        // }
 
            // je modifie mon utilisateur
            $user->email = $request->email;
