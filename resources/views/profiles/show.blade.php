@@ -4,10 +4,6 @@
 <!-- * Contenu * -->
 
 @section('layout-content')
-
-je suis sur le la route
-
-{{dump(Route::currentRouteAction())}}
 <header class="profile-header box">
 
     <div class="profile-header__presentation">

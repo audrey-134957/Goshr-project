@@ -19,7 +19,7 @@
                     <li class="menu__item"><a href="{{route('projects.index')}}" class="menu__link {{request()->route()->named('projets.*') ? 'menu__link--is-active' : '' }} menu__link--hide">Projets</a></li>
                     <li class="menu__item"><a href="{{route('projects.create')}}" class="menu__link {{request()->route()->named('projets.create') ? 'menu__link--is-active' : '' }}">Poster un projet</a></li>
                     <hr>
-                    <li class="menu__item"><a href="{{route('profiles.indexPublishedProjects', ['user' => auth()->user()->username])}}" class="menu__link {{request()->route()->named('profiles.indexPublishedProjects') ? 'menu__link--is-active' : '' }}">Mon profil</a></li>
+                    <li class="menu__item"><a href="{{route('profiles.indexPublishedProjects', ['user' => auth()->user()->username])}}" class="menu__link {{request()->route()->named('profiles.indexPublishedProjects') && strpos(request()->url(), auth()->user()->username) ? 'menu__link--is-active' : '' }}">Mon profil</a></li>
                     <li class="menu__item"><a href="{{route('logout.create')}}" class="menu__link">Déconnexion</a></li>
                 </ul>
             </nav>
