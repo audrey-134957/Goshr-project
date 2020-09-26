@@ -17,8 +17,6 @@ use App\Models\UnityOfMeasurement;
 
 use App\Traits\ProjectTrait;
 use App\Traits\MaterialTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 class ProjectController extends Controller
 {
@@ -464,21 +462,13 @@ class ProjectController extends Controller
         //je supprime le projet
 
         $project->delete();
-        //je redirige l'utililsateur vers la page de ses projets
+        //je redirige l'utililsateur vers la page précédent son action de suppression
         if(strpos(url()->previous(), 'mes-projets') || strpos(url()->previous(), 'mes-brouillons')){
             return redirect()->back()->with('status', 'Ton projet a bien été supprimé.');
         }
+
         return redirect()->route('projects.index')->with('status', 'Ton projet a bien été supprimé.');
     }
-
-
-
-
-
-
-
-
-
 
     /* User Profile */
 
@@ -529,16 +519,6 @@ class ProjectController extends Controller
             'projects'      => $projects,
         ]);
     }
-
-
-
-
-
-
-
-
-
-
 
 
     /*********** Super Admin ***********/
