@@ -22154,7 +22154,7 @@ qaTextzone.toggleReplyTextzone();
 
 /* WEBPACK VAR INJECTION */(function($) {var categoryForm = {
   toggle: function toggle() {
-    var editBtn = $('.btn-edit-cat');
+    var editBtn = $('.category-card__edit-button');
     var edit = $('.form--edit').closest(editBtn);
     editBtn.on('click', function () {
       // alert('ok');

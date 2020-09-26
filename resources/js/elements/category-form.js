@@ -1,7 +1,7 @@
 var categoryForm = {
 
     toggle: function () {
-        var editBtn = $('.btn-edit-cat');
+        var editBtn = $('.category-card__edit-button');
 
         var edit = $('.form--edit').closest(editBtn);
 

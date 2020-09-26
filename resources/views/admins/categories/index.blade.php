@@ -24,14 +24,14 @@
 </div>
 
 @foreach($categories as $category)
-<div class="category-card">
+<div class="category-card card">
     <div class="category-card__content">
         <span>{{$category->name}}</span>
         <div>
-            <button class="btn-edit-cat button is-rounded" type="button">
+            <button class="category-card__edit-button button is-rounded" type="button">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
             </button>
-            <button class="modal-button button is-rounded" type="button">
+            <button class="category-card__delete-button modal-button button is-rounded" type="button">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
             </button>
             @include('admins.partials.modals.deletion.category.admin-modal')
@@ -45,7 +45,7 @@
                 <input class="section__input input is-rounded" type="text" name="edit_category_name" placeholder="nom de la catégorie" value="{{$category->name}}">
             </div>
         </div>
-        <button class="category-card__edit-button button is-rounded" type="submit">
+        <button class="category-card__sd-edit-button button is-rounded" type="submit">
             modifier
         </button>
     </form>

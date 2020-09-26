@@ -35,8 +35,16 @@
         justify-content: space-between;
     }
 
-    .btn-edit-cat {
-        margin-right: 0.5rem;
+    &__delete-button,
+    &__sd-edit-button{
+        margin-left: 0.5rem;
+    }
+
+    &__edit-button,
+    &__delete-button {
+        padding: 0;
+        width: 40px;
+        height: 40px;
     }
 
     &__input-box.field {

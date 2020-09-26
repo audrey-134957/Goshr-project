@@ -17291,8 +17291,16 @@ input[type=radio],
   justify-content: space-between;
 }
 
-.category-card .btn-edit-cat {
-  margin-right: 0.5rem;
+.category-card__delete-button,
+.category-card__sd-edit-button {
+  margin-left: 0.5rem;
+}
+
+.category-card__edit-button,
+.category-card__delete-button {
+  padding: 0;
+  width: 40px;
+  height: 40px;
 }
 
 .category-card__input-box.field {
