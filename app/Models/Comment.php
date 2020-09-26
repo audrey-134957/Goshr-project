@@ -14,21 +14,6 @@ class Comment extends Model
         'comments'
     ];
 
-
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     self::creating(function ($comment) {
-    //         $comment->user_id = auth()->user()->id;
-    //     });
-
-    //     self::saving(function ($comment) {
-    //         $comment->user_id = auth()->user()->id;
-    //     });
-    // }
-
-
     // un commentaire appartient à un utilisateur
     public function user()
     {

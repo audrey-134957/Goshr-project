@@ -92,24 +92,32 @@ class NotificationController extends Controller
     public function showTopicFromNotification($project, DatabaseNotification $notification)
     {
 
+
+        //avant de stoker l'id de mon eventuel commentaire-réponse, il faut que je vérifie s'il existe dans le tableau donnée.
+        if (array_key_exists('topicReplyId', $notification['data'])) {
+            //je récupère l'identifiant du commentaire-réponse qui est mentionné dans la notification
+            $topicReplyId = $notification['data']['topicReplyId'];
+            //si le topic ou le commentaire-réponse n'est pas retrouvé
+            $topicReplyFounded = Comment::find($topicReplyId);
+
+            if ($topicReplyFounded == NULL) {
+                //je supprime la notification
+                $notification->delete();
+                return back();
+            }
+        }
         //je récupère l'identifiant du topic qui est mentionné dans la notification
         $topicId = $notification['data']['topicId'];
         //je retrouve le topic
         $topicFounded = Topic::find($topicId);
-        //je récupère l'identifiant du topic-réponse qui est mentionné dans la notification
-        $topicReplyId = $notification['data']['topicReplyId'];
-        //je retrouve le topic-réponse
-        $topicReplyFounded = Topic::find($topicReplyId);
-        //si le topic ou le topic-réponse n'est pas retrouvé
-        if ($topicFounded == NULL || $topicReplyFounded == NULL) {
+
+        //si le topic n'est pas retrouvé
+        if ($topicFounded == NULL) {
             //je supprime la notification
             $notification->delete();
             return back();
         }
 
-        $topicProject = $topicFounded->project;
-
-        dd($topicProject);
 
         // je récupère le projet
         $project = Project::with('materials')->where('status_id', 2)->findOrFail($project);
