@@ -28,10 +28,16 @@
         text-align: center;
     }
 
+    &__username,
+    &__complete-name,
+    &__user-email{
+        word-break: break-all;
+    }
+    
     &__complete-name-box {
         text-align: center;
     }
-    &__complete-name {
+    &__user-complete-name {
         font-size: 20px;
         font-weight: 700;
     }

@@ -17,7 +17,7 @@ class checkGuestOrMember
     {
         $user = $request->user();
 
-        if (!auth()->check() || $user && $user->role === NULL) {
+        if (!auth()->check() || $user && $user->role_id === NULL) {
             return $next($request);
         }
         return redirect()->back(); 

@@ -16264,11 +16264,17 @@ input[type=radio],
   text-align: center;
 }
 
+.user-card__username,
+.user-card__complete-name,
+.user-card__user-email {
+  word-break: break-all;
+}
+
 .user-card__complete-name-box {
   text-align: center;
 }
 
-.user-card__complete-name {
+.user-card__user-complete-name {
   font-size: 20px;
   font-weight: 700;
 }

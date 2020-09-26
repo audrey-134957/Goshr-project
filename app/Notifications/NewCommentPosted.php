@@ -59,7 +59,7 @@ class NewCommentPosted extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Un commentaire a été laissée sur ton projet.')
+            ->subject('Un commentaire a été laissé sur ton projet.')
             ->markdown('mails.new-comment-posted', ['user' => $notifiable, 'project' => $this->project, 'comment' => $this->comment]);
     }
 

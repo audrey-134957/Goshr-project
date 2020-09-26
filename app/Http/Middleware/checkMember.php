@@ -15,9 +15,8 @@ class checkMember
      */
     public function handle($request, Closure $next)
     {
-        $user = $request->user();
 
-        if ($user && $user->role === NULL) {
+        if (auth()->check() && auth()->user()->role_id === NULL) {
             return $next($request);
         }
         

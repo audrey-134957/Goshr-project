@@ -205,6 +205,7 @@ Route::middleware(['member'])->group(function () {
          */
         Route::delete('/projets/{project}/{slug}', [ProjectController::class, 'destroy'])->name('delete');
 
+        
         /*********** Projets brouillons ***********/
 
         /**

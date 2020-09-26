@@ -31,7 +31,7 @@
 
                 @if($user->name && $user->firstname !== NULL)
                 <div class="user-card__complete-name-box">
-                    <span class="user-card__complete-name">{{$user->getUserCompleteName()}}</span>
+                    <span class="user-card__user-complete-name">{{$user->getUserCompleteName()}}</span>
                 </div>
                 @endif
 
@@ -41,8 +41,8 @@
                 </div>
 
                 <div class="user-card__email-box user-card__info">
-                    <span class="user-card__title title">email</span>
-                    <span>{{$user->email}}</span>
+                    <span class="user-card__title user-card__title title">email</span>
+                    <span class="user-card__user-email">{{$user->email}}</span>
                 </div>
 
                 <div class="user-card__existance-box user-card__info">

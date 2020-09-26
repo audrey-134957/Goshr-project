@@ -17,7 +17,7 @@ class checkMemberOrAdmin
     {
         $user = $request->user();
 
-        if ($user && $user->role === NULL || $user && $user->role !== NULL) {
+        if (auth()->check() && auth()->user()->role_id === NULL || $user && $user->role_id !== NULL) {
             return $next($request);
         }
 
