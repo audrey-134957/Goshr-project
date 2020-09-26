@@ -134,11 +134,15 @@ class CategoryController extends Controller
 
         // si cette catégory contenait des projets
         if ($category->projects()->count() > 0) {
-
             //pour chaque projet
-            foreach ($category->projects() as $project) {
+
+            $projects = $category->projects()->get();
+            foreach ($projects as $project) {
+
+                // dd($category->projects()->get());
                 //je vais modifié le status pour qu'il soit en brouillon
                 $project->status_id = 1;
+                $project->category_id = NULL;
                 $project->save();
             }
         }
