@@ -97,7 +97,7 @@
 
     @include('layouts.comments-section')
 
-    @unless($projects)
+    @unless($projects->count() === 0)
     <div class="suggestion-projects-list projects-list" id="suggestion">
         <h2 class="projects-list__title title">Suggestion de projets</h2>
 
