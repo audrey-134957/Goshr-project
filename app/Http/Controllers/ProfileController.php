@@ -22,34 +22,6 @@ class ProfileController extends Controller
 {
 
     /**
-     * Show the profile.
-     *
-     * @param string $user | username of the user
-     * @return \Illuminate\Http\Response
-     */
-    // public function show($user)
-    // {
-
-    //     $user = User::where('username', $user)->firstOrFail();
-
-    //     $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
-    //         ->where('status_id', 2)
-    //         ->orderBy('created_at', 'DESC')
-    //         ->get();
-
-    //     //je récupère la date de création de l'utilisateur que je transforme en locale FR
-    //     $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
-    //     //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
-    //     $transformUserCreationDate = $userCreationDate->isoFormat('LL');
-
-    //     return view('profiles.show', [
-    //         'user'                      => $user,
-    //         'projects'                  => $projects,
-    //         'transformUserCreationDate' => $transformUserCreationDate,
-    //     ]);
-    // }
-
-    /**
      * Show the profile edition form.
      *
      * @param string $user | username of the user
