@@ -29,24 +29,17 @@ class ProfileController extends Controller
      */
     public function edit($user)
     {
-        dd('edit');
         //je retrouve l'utilisateur connecté
         // $user = User::where('username', $user)->firstOrFail();
         $user =  auth()->user();
 
         $token = $user->token_account;
         //j'utilise uniquement le propriétaire du profil à modifier son compte
-        // $this->authorize('update', $user->profile);
-
-        //je récupère la date de création de l'utilisateur que je transforme en locale FR
-        $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
-        //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
-        $transformUserCreationDate = $userCreationDate->isoFormat('LL');
+        $this->authorize('update', $user->profile);
 
         return view('profiles.edit', [
             'user'                      => $user,
             'token'                     => $token,
-            'transformUserCreationDate' => $transformUserCreationDate
         ]);
     }
 
@@ -180,15 +173,10 @@ class ProfileController extends Controller
         $user = User::with('profile')->where('username', $user)->firstOrFail();
         //je récupères les status utilisateurs
         $ranks = Rank::orderBy('name', 'asc')->get();
-        //je récupère la date de création de l'utilisateur que je transforme en locale FR
-        $userCreationDate = Carbon::parse($user->created_at)->locale('fr');
-        //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
-        $transformUserCreationDate = $userCreationDate->isoFormat('LL');
 
         return view('admins.users.edit', [
             'adminId'                   => auth()->user()->id,
             'user'                      => $user,
-            'transformUserCreationDate' => $transformUserCreationDate,
             'ranks'                     => $ranks
         ]);
     }
