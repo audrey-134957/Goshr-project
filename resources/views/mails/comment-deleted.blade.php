@@ -4,7 +4,7 @@
 
 
 
-Vous avez laissé un commentaire le {{$comment->publishDate()}} pour le projet "{{$project->title}}" .
+Vous avez laissé un commentaire le {{$comment->getPublishDate()}} pour le projet "{{$project->title}}" .
 
 <div class="comment-box">
 "{{$comment->content}}"

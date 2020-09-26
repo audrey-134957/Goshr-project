@@ -49,7 +49,7 @@
 
                         <div class="topic-card__right-part">
                             <span class="topic-card__author-username">{{$topic->user->username}}</span>
-                            <time class="topic-card__publish-date">le {{$topic->publishDate()}}</time>
+                            <time class="topic-card__publish-date">le {{$topic->getPublishDate()}}</time>
 
                             <p class="topic-card__topic">{{$topic->content}}</p>
                         </div>
@@ -148,7 +148,7 @@
 
                         <div class="topic-card__right-part">
                             <span class="topic-card__author-username">{{$topicReply->user->username}}</span>
-                            <time class="topic-card__publish-date">le {{$topicReply->publishDate()}}</time>
+                            <time class="topic-card__publish-date">le {{$topicReply->getPublishDate()}}</time>
 
                             <p class="topic-card__topic">{{$topicReply->content}}</p>
                         </div>

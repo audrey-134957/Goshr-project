@@ -53,7 +53,7 @@ class Comment extends Model
         return $this->morphMany(Report::class, 'reportable');
     }
 
-    public function publishDate(){
+    public function getPublishDate(){
 
         $commentCreationDate = \Carbon\Carbon::parse($this->created_at)->locale('fr');
         $transformCommentCreationDate = $commentCreationDate->isoFormat('D MMM YYYY à HH:mm');

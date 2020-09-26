@@ -34,7 +34,7 @@
 
         <div class="comment-card__right-part">
             <span class="comment-card__author-username">{{$comment->user->username}}</span>
-            <time class="comment-card__publish-date">le {{$comment->publishDate()}}</time>
+            <time class="comment-card__publish-date">le {{$comment->getPublishDate()}}</time>
 
             <p class="comment-card__comment">{{$comment->content}}</p>
         </div>

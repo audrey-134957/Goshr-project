@@ -51,7 +51,7 @@ class Topic extends Model
         return $this->morphMany(Report::class, 'reportable');
     }
 
-    public function publishDate(){
+    public function getPublishDate(){
 
         
         $topicCreationDate = \Carbon\Carbon::parse($this->created_at)->locale('fr');

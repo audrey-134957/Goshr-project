@@ -4,7 +4,7 @@
 
 
 
-Vous avez laissé un topic le {{$topic->publishDate()}} pour le projet "{{$project->title}}" .
+Vous avez laissé un topic le {{$topic->getPublishDate()}} pour le projet "{{$project->title}}" .
 
 <div class="topic-box">
 "{{$topic->content}}"
