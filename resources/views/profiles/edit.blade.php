@@ -51,7 +51,7 @@
             <div class="user-profile-edition__field box__bio field">
                 <label class="label">Biographie</label>
                 <div class="control">
-                    <textarea class="user-profile-edition__textarea textarea @error('biography') is-danger @enderror" rows="8" name="biography">@if(!empty($user->profile->biography)){!! nl2br(e($user->profile->biography)) !!}@endif</textarea>
+                    <textarea class="user-profile-edition__textarea textarea @error('biography') is-danger @enderror" rows="8" name="biography" value="{{old('biography')}}">@if(!empty($user->profile->biography)){!! nl2br(e($user->profile->biography)) !!}@endif</textarea>
                 </div>
                 @error('biography')
                 <p class="help is-danger">{{ $message }}</p>
@@ -73,7 +73,7 @@
                     <div class="user-profile-edition__field user-profile-edition__name-field field">
                         <label class="user-profile-edition__label user-profile-edition__label--name label">Nom</label>
                         <div class="control">
-                            <input class="@error('name') is-danger @enderror is-rounded input" type="text" name="name" value="{{$user->name}}">
+                            <input class="@error('name') is-danger @enderror is-rounded input" type="text" name="name" value="{{$user->name ?? old('name')}}">
                         </div>
                         @error('name')
                         <p class="help is-danger">{{ $message }}</p>
@@ -83,7 +83,7 @@
                     <div class="user-profile-edition__field user-profile-edition__firstname-field field">
                         <label class="user-profile-edition__label user-profile-edition__label--firstname label">Prénom</label>
                         <div class="control">
-                            <input class="@error('firstname') is-danger @enderror is-rounded input" type="text" name="firstname" value="{{$user->firstname}}">
+                            <input class="@error('firstname') is-danger @enderror is-rounded input" type="text" name="firstname" value="{{$user->firstname ?? old('firstname')}}">
                         </div>
                         @error('firstname')
                         <p class="help is-danger">{{ $message }}</p>

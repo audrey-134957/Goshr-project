@@ -86,6 +86,10 @@ class ProfileController extends Controller
      */
     public function update(EditProfile $request, $user)
     {
+        $user = User::where('username', $user)->firstOrFail();
+        $profile = $user->profile;
+
+        dd($profile);
         //je retrouve l'utilisateur connecté
         $user = auth()->user();
 
