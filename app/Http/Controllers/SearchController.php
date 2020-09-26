@@ -40,8 +40,15 @@ class SearchController extends Controller
             ->get();
 
 
-        return view('admins.searchs.projects-search', [
-            'projects' => $projects
+        if ($projects->count() <= 1) {
+            $resultsText = 'résultat';
+        } else {
+            $resultsText = 'résultats';
+        }
+
+        return view('searchs.projects.projects-search', [
+            'projects' => $projects,
+            'resultsText' => $resultsText
         ]);
     }
 

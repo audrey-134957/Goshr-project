@@ -26,9 +26,9 @@
     </div>
 
     <!--seule le propriétaire du profil pourra voir un bouton de modification de profil-->
-
+    @can('update', $user->profile)
     <a href="{{route('profiles.edit', ['user' => $user->username, 'token' => $user->token_account])}}" class="profile-header__button profile-header__button--edit button is-rounded">modifier</a>
-
+    @endcan
 </header>
 <nav class="profile-navbar">
     <ul class="profile-navbar__list-items">
