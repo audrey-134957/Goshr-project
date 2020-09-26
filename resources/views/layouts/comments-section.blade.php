@@ -1,5 +1,5 @@
 <aside class="comments-section box" id="commentaires">
-    <h2 class="comments-section__title title">{{$project->comments->count() . ' ' . $commentTitleBox}}</h2>
+    <h2 class="comments-section__title title">{{$project->comments->count() . ' ' . $project->getCommentsBoxTitle()}}</h2>
     <hr>
     <div class="comments-section__box-content">
         <!-- ------------------- PREMIER CHAMPS DE CREATION DU COMMENTAIRE ---------------------- -->

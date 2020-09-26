@@ -25,16 +25,28 @@ class NotificationController extends Controller
      */
     public function showCommentFromNotification($project, DatabaseNotification $notification)
     {
+
+        //avant de stoker l'id de mon eventuel commentaire-réponse, il faut que je vérifie s'il existe dans le tableau donnée.
+        if (array_key_exists('commentReplyId', $notification['data'])) {
+            //je récupère l'identifiant du commentaire-réponse qui est mentionné dans la notification
+            $commentReplyId = $notification['data']['commentReplyId'];
+            //si le topic ou le commentaire-réponse n'est pas retrouvé
+            $commentReplyFounded = Comment::find($commentReplyId);
+
+            if ($commentReplyFounded == NULL) {
+                //je supprime la notification
+                $notification->delete();
+                return back();
+            }
+        }
+
         //je récupère l'identifiant du commentaire qui est mentionné dans la notification
         $commentId = $notification['data']['commentId'];
         //je retrouve le commentaire
         $commentFounded = Comment::find($commentId);
-        //je récupère l'identifiant du commentaire-réponse qui est mentionné dans la notification
-        $commentReplyId = $notification['data']['commentReplyId'];
-        //si le topic ou le commentaire-réponse n'est pas retrouvé
-        $commentReplyFounded = Comment::find($commentReplyId);
+
         //si le commentaire ou le commentaire réponse ne sont pas trouvé
-        if ($commentFounded == NULL || $commentReplyFounded == NULL) {
+        if ($commentFounded == NULL) {
             //je supprime la notification
             $notification->delete();
             return back();
@@ -94,6 +106,10 @@ class NotificationController extends Controller
             $notification->delete();
             return back();
         }
+
+        $topicProject = $topicFounded->project;
+
+        dd($topicProject);
 
         // je récupère le projet
         $project = Project::with('materials')->where('status_id', 2)->findOrFail($project);

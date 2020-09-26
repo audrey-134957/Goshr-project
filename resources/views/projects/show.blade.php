@@ -60,7 +60,7 @@
 
             <span class="project-article__difficulty-level project-article__difficulty-level--{{$project->difficulty_level->en_name}}">{{$project->difficulty_level->name}}</span>
 
-            <span class="project-article__duration"><i class="project-article__icon project-article__icon--clock fa fa-clock-o" aria-hidden="true"></i>{{$project->duration()}}</span>
+            <span class="project-article__duration"><i class="project-article__icon project-article__icon--clock fa fa-clock-o" aria-hidden="true"></i>{{$project->getDuration()}}</span>
 
             <span class="project-article__materials"><i class="project-article__icon project-article__icon--material fa fa-shopping-basket" aria-hidden="true"></i>{{$project->materials->count(). ' mat.'}}</span>
         </div>
@@ -128,7 +128,7 @@
 
                         <div class="project-card__duration-box">
                             <i class="project-card__icon project-card__icon--clock fa fa-clock-o" aria-hidden="true"></i>
-                            {{$project->duration()}}
+                            {{$project->getDuration()}}
                         </div>
 
                         <div class="project-card__budget-box">

@@ -63,7 +63,7 @@
 
                             <div class="project-card__duration-box">
                                 <i class="project-card__icon project-card__icon--clock fa fa-clock-o" aria-hidden="true"></i>
-                                {{$project->duration()}}
+                                {{$project->getDuration()}}
                             </div>
 
                             <div class="project-card__budget-box">

@@ -1,5 +1,5 @@
 <aside class="topics-section section--Q-A box" id="q-a">
-    <h1 class="topics-section__title title">{{$project->topics->count() . ' ' . $topicTitleBox}}</h1>
+    <h1 class="topics-section__title title">{{$project->topics->count() . ' ' . $project->getTopicsBoxTitle()}}</h1>
         <hr>
         <div class="topics-section__box-content">
 

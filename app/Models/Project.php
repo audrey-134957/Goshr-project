@@ -44,7 +44,7 @@ class Project extends Model
         });
 
         static::saving(function ($project) {
-        //     $project->user_id = auth()->user()->id;
+            //     $project->user_id = auth()->user()->id;
             $project->slug = Str::slug($project->title);
         });
 
@@ -186,12 +186,39 @@ class Project extends Model
 
     /* Durée du projet */
 
-    public function duration(){
+    public function getDuration()
+    {
         $duration_number = $this->duration;
         $unity = $this->unity_of_measurement->name;
-        $duration = $duration_number.' '.$unity;
+        $duration = $duration_number . ' ' . $unity;
 
         return $duration;
     }
 
+    /* commentaires du projet */
+
+    public function getCommentsBoxTitle()
+    {
+
+        if ($this->comments()->count() <= 1) {
+            $commentBoxTitle = 'commentaire';
+        } else {
+            $commentBoxTitle = 'commentaires';
+        }
+
+        return $commentBoxTitle;
+    }
+
+    /* topics du projet */
+
+    public function getTopicsBoxTitle()
+    {
+        if ($this->topics()->count() <= 1) {
+            $topicBoxTitle = 'question';
+        } else {
+            $topicBoxTitle = 'questions';
+        }
+
+        return $topicBoxTitle;
+    }
 }

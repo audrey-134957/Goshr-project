@@ -9,7 +9,7 @@ class UnityOfMeasurement extends Model
 
     protected $table = 'unities_of_measurement';
 
-    public function duration()
+    public function getDuration()
     {
         return $this->belongsToMany(Duration::class);
     }

@@ -204,19 +204,6 @@ class ProjectController extends Controller
             ->where('fictionnal_deletion', 0)
             ->findOrFail($project);
 
-        //si le projet est de niveau moyen
-        if ($project->comments->count() <= 1) {
-            $commentTitleBox = 'commentaire';
-        } else {
-            $commentTitleBox = 'commentaires';
-        }
-
-        if ($project->topics->count() <= 1) {
-            $topicTitleBox = 'question';
-        } else {
-            $topicTitleBox = 'questions';
-        }
-
 
         //je récupère le slug du projet que je stocke en variable
         $slug = $project->slug;
@@ -258,9 +245,7 @@ class ProjectController extends Controller
                 'topics' => $topics,
                 'slug' => $slug,
                 'token' => $token,
-                'motives' => $motives,
-                'commentTitleBox' => $commentTitleBox,
-                'topicTitleBox' => $topicTitleBox
+                'motives' => $motives
             ]
         );
     }
