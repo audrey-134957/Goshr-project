@@ -22,7 +22,6 @@
             <!-- * Footer * -->
             <footer class="modal-card-foot">
                 <form action="{{route('admin.storeBan', ['adminId' => auth()->user()->id, 'user' => $adminUser->id])}}" method="POST">
-                    @method('DELETE')
                     @csrf
                     <button type="submit" class="modal-submit-button button is-rounded is-success">Confirmer</button>
                     <button type="button" class="modal-close-button button is-rounded">Annuler</button>

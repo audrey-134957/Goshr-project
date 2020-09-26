@@ -441,7 +441,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
         Route::get('/utilisateurs/recherche', [SearchController::class, 'searchUsers'])->name('search');
 
 
-        /*********** Ban dze l'utilisateur ***********/
+        /*********** Ban de l'utilisateur ***********/
 
         /**
          * @description Show the listing of bans

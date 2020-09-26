@@ -59,10 +59,10 @@
                 <a href="{{route('admin.editUser', ['adminId' => auth()->user()->id, 'user' => $user->username])}}" class="user-card__button user-card__button--edit button is-rounded is-info is-outlined"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
                 <button class="user-card__button user-card__button--delete modal-button button is-rounded is-link is-outlined" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                @include('partials.modals.deletion.users.admin-modal')
+                @include('admins.partials.modals.deletion.users.admin-modal')
 
                 <button class="user-card__button user-card__button--delete modal-button button is-danger is-rounded is-outlined" type="button"><i class="fa fa-ban" aria-hidden="true"></i></button>
-                @include('partials.modals.bans.users.admin-modal')
+                @include('admins.partials.modals.bans.users.admin-modal')
             </div>
         </div>
         @endforeach

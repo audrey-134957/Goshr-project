@@ -124,7 +124,7 @@ class SearchController extends Controller
             $text = 'projet';
         }
 
-        return view('searchs.projects.admin-projects-search', [
+        return view('admins.searchs.projects-search', [
             'projects' => $projects,
             'text'     => $text
         ]);

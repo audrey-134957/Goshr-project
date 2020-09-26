@@ -42,9 +42,10 @@ class BanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store($adminId, $user)
-    {   
+    {
+        // dd($user);
         //je récupère l'utilisateur
-        $user = User::where('username', $user)->where('role_id', NULL)->firstOrFail();
+        $user = User::findOrFail($user);
 
         /* Create new ban */
         $ban = new Ban();
@@ -55,7 +56,14 @@ class BanController extends Controller
         // si le bannissement est sauvé
         if (!$ban->save()) {
             //si le bannissement n'est pas sauvé, l'admin est redirigé avec une erreur.
-            return redirect()->route('admin.adminEditUser', [
+
+            if (strpos(url()->previous(), 'administrateurs')) {
+                return redirect()->route('admin.indexAdmins', [
+                    'adminId' => auth()->user()->id
+                ])->with('error', "Une erreur s'est produite lors de du bannissement de l'utilisateur.");
+            }
+
+            return redirect()->route('admin.indexUsers', [
                 'adminId' => auth()->user()->id
             ])->with('error', "Une erreur s'est produite lors de du bannissement de l'utilisateur.");
         }
@@ -68,10 +76,17 @@ class BanController extends Controller
             $user->delete();
         }
 
+        if (strpos(url()->previous(), 'administrateurs')) {
+            // l'admin est redirigé vers la page des utilisateurs
+            return redirect()->route('admin.indexAdmins', [
+                'adminId' => auth()->user()->id
+            ])->with('status', 'Le compte administrateur a bien été banni.');
+        }
+
         // l'admin est redirigé vers la page des utilisateurs
-        return redirect()->route('admin.indexUsers', [
+        return redirect()->route('admin.indexAdmins', [
             'adminId' => auth()->user()->id
-        ])->with('status', 'Le compte a bien été banni.');
+        ])->with('status', 'Le compte utilisateur a bien été banni.');
     }
 
     /**
