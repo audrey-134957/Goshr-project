@@ -18,6 +18,7 @@ use App\Models\UnityOfMeasurement;
 use App\Traits\ProjectTrait;
 use App\Traits\MaterialTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 class ProjectController extends Controller
 {
@@ -461,8 +462,12 @@ class ProjectController extends Controller
         //seule l'auteur du projet peut supprimer ce projet
         $this->authorize('destroy', $project);
         //je supprime le projet
+
         $project->delete();
         //je redirige l'utililsateur vers la page de ses projets
+        if(strpos(url()->previous(), 'mes-projets') || strpos(url()->previous(), 'mes-brouillons')){
+            return redirect()->back()->with('status', 'Ton projet a bien été supprimé.');
+        }
         return redirect()->route('projects.index')->with('status', 'Ton projet a bien été supprimé.');
     }
 

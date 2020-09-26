@@ -28,7 +28,7 @@
     <!--seule le propriétaire du profil pourra voir un bouton de modification de profil-->
 
     <a href="{{route('profiles.edit', ['user' => $user->username, 'token' => $user->token_account])}}" class="profile-header__button profile-header__button--edit button is-rounded">modifier</a>
-  
+
 </header>
 <nav class="profile-navbar">
     <ul class="profile-navbar__list-items">
@@ -61,7 +61,14 @@
         <div class="project-card__action-buttons-box">
             @auth
             @canany(['update', 'delete'], $project)
-            <a href="{{route('projects.edit', [$project, 'slug'=> $project->slug, 'token' => $project->user->bank_of_token->token_project])}}" class="project-card__edit-button button is-rounded is-warning is-outlined"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+            @php
+            if(request()->route()->named('profiles.indexDraftedProjects')){
+            $routeLink = route('projects.draft', [$project, 'slug' => $project->slug, 'token' => $user->bank_of_token->token_project_draft]);
+            }else{
+            $routeLink = route('projects.edit', [$project, 'slug'=> $project->slug, 'token' => $project->user->bank_of_token->token_project]);
+            }
+            @endphp
+            <a href="{{$routeLink}}" class="project-card__edit-button button is-rounded is-warning is-outlined"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
             <button class="project-card__delete-button button is-rounded is-danger is-outlined modal-button" type="button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
             @include('partials.modals.deletion.project.modal')
