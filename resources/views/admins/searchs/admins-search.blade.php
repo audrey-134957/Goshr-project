@@ -1,13 +1,13 @@
 @extends('partials.admin-base-layout')
 
-@section('admin-title', 'utilisateurs')
+@section('admin-title', 'administrateurs')
 
-@section('admin-header-subtitle', 'utilisateurs')
+@section('admin-header-subtitle', 'administrateurs')
 
 @section('layout-content')
 <div class="search-box">
 
-    <form action="{{route('admin.search', ['adminId' => auth()->user()->id])}}" method="GET" class="search-box__form">
+    <form action="{{route('searchAdmins', ['adminId' => auth()->user()->id])}}" method="GET" class="search-box__form">
         <input type="text" class="search-box__search-input input is-rounded" name="q" placeholder="Rechercher..." value="{{request()->q ?? ''}}">
         <button class="search-box__button search-box__button--submit button is-rounded">
             <i class="fa fa-search" aria-hidden="true"></i>

@@ -538,7 +538,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
         Route::delete('projets/{project}/{slug}/commentaires/commentaire-{comment}', [CommentController::class, 'adminDeleteComment'])->name('deleteComment');
 
 
-        //-----------------------------------------GESTION DES SIGNALEMENTS------------------------------//
+        /*********** Signalements ***********/
 
         /**
          * @description Show listing of the reports from backend
@@ -560,8 +560,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
         Route::delete('topics/signalements/decision/signalement-{report}/topic-{topic}/',[ReportController::class, 'storeAdminDecisionForTopicReport'])->name('storeAdminDecisionForTopicReport');
 
 
-
-        //-----------------------------------------GESTION DES CATEGORIES------------------------------//
+        /*********** Catégories ***********/
 
         /**
          * @description Show listing of the categories from backend
@@ -585,9 +584,8 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          */
         Route::delete('/categories/categorie-{category}', [CategoryController::class, 'delete'])->name('deleteCategory');
 
-        //-----------------------------------------GESTION ADMINISTRATEURS -----------------------//
 
-
+        /*********** Administrateurs ***********/
 
         /**
          * @description Show listing of the admins from super admin account
@@ -603,5 +601,12 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
         Route::patch('/administrateurs/administrateur-{adminUser}/modifier-l-administrateur', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
 
         Route::delete('/administrateurs/administrateur-{adminUser}', [AdminController::class, 'destroyAdmin'])->name('deleteAdmin');
+
+         /**
+         * @description Show listing of admins from search result
+         * 
+         */
+        Route::get('/administrateurs/recherche', [SearchController::class, 'searchAdmins'])->name('searchAdmins');
+
     });
 });

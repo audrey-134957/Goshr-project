@@ -88,6 +88,37 @@ class SearchController extends Controller
         ]);
     }
 
+    public function searchAdmins(Request $request)
+    {
+        // dd('ok');
+
+        $request->validate([
+            'q' => 'nullable|string'
+        ]);
+
+        //je précise que query est la saisie entrée par l'administrateur
+        $q  = request()->q;
+        //je récupère les utilisateurs qui correpondent étant similaire à la saisie
+        $users = User::with('role')->where('role_id', NULL)
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', "%$q%")
+                    ->orWhere('firstname', 'like',  "%$q%")
+                    ->orWhere('email', 'like',  "%$q%")
+                    ->orWhere('username', 'like',  "%$q%");
+            })
+            ->orderBy('username', 'asc')
+            ->get();
+
+        if ($users->count() > 1) {
+            $name = 'administrateurs';
+        } else {
+            $name = 'administrateur';
+        }
+        return view('admins.searchs.admins-search', [
+            'users' => $users,
+            'name' => $name
+        ]);
+    }
 
     /**
      * Show the result of the users search.

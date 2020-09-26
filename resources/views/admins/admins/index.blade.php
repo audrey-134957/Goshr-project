@@ -8,7 +8,7 @@
 
 
 <div class="search-box">
-    <form action="{{route('admin.search', [ 'adminId' => auth()->user()->id])}}" method="GET" class="search-box__form">
+    <form action="{{route('admin.searchAdmins', [ 'adminId' => auth()->user()->id])}}" method="GET" class="search-box__form">
 
         <input type="search" class="search-box__search-input input is-rounded" name="q" placeholder="Rechercher...">
         <button class="search-box__button search-box__button--submit button is-rounded" type="submit">
