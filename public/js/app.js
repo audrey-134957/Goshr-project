@@ -21781,6 +21781,7 @@ external_root_jQuery_commonjs2_jquery_commonjs_jquery_amd_jquery_default.a.summe
         filePreview.css('backgroundImage', 'url("' + e.target.result + '")'); //je rajoute à la box qui contient l'image de fond une class
 
         filePreview.addClass("box__label--has-an-image");
+        alert("Size: " + sizeKB + "KB\nWidth: " + img.width + "\nHeight: " + img.height);
       }; //je compte le nb de fichiers
 
 

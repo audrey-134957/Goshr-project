@@ -20,6 +20,7 @@ class checkAdmin
         if ($user && $user->role !== NULL) {
             return $next($request);
         }
-        abort(404);
+        return redirect()->back(); 
+
     }
 }

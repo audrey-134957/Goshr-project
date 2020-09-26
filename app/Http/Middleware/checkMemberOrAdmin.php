@@ -21,6 +21,6 @@ class checkMemberOrAdmin
             return $next($request);
         }
 
-        abort(404);
+        return redirect()->back(); 
     }
 }

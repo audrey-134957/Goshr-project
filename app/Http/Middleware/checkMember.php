@@ -20,6 +20,7 @@ class checkMember
         if ($user && $user->role === NULL) {
             return $next($request);
         }
-        return back();
+        
+        return redirect()->back(); 
     }
 }

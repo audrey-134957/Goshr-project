@@ -41,7 +41,7 @@ class StoreProject extends FormRequest
             'difficulty_level'      => "$fieldValidation|exists:difficulty_levels,id",
             'material.*'            => 'distinct|nullable|string',
             'material.0'            => "$fieldValidation|string|min:3",
-            'duration'              => "$fieldValidation|integer|min:1|max:24",
+            'duration'              => "$fieldValidation|integer|min:1|max:60",
             'unity_of_measurement'  => "$fieldValidation|exists:unities_of_measurement,id",
             'budget'                => "$fieldValidation|integer|min:1|max:1000",
             'content'               => 'required|min:100'

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\PostTooLargeException;
 
 class Handler extends ExceptionHandler
 {
@@ -34,12 +35,4 @@ class Handler extends ExceptionHandler
     {
         //
     }
-
-    // public function render($request, Exception $exception)
-    // {
-    //     if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException)
-    //         return redirect()->back();
-
-    //     return parent::render($request, $exception);
-    // }
 }
