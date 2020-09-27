@@ -66,7 +66,7 @@
         </div>
 
         <div class="project-article__media media">
-            <a href="{{route('projects.show', ['project' => $project, 'slug' => $project->slug])}}">
+            <a href="{{route('profiles.indexPublishedProjects', ['user' => $project->user->username])}}">
                 <div class="project-article__media-left media-left">
                     <figure class="project-article__image image is-40x40">
                         <img class="is-rounded" src="{{$project->user->getImage($project->user)}}" alt="Placeholder image">
