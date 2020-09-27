@@ -30,7 +30,7 @@ class UserPolicy
      */
     public function create()
     {
-            return true;
+        return true;
     }
 
 
@@ -45,18 +45,5 @@ class UserPolicy
     {
         return $user->id === $project->user_id;
     }
-    
-    /**
-     * 
-     * Determine whether the user can report the topic.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Models\Topic  $topic
-     * @return mixed
-     */
-    public function doReport(User $user)
-    {
-        return $user->id !== $topic->user_id;
-    }
-}
+
 }
