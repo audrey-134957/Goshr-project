@@ -24,17 +24,6 @@ class UserPolicy
     }
 
      /**
-     * Determine whether the user can create topic.
-     *
-     * @return mixed
-     */
-    public function create()
-    {
-        return true;
-    }
-
-
-     /**
      * Determine whether the user can  destroy project.
      *
      * @param  \App\User  $user

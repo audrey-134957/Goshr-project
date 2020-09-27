@@ -28,8 +28,6 @@ class User extends Model implements Authenticatable
     protected $fillable = [
         'name',
         'firstname',
-        'name_slug',
-        'firstname_slug',
         'email',
         'username',
         'avatar',
@@ -70,22 +68,16 @@ class User extends Model implements Authenticatable
     {
         parent::boot();
 
-
         //lors de la création de l'utilisateur je vais lui assigner un token
         static::creating(function ($user) {
 
             $token = bcrypt(Str::random(60));
-
-            $nameSlug = Str::slug($user->name);
-            $firstnameSlug = Str::slug($user->firstname);
             $identifier = mt_rand(000000, 999999);
             //comme bcrypt chiffre le "Str::random", il va rajouter des caractères spéciaux à la route. On aura un problème de route.
             //Il faut donc fait appel aux str_replace pour remplacer les '/' par des '$' dans le $token
             $user->token = str_replace('/', '$', $token);
             $user->ip = request()->ip();
 
-            $user->name_slug =  $nameSlug;
-            $user->firstname_slug = $firstnameSlug;
             $user->user_identifier = $identifier;
         });
 
@@ -105,7 +97,6 @@ class User extends Model implements Authenticatable
             $userFolder = $user->username;
             // je crée le chemin du dossier de l'utilisateur que je vais stocker dans la variable
             $storagePath = 'public/avatars/' . $userFolder;
-
             $userDirectory = 'public/projets/' . $userFolder;
 
             //si le dossier existe
@@ -177,11 +168,8 @@ class User extends Model implements Authenticatable
     {
         //je cherche l'utilisateur
         $user = User::findOrFail($user->id);
-
         //si un utilisateur n'a pas son avatar de téléchargé, dans ce cas, on lui affiche une image pas défault
         $imagePath = $this->avatar ?? 'avatars/default-avatar.png';
-
-
         // je retourne l'avatar de l'utilisateur
         return  "/storage/" . $imagePath;
     }
@@ -195,12 +183,10 @@ class User extends Model implements Authenticatable
 
     public function getUserCreationDate()
     {
-
         //je récupère la date de création de l'utilisateur que je transforme en locale FR
         $userCreationDate = Carbon::parse($this->created_at)->locale('fr');
         //je vais ensuite récupérer la date et la transformer en 1 janvier 1010(D M Y) que je vais stocker dans une variable.
         $transformUserCreationDate = $userCreationDate->isoFormat('LL');
-
 
         return $transformUserCreationDate;;
     }

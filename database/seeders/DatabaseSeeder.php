@@ -2,7 +2,14 @@
 
 namespace Database\Seeders;
 
+use CategorySeeder;
+use DifficultyLevelSeeder;
 use Illuminate\Database\Seeder;
+use MotiveSeeder;
+use RankSeeder;
+use RoleSeeder;
+use StatusSeeder;
+use UnitiesOfMeasurementSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +20,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // User::factory(10)->create();
+        $this->call([
+            CategorySeeder::class,
+            DifficultyLevelSeeder::class,
+            MotiveSeeder::class,
+            RankSeeder::class,
+            RoleSeeder::class,
+            StatusSeeder::class,
+            UnitiesOfMeasurementSeeder::class,
+            UserSeeder::class,
+        ]);
     }
 }

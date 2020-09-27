@@ -107,10 +107,10 @@
     </form>
     <div class="user-profile-edition__buttons-box">
         <button class="user-profile-edition__button button modal-button is-rounded showUserDeletingModal">supprimer le compte</button>
-        @include('partials.modals.deletion.admins.admin-modal')
+        @include('admins.partials.modals.deletion.admins.admin-modal')
 
         <button class="user-profile-edition__button button modal-button is-rounded showBanModal">bannir cette utilisateur</button>
-        @include('partials.modals.bans.admins.admin-modal')
+        @include('admins.partials.modals.bans.admins.admin-modal')
 
     </div>
 </div>

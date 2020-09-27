@@ -53,13 +53,12 @@ class AdminController extends Controller
             $this->deleteOldUserAvatar();
             //si le dossier n'existe pas
             if (!Storage::exists($storagePath)) {
-                //je viens le créer
-                Storage::makeDirectory($storagePath);
+
+                //je donne un nom au fichier téléchargé que je viens stoker en variable.
+                $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
+                // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
+                $imagePath = $request->avatar->storeAs($storagePath,  $new_name, 'public');
             }
-            //je donne un nom au fichier téléchargé que je viens stoker en variable.
-            $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
-            // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
-            $imagePath = $request->avatar->storeAs($storagePath,  $new_name, 'public');
             //je viens redimensionner mon image
             $image = Image::make(public_path("/storage/{$imagePath}"))->fit(350, 350);
             //je vais stoker mon image

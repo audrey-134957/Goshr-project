@@ -55,7 +55,7 @@ class ProfileController extends Controller
         //je retrouve l'utilisateur connecté
         $user = auth()->user();
         //j'autorise égalelent le détenteur du profil à le modifier.
-       $this->authorize('update', $user->profile);
+        $this->authorize('update', $user->profile);
 
         // si un fichier image est contenu dans le champs image
         if ($request->avatar) {
@@ -68,7 +68,10 @@ class ProfileController extends Controller
             //si le dossier n'existe pas, je le créer
             if (!Storage::exists($storagePath)) {
                 // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
-                $imagePath = $request->avatar->store($storagePath, 'public');
+                // $imagePath = $request->avatar->storeAs($storagePath, 'public');
+                $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
+                // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
+                $imagePath = $request->avatar->storeAs($storagePath, $new_name, 'public');
             }
 
             //je viens redimensionner mon image
@@ -105,26 +108,26 @@ class ProfileController extends Controller
             }
         }
 
-           // je modifie mon utilisateur
-           $user->email = $request->email;
-           $user->firstname = $request->firstname;
-           $user->name = $request->name;
-           $user->save();
+        // je modifie mon utilisateur
+        $user->email = $request->email;
+        $user->firstname = $request->firstname;
+        $user->name = $request->name;
+        $user->save();
 
-           //je modifie la biographie de l'utilisateur
-           $user->profile->biography = purifier($request->biography);
-           $user->profile->save();
+        //je modifie la biographie de l'utilisateur
+        $user->profile->biography = purifier($request->biography);
+        $user->profile->save();
 
-           //si l'utilisateur est sauvé ou que son profil est modifié
-           if (!$user->save() || !$user->profile->save()) {
-               //je redirige l'administrateur avec un message d'erreur
-               return redirect()->route('admin.editUser', [
-                   'adminId' => auth()->user()->id,
-                   'user' => $user
-               ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
+        //si l'utilisateur est sauvé ou que son profil est modifié
+        if (!$user->save() || !$user->profile->save()) {
+            //je redirige l'administrateur avec un message d'erreur
+            return redirect()->route('admin.editUser', [
+                'adminId' => auth()->user()->id,
+                'user' => $user
+            ])->with('error', 'Il y a eu une erreur lors la modification du compte.');
 
-               //si l'utilsateur n'est pas modifié
-           }
+            //si l'utilsateur n'est pas modifié
+        }
 
         return redirect()->route('profiles.edit', ['user' => $user, 'token' => $user->token_account])->with('status', 'Les changements ont bien été pris en compte!');
     }
@@ -210,13 +213,11 @@ class ProfileController extends Controller
             //si le dossier n'existe pas, je le créer
             if (!Storage::exists($storagePath)) {
                 // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
-                Storage::makeDirectory($storagePath);
+                //je donne un nom au fichier téléchargé que je viens stoker en variable.
+                $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
+                // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
+                $imagePath = $request->avatar->storeAs($storagePath,  $new_name, 'public');
             }
-
-            //je donne un nom au fichier téléchargé que je viens stoker en variable.
-            $new_name = 'avatar_' . gmdate('d_m_Y_') . uniqid()  . '.' . $request->avatar->getClientOriginalExtension();
-            // je récupère mon image que je vais stoker dans le dossier avatars/[nom-de-l'utilisateur] dans le storage local 'public/'
-            $imagePath = $request->avatar->storeAs($storagePath,  $new_name, 'public');
             //je viens redimensionner mon image
             $image = Image::make(public_path("/storage/{$imagePath}"))->fit(350, 350);
 

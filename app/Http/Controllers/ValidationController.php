@@ -26,7 +26,6 @@ class ValidationController extends Controller
         //je retrouve l'utilisateur
         $user = User::where('username', $user)->where('role_id', NULL)->firstOrFail();
 
-
         if (!$user) {
             // si l'utilisateur n'est pas trouvé, il est redirigé vers la page de connexion
             return redirect()->route('login.create')->with('error', "Ce compte nous est inconnu.");
