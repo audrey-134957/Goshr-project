@@ -22,9 +22,8 @@ class BanController extends Controller
     {
         //je récupère tous les utilisateurs bannis
         $bans = Ban::all();
-
+        //j'autorise l'admin voir tous les bans.
         $this->authorize('viewAny', Ban::class);
-
 
         //si le nombre d'utilisateurs est supérieur à 1
         if ($bans->count() > 1) {
@@ -40,17 +39,17 @@ class BanController extends Controller
     /**
      * Store a newly created ban in database.
      *
-     * @param  string $admin | username of the admin
-     * @param  string $user | username of the user
+     * @param  int $admin | id of the admin
+     * @param  int $user | id of the user
      * @return \Illuminate\Http\Response
      */
     public function store($adminId, $user)
     {
-        // dd($user);
         //je récupère l'utilisateur
         $user = User::findOrFail($user);
-
+        //j'autorise l'admin à créer un ban.
         $this->authorize('store', Ban::class);
+
 
         /* Create new ban */
         $ban = new Ban();
@@ -81,6 +80,7 @@ class BanController extends Controller
             $user->delete();
         }
 
+        //si dans l'url précédent, le mot 'adminisatrteurs' est trouv"
         if (strpos(url()->previous(), 'administrateurs')) {
             // l'admin est redirigé vers la page des utilisateurs
             return redirect()->route('admin.indexAdmins', [
@@ -88,7 +88,8 @@ class BanController extends Controller
             ])->with('status', 'Le compte administrateur a bien été banni.');
         }
 
-        // l'admin est redirigé vers la page des utilisateurs
+
+        //sinon, l'admin est redirigé vers la page des utilisateurs
         return redirect()->route('admin.indexAdmins', [
             'adminId' => auth()->user()->id
         ])->with('status', 'Le compte utilisateur a bien été banni.');
@@ -96,16 +97,15 @@ class BanController extends Controller
 
     /**
      * Remove the banned user in database.
-     * @param  string  $admin | username of the admin
-     * @param  string  $banned_user | email of the user
+     * @param  int  $admin | id of the admin
+     * @param  int  $banned_user | id of the user
      * @return \Illuminate\Http\Response 
      */
     public function destroy($adminId, $ban)
     {
-        // dd($ban);
         // je retrouve l'utilisateur bannis
         $ban = Ban::findOrFail($ban);
-
+        //j'autorise l'administrateur à supprimer un ban
         $this->authorize('destroy', $ban);
         //s'il n'existe pas
         if (!$ban) {
