@@ -14,7 +14,7 @@ class TopicPolicy
     /**
      * Grant all abilities to administrator.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Models\User  $user
      * @return bool
      */
     public function before(User $user)
@@ -26,7 +26,7 @@ class TopicPolicy
 
     /**
      * Determine whether the user can create topic.
-     *
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -39,7 +39,7 @@ class TopicPolicy
     /**
      * Determine whether the user can update topic.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Topic  $topic
      * @return mixed
      */
@@ -51,21 +51,21 @@ class TopicPolicy
     /**
      * Determine whether the user can  destroy project.
      *
-     * @param  \App\User  $user
-     * @param  \App\Project  $project
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Project  $project
      * @return mixed
      */
     public function destroy(User $user, Topic $topic)
     {
         if ($user->role_id !== NULL) {
-            return $user->id;
+            return true;
         }
     }
 
     /**
      * Determine whether the user can answer to topic.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Topic  $topic
      * @return mixed
      */
@@ -77,7 +77,7 @@ class TopicPolicy
     /**
      * Determine whether the user can report the topic.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @param  \App\Models\Topic  $topic
      * @return mixed
      */

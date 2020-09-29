@@ -13,7 +13,7 @@ class CommentPolicy
     /**
      * Grant all abilities to administrator.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Models\User  $user
      * @return bool
      */
     public function before(User $user)
@@ -25,10 +25,12 @@ class CommentPolicy
 
     /**
      * Determine whether the user can create comment.
+     * @param  \App\Models\User  $user
+
      */
     public function create(User $user)
     {
-        if ($user->role_id === NULL) { 
+        if ($user->role_id === NULL) {
             return true;
         }
     }
@@ -36,8 +38,8 @@ class CommentPolicy
     /**
      * Determine whether the user can update comment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Models\Comment  $comment
      * @return mixed
      */
     public function update(User $user, Comment $comment)
@@ -48,8 +50,8 @@ class CommentPolicy
     /**
      * Determine whether the user can delete comment.
      *
-     * @param  \App\User  $user
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Models\Comment  $comment
      * @return mixed
      */
     public function delete(User $user, Comment $comment)

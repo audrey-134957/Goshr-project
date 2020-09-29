@@ -79,6 +79,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        //j'autorise l'utilisateur non admin à pouvoir créer un projet
+        $this->authorize('create', Project::class);
         //je récupère l'utilisateur connecté
         $user = auth()->user();
         //je récupère toutes les catégories
@@ -106,6 +108,8 @@ class ProjectController extends Controller
     public function store(StoreProject $request, ProjectService $projectService)
     {
 
+        //j'autorise l'utilisateur non admin à sauver son projet
+        $this->authorize('store', Project::class);
         //pour une question de sécurité, je recherche l'utilisateur connecté
         $user = auth()->user();
         // je récupère mon l'input 'content' que je stocke dans une variable pour le passer à mon service 'ProjectSertvice -> transformBase64Url()
@@ -145,6 +149,12 @@ class ProjectController extends Controller
 
         //je sauve mon projet
         $project->save();
+        //si le projet n'a pas été sauvé
+        if (!$project->save()) {
+            //je redirige l'utilisateur vers la page de création de projet avec un message d'erreur
+            return view('projects.create')->with('error', "Une erreur s'est produite lors de la création du projet.");
+        }
+
         //je récupère le slug du projet
         $slug = $project->slug;
 
@@ -261,11 +271,12 @@ class ProjectController extends Controller
     public function draft($project, $slug, $token)
     {
         //je stocke mon projet brouillon en variable
-        $project = Project::where('status_id', 1)->findOrFail($project);
+        $project = Project::where('status_id', 1)->where('fictionnal_deletion', 0)
+            ->findOrFail($project);
+        //j'autorise l'auteur du projet a éditer son projet.
+        $this->authorize('update', $project);
         //je récupère l'utilisateur connecté
         $user = auth()->user();
-        //j'autorise uniquement l'auteur du projet à le modifier.
-        $this->authorize('edit', $project);
         //je stocke le slug du projet en variable
         $slug = $project->slug;
 
@@ -312,12 +323,14 @@ class ProjectController extends Controller
     public function updateDraft(EditProject $request, $project, $slug, ProjectService $projectService)
     {
         //je récupère le projet brouillon
-        $project = Project::where('status_id', 1)->findOrFail($project);
+        $project = Project::where('status_id', 1)->where('fictionnal_deletion', 0)
+            ->findOrFail($project);
+
+
         //je recupère le slug du projet
         $slug = $project->slug;
         //seule l'auteur du projet pourra modifier son projet brouillon
         $this->authorize('update', $project);
-
         //je fais appel à la methode 'editProject' qui permettra d'éditer mon contenu
         $this->editProject($project, $request, $projectService);
         //si l'utilisateur clique sur le bouton brouillon
@@ -361,6 +374,8 @@ class ProjectController extends Controller
         $project = Project::where('status_id', 2)
             ->where('fictionnal_deletion', 0)
             ->findOrFail($project);
+        //j'autorise l'auteur du projet a éditer son projet.
+        $this->authorize('update', $project);
         //je récupère le slug du projet que je stocke en variable
         $slug = $project->slug;
         //j'autorise uniquement l'auteur du projet à le modifier.
@@ -448,7 +463,7 @@ class ProjectController extends Controller
 
         $project->delete();
         //je redirige l'utililsateur vers la page précédent son action de suppression
-        if(strpos(url()->previous(), 'mes-projets') || strpos(url()->previous(), 'mes-brouillons')){
+        if (strpos(url()->previous(), 'mes-projets') || strpos(url()->previous(), 'mes-brouillons')) {
             return redirect()->back()->with('status', 'Ton projet a bien été supprimé.');
         }
 
@@ -468,13 +483,13 @@ class ProjectController extends Controller
         //je récupère l'utilisateur connecté
         $user = User::where('username', $user)->firstOrFail();
 
-
         //je recupère les projets de l'utilisateur connecté
         $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
             ->where('status_id', 2)
             ->where('fictionnal_deletion', 0)
             ->where('user_id', $user->id)
             ->get();
+
 
         return view('profiles.show', [
             'user'          => $user,
@@ -519,10 +534,6 @@ class ProjectController extends Controller
      */
     public function adminIndexProjects()
     {
-        //je récupère l'utilisateur connecté
-        $admin = auth()->user();
-
-
         //je récupères tous les projets.
         $projects = Project::with('category', 'user', 'materials', 'difficulty_level', 'unity_of_measurement', 'status')
             ->where('status_id', 2)
@@ -553,8 +564,8 @@ class ProjectController extends Controller
     public function adminShowProject($admin, $project, $slug)
     {
         $project = Project::findOrFail($project);
-        $slug = $project->slug;
 
+        $slug = $project->slug;
         $motives = Motive::all();
 
         return view('admins.projects.show', [
@@ -573,24 +584,28 @@ class ProjectController extends Controller
 
         $project = Project::findOrFail($project);
 
-        $user = $project->user;
+        $this->authorize('delete', $project);
 
+        $user = $project->user;
+        //si le projet n'existe pas
         if (!$project->exists()) {
+            //je redirige l'admin vers la page des projets avec un message d'erreur
             return redirect()->route('admin.indexProjects', [
                 'adminId' => auth()->user()->id,
             ])->with('error', "Le projet n'existe pas.");
         }
 
         $project->delete();
-
-        if (!$project) {
+        //si le projet n'existe pas
+        if ($project->exists()) {
+            //je redirige l'admin vers la page des projets avec un message d'erreur
             return redirect()->route('admin.indexProjects', [
                 'adminId' => auth()->user()->id,
             ])->with('status', "Une erreur s'est produite lors de la suppression du projet.");
         }
-
+        //je notifie l'auteur du projet que celui a été supprimé
         $user->notify(new SendMailToAuthorConcerningProjectDeletion($user, $project));
-
+        //je redirige l'admin vers la page des projets avec un message d'erreur
         return redirect()->route('admin.indexProjects', [
             'adminId' => auth()->user()->id,
         ])->with('status', 'Le projet a bien été supprimé.');
@@ -599,43 +614,46 @@ class ProjectController extends Controller
 
     public function adminDeleteProjectsSelection()
     {
-        if (request()->checkbox) {
-
+        $selectedProjects = request()->checkbox;
+        //s'il y a une sélection
+        if ($selectedProjects) {
+            //je recupère tous les projets
             $projects = Project::all();
-
+            //je crée un tableau vide qui me permettra de stoker les 
             $projectsBank = [];
-
+            //pour chaque projet
             foreach ($projects as $project) {
+                //je stoke leur clé dans le tableau
                 $projectsBank[] = $project->id;
             }
-
-
-            foreach (request()->checkbox as $selectedProject) {
-
-                $projec = Project::where('status_id', 2)
+            //pour chaque projet sélectionné
+            foreach ($selectedProjects as $selectedProject) {
+                //je récupère le projet sélectionné
+                $theProject = Project::where('status_id', 2)
                     ->where('fictionnal_deletion', 0)
                     ->where('id', $selectedProject)->firstOrFail();
-
-                $projec->delete();
+                //je supprimé le projet sélectionné
+                $theProject->delete();
             }
 
+            //
+            // $projectsBank = $projectsBank;
 
-            $projectsBank = $projectsBank;
+            //je stoke les projets qui se retrouvent à la fois dans les projets en BDD et dans les projets sélectionnés
+            $selectNotEnymore = array_diff_assoc($projectsBank, $selectedProjects);
 
-            $checkboxes = request()->checkbox;
-
-            $selectNotEnymore = array_diff_assoc($projectsBank, $checkboxes);
-
-
+            //si les projets ne sont pas trouvés
             if (!$selectNotEnymore) {
+                //je redirige l'admin vers la liste des projets avec un message d'erreur
                 return redirect()->route('admin.indexProjects', [
                     'adminId' => auth()->user()->id,
                 ])->with('status', "Une erreur s'est produite lors de la suppression de la sélection des projets.");
-            } else {
-                return redirect()->route('admin.indexProjects', [
-                    'adminId' => auth()->user()->id,
-                ])->with('status', 'Les projets sélectionnés ont bien été supprimés.');
             }
+
+            //autrement je redirige l'admin vers la liste des projets avec un message de confirmation.
+            return redirect()->route('admin.indexProjects', [
+                'adminId' => auth()->user()->id,
+            ])->with('status', 'Les projets sélectionnés ont bien été supprimés.');
         }
     }
 }
