@@ -35,6 +35,8 @@ class TopicController extends Controller
      */
     public function store(StoreTopic $request, $project, $slug)
     {
+        //j'autorise l'utilisateur connecté à créer un topic
+        $this->authorize('create', Topic::class);
         //je récupère le projet
         $project = Project::where('status_id', 2)->findOrFail($project);
         //je récupère le slug du project publié en variable
@@ -47,6 +49,16 @@ class TopicController extends Controller
         // $topic->user_id = auth()->user()->id;
         //je sauve le topicaire
         $project->topics()->save($topic);
+
+        //si le topic n'a pas été sauvé
+        if (!$project->topics()->save($topic)) {
+
+            //je redirige l'utilisateur vers la page d'erreur avec un message d'erreur
+            return redirect()->route('projects.show', [
+                'project' => $project,
+                'slug'    => $slug
+            ])->with('error', "Une erreur s'est produite lors de l'ajout du topic.");
+        }
         //je notifie l'auteur du projet qu'un topicaire vient d'être posté
         //la notification n'est envoyé que si l'auteur du topicaire n'est pas l'auteur du projet
         if ($topic->user_id !== $project->user_id) {
@@ -81,9 +93,21 @@ class TopicController extends Controller
         //je stocke le slug du projet concerné
         $slug = $project->slug;
         //je stocke le topicaire en variable
-        $topic = Topic::find($topic);
+        $topic = Topic::findOFail($topic);
+        //j'autorise l'auteur du topic ) éditer son topic
+        $this->authorize('update', $topic);
+
         // j'édite le contenu du projet
-        $topic->update(['content' => purifier($request->edit_topic_content)]);
+        $topic->content = purifier($request->edit_topic_content);
+        $topic->save();
+        //si le topic n'a pas été sauvé
+        if (!$topic->save()) {
+            //je redirige l'utilisateur vers la page du projet avec un message d'erreur
+            return redirect()->route('projects.show', [
+                'project' => $project,
+                'slug'     => $slug
+            ])->with('error', "Une erreur s'est produite lors de l'édition du topic.");
+        }
         //je redirige l'utilisateur vers le projet publié
         return redirect()->route('projects.show', [
             'project' => $project,
@@ -105,7 +129,6 @@ class TopicController extends Controller
     {
 
         $topic = Topic::findOrFail($topic);
-
         //je récupère le projet
         $project = Project::where('status_id', 2)->findOrFail($project);
         //je récupère le slug du project publié en variable
@@ -118,9 +141,16 @@ class TopicController extends Controller
         $topicReply->user_id = auth()->user()->id;
         //je sauve le commentaire
         $topic->topics()->save($topicReply);
-        //je notifie l'auteur du projet qu'un commentaire vient d'être posté
-        //la notification n'est envoyé que si l'auteur du commentaire n'est pas l'auteur du projet
-
+        //j'autorise l'utilisateur connecté à créer un topic
+        $this->authorize('store', Topic::class);
+        //si le topic n'a pas été sauvé
+        if (!$topic->topics()->save($topicReply)) {
+            //je redirige l'utilisateur vers la page du projet avec un message d'erreur
+            return redirect()->route('projects.show', [
+                'project' => $project,
+                'slug'     => $slug
+            ])->with('error', "Une erreur s'est produite lors de l'ajout du topic.");
+        }
 
         $lastReplyTopic = $topic->topics()->orderBy('created_at', 'desc')->first();
 
@@ -158,6 +188,8 @@ class TopicController extends Controller
         $slug = $project->slug;
         //je stocke le commentaire du commentaire en variable
         $topicReply = Topic::findOrFail($topic);
+        //j'autorise l'utilisateur connecté et non admin à pouvoir éditer son topic.
+        $this->authorize('update', $topicReply);
         //je récupère la valeur du textarea que je stocke dans le contenu de la variable
         $topicReply->content = purifier($request->edit_topic_reply_content);
         //j'édite le contenu du projet
@@ -177,36 +209,41 @@ class TopicController extends Controller
 
     public function adminDeleteTopic($admin, $project, $slug, $topic)
     {
-        //je récupère l'admin connecté
-        $admin = auth()->user();
 
+        //je retrouve le topic
         $topic = Topic::findOrFail($topic);
-
+        //j'autorise l'utilisateur admin  connecté à pouvoir supprimer le commentaire.
+        $this->authorize('delete', $topic);
+        //je retrouve le projet
         $project = Project::findOrFail($project);
-
+        //je recupère le slug du projet
         $slug = $project->slug;
-
+        //je récupère l'auteru du topic
         $topicAuthor = $topic->user;
-
+        //si le topic n'existe pas
         if (!$topic->exists()) {
+            //je redirige l'administrateur vers la page du projet avec un message d'erreur
             return redirect()->route('admin.showProject', [
                 'adminId' => auth()->user()->id,
                 'project' => $project,
                 'slug' => $slug,
             ])->with('error', "Le topic n'existe pas.");
         }
-
+        //je supprime le topic
         $topic->delete();
-
-        if (!$topic) {
+        //si le topic existe toujours après la supposée suppression
+        if ($topic->exists()) {
+            //je redirige l'administrateur vers la page du projet avec un message d'erreur
             return redirect()->route('admin.showProject', [
                 'adminId' => auth()->user()->id,
                 'project' => $project,
                 'slug' => $slug,
             ])->with('status', "Une erreur s'est produite lors de la suppression du topic.");
         }
+        //autrement, je notifie l'auteur du topic que celui-ci a été supprimé
         $topicAuthor->notify(new SendMailToAuthorConcerningTopicDeletion($topic, $project, $topicAuthor));
 
+        //je redirige l'administrateur vers la page du projet avec un message de confirmation
         return redirect()->route('admin.showProject', [
             'adminId' => auth()->user()->id,
             'project' => $project,

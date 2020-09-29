@@ -41,7 +41,7 @@ class CommentController extends Controller
         $project->comments()->save($comment);
 
         //s le commentaire n'a pas été sauvé
-        if ($project->comments()->save($comment)) {
+        if (!$project->comments()->save($comment)) {
             //je redirige le projet vers la page de projet avec un message d'erreur
             return redirect()->route('projects.show', [
                 'project' => $project,
@@ -127,7 +127,7 @@ class CommentController extends Controller
         $comment->comments()->save($commentReply);
 
         //si le commentaire n'a pas été sauvé
-        if ($comment->comments()->save($commentReply)) {
+        if (!$comment->comments()->save($commentReply)) {
             //je redirige l'utilisateur vers la page du projet avec un message d'erreur
             return redirect()->route('projects.show', [
                 'project' => $project,
@@ -213,7 +213,7 @@ class CommentController extends Controller
         //je recherche le commentaire.
         $comment = Comment::findOrFail($comment);
 
-        //j'autorise l'utilisateur admin  connecté à pouvoir créer un commentaire.
+        //j'autorise l'utilisateur admin  connecté à pouvoir supprimer le commentaire.
         $this->authorize('delete', $comment);
         //je recherche le projet concerné
         $project = Project::findOrFail($project);
@@ -223,7 +223,7 @@ class CommentController extends Controller
         $commentAuthor = $comment->user;
         //si le commentaire n'existe pas,
         if (!$comment->exists()) {
-            //je redirige l'administrateur vers la page du projet
+            //je redirige l'administrateur vers la page du projet avec un message d'erreur
             return redirect()->route('admin.showProject', [
                 'adminId' => auth()->user()->id,
                 'project' => $project,
@@ -235,7 +235,7 @@ class CommentController extends Controller
         $comment->delete();
 
         //si le commentaire est trouvé
-        if ($comment) {
+        if ($comment->exists()) {
             //je redirige l'administrateur vers la page du projet avec un message d'erreur
             return redirect()->route('admin.showProject', [
                 'adminId' => auth()->user()->id,

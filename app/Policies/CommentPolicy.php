@@ -26,9 +26,9 @@ class CommentPolicy
     /**
      * Determine whether the user can create comment.
      */
-    public function create()
+    public function create(User $user)
     {
-        if (auth()->check() && auth()->user()->role_id === NULL) {
+        if ($user->role_id === NULL) { 
             return true;
         }
     }

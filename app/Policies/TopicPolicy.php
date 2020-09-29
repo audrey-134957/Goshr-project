@@ -29,9 +29,9 @@ class TopicPolicy
      *
      * @return mixed
      */
-    public function create()
+    public function create(User $user)
     {
-        if (auth()->check()) {
+        if ($user->role_id === NULL) {
             return true;
         }
     }
@@ -57,7 +57,7 @@ class TopicPolicy
      */
     public function destroy(User $user, Topic $topic)
     {
-        if (auth()->check() && auth()->user()->role_id !== NULL) {
+        if ($user->role_id !== NULL) {
             return $user->id;
         }
     }
