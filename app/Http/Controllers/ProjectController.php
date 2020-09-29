@@ -108,7 +108,7 @@ class ProjectController extends Controller
     {
 
         //j'autorise l'utilisateur non admin à sauver son projet
-        $this->authorize('store', Project::class);
+        $this->authorize('create', Project::class);
         //pour une question de sécurité, je recherche l'utilisateur connecté
         $user = auth()->user();
         // je récupère mon l'input 'content' que je stocke dans une variable pour le passer à mon service 'ProjectSertvice -> transformBase64Url()

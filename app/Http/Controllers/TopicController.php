@@ -93,7 +93,7 @@ class TopicController extends Controller
         //je stocke le slug du projet concerné
         $slug = $project->slug;
         //je stocke le topicaire en variable
-        $topic = Topic::findOFail($topic);
+        $topic = Topic::findOrFail($topic);
         //j'autorise l'auteur du topic ) éditer son topic
         $this->authorize('update', $topic);
 
@@ -142,7 +142,7 @@ class TopicController extends Controller
         //je sauve le commentaire
         $topic->topics()->save($topicReply);
         //j'autorise l'utilisateur connecté à créer un topic
-        $this->authorize('store', Topic::class);
+        $this->authorize('create', Topic::class);
         //si le topic n'a pas été sauvé
         if (!$topic->topics()->save($topicReply)) {
             //je redirige l'utilisateur vers la page du projet avec un message d'erreur

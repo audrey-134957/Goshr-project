@@ -30,9 +30,7 @@ class CommentPolicy
      */
     public function create(User $user)
     {
-        if ($user->role_id === NULL) {
-            return true;
-        }
+        return true;
     }
 
     /**

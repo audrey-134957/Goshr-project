@@ -34,6 +34,7 @@ class ProjectPolicy
         }
     }
 
+
     /**
      * Determine whether the user can edit project.
      *
