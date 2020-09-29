@@ -53,7 +53,6 @@ class Topic extends Model
 
     public function getPublishDate(){
 
-        
         $topicCreationDate = \Carbon\Carbon::parse($this->created_at)->locale('fr');
         $transformTopicCreationDate = $topicCreationDate->isoFormat('D MMM YYYY à HH:mm');
 

@@ -23,6 +23,9 @@ class BanController extends Controller
         //je récupère tous les utilisateurs bannis
         $bans = Ban::all();
 
+        $this->authorize('viewAny', Ban::class);
+
+
         //si le nombre d'utilisateurs est supérieur à 1
         if ($bans->count() > 1) {
             $name = 'utilisateurs bannis';
@@ -46,6 +49,8 @@ class BanController extends Controller
         // dd($user);
         //je récupère l'utilisateur
         $user = User::findOrFail($user);
+
+        $this->authorize('store', Ban::class);
 
         /* Create new ban */
         $ban = new Ban();
@@ -101,6 +106,7 @@ class BanController extends Controller
         // je retrouve l'utilisateur bannis
         $ban = Ban::findOrFail($ban);
 
+        $this->authorize('destroy', $ban);
         //s'il n'existe pas
         if (!$ban) {
             //si l'utilisateur n'existe pas, je redirige l'admin dans la liste des utilisateurs bannis en lui signalant qu'une erreur s'est produite.

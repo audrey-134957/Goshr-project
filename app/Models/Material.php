@@ -13,25 +13,9 @@ class Material extends Model
         'project_id'
     ];
 
-
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     self::creating(function ($material) {
-    //         $material->project_id = auth()->id;
-    //     });
-
-    //     self::saving(function ($material){
-    //         $material->project_id = auth()->id;
-    //     });
-    // }
-
-
     // un materiel appartient  à un utilisateur.
     public function project()
     {
-
         return $this->belongsTo(Project::class);
     }
 
