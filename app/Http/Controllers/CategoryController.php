@@ -30,6 +30,8 @@ class CategoryController extends Controller
 
         // je récupères les catégories
         $categories = Category::all();
+        //j'autorise l'admin à voir les categories
+        $this->authorize('viewAny', Category::class);
 
         return view('admins.categories.index', ['categories' => $categories]);
     }
@@ -43,6 +45,9 @@ class CategoryController extends Controller
      */
     public function store(StoreCategory $request, $admin)
     {
+        //j'autorise l'admin a créer une catgorie.
+        $this->authorize('create', Category::class);
+
         /* Create new catgory */
         $category = new Category();
         $category->name = ucfirst($request->category_name);
@@ -56,9 +61,11 @@ class CategoryController extends Controller
             ])->with('error', "Une erreur s'est produite lors de la création de la catégorie");
         }
 
+        //je récupère tous les utilisateurs membres
         $users = User::where('role_id', NULL)->get();
 
-        foreach($users as $user){
+        //je notifie chaque utilisateur  qu'une nouvelle catégorie est créé.
+        foreach ($users as $user) {
             $user->notify(new SendMailToUserReferingToCreatingCategory($category, $user));
         }
 
@@ -78,13 +85,11 @@ class CategoryController extends Controller
      */
     public function update(EditCategory $request, $admin, $category)
     {
-
-        //je recupère l'administrateur connecté
-        $admin = auth()->user();
         //je récupère la catégorie
         $category = Category::where('slug', $category)->firstOrFail();
-        // j'édite la catégorie
-
+        //j'autorise l'admin à modifié la catégorie.
+        $this->authorize('update', $category);
+        //je stoke le nom actuel de la catégorie avant son édition
         session(['oldCategoryName' => $category->name]);
 
         $category->name = ucfirst($request->edit_category_name);
@@ -123,6 +128,10 @@ class CategoryController extends Controller
     {
         //je récupère la catégorie
         $category = Category::where('slug', $category)->firstOrFail();
+
+        //j'autorise l'admin à supprimer la catégorie.
+        $this->authorize('delete', $category);
+
 
         //si la catégirie n'existe pas
         if (!$category) {
