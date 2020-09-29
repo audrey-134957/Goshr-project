@@ -11,7 +11,6 @@ use App\Http\Requests\StoreProject;
 use App\Models\Material;
 use App\Models\Motive;
 use App\Notifications\SendMailToAuthorConcerningProjectDeletion;
-use App\Notifications\SendMailToUserToNotifyProjectDeletion;
 use App\Models\Project;
 use App\Models\UnityOfMeasurement;
 use App\Models\User;
