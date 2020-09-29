@@ -46,9 +46,9 @@ class BanController extends Controller
     public function store($adminId, $user)
     {
         //je récupère l'utilisateur
-        $user = User::findOrFail($user);
+        $user = User::where('username', $user)->firstOrFail();
         //j'autorise l'admin à créer un ban.
-        $this->authorize('store', Ban::class);
+        $this->authorize('create', Ban::class);
 
 
         /* Create new ban */
@@ -106,7 +106,7 @@ class BanController extends Controller
         // je retrouve l'utilisateur bannis
         $ban = Ban::findOrFail($ban);
         //j'autorise l'administrateur à supprimer un ban
-        $this->authorize('destroy', $ban);
+        $this->authorize('delete', $ban);
         //s'il n'existe pas
         if (!$ban) {
             //si l'utilisateur n'existe pas, je redirige l'admin dans la liste des utilisateurs bannis en lui signalant qu'une erreur s'est produite.
