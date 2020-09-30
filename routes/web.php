@@ -559,13 +559,13 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          * @param report id of the report
          * @param project id of the project
          */
-        Route::update('signalements/decision/signalement-{report}/projet-{project}/', [ReportController::class, 'storeAdminDecisionForProjectReport'])->name('storeAdminDecisionForProjectReport');
+        Route::patch('signalements/decision/signalement-{report}/projet-{project}/', [ReportController::class, 'storeAdminDecisionForProjectReport'])->name('storeAdminDecisionForProjectReport');
 
         /**
          * @description Show the comment report
          * 
          * @param report id of the report
-         * @param project id of the project
+         * @param comment id of the comment
          */
         Route::get('commentaires/signalements/signalement-{report}/commentaire-{comment}/', [ReportController::class, 'showCommentReport'])->name('showCommentReport');
 
@@ -573,15 +573,15 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          * @description Delete fictionnaly the comment report 
          * 
          * @param report id of the report
-         * @param project id of the project
+         * @param comment id of the comment
          */
-        Route::update('commentaires/signalements/decision/signalement-{report}/commentaire-{comment}/', [ReportController::class, 'storeAdminDecisionForCommentReport'])->name('storeAdminDecisionForCommentReport');
+        Route::patch('commentaires/signalements/decision/signalement-{report}/commentaire-{comment}/', [ReportController::class, 'storeAdminDecisionForCommentReport'])->name('storeAdminDecisionForCommentReport');
 
         /**
          * @description Show the topic report
          * 
          * @param report id of the report
-         * @param project id of the project
+         * @param topic id of the topic
          */
         Route::get('topics/signalements/signalement-{report}/topic-{topic}/', [ReportController::class, 'showTopicReport'])->name('showTopicReport');
 
@@ -589,9 +589,9 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          * @description Delete fictionnaly the topic report 
          * 
          * @param report id of the report
-         * @param project id of the project
+         * @param topic id of the topic
          */
-        Route::update('topics/signalements/decision/signalement-{report}/topic-{topic}/', [ReportController::class, 'storeAdminDecisionForTopicReport'])->name('storeAdminDecisionForTopicReport');
+        Route::patch('topics/signalements/decision/signalement-{report}/topic-{topic}/', [ReportController::class, 'storeAdminDecisionForTopicReport'])->name('storeAdminDecisionForTopicReport');
 
 
         /*********** Catégories ***********/
@@ -626,14 +626,35 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          */
         Route::get('/administrateurs', [AdminController::class, 'indexAdmins'])->name('indexAdmins');
 
+        /**
+         * @description Show the admin creation form
+         */
         Route::get('/administrateurs/creer-un-administrateur', [AdminController::class, 'createAdmin'])->name('createAdmin');
 
+        /**
+         * @description Store admin in database
+         */
         Route::post('/administrateurs', [AdminController::class, 'storeAdmin'])->name('storeAdmin');
 
+        /**
+         * @description Show the admin profile edition form
+         * 
+         * @param adminUser id of the admin
+         */
         Route::get('/administrateurs/administrateur-{adminUser}', [AdminController::class, 'editAdmin'])->name('editAdmin');
 
+        /**
+         * @description Update the admin in database
+         * 
+         * @param adminUser id of the admin
+         */
         Route::patch('/administrateurs/administrateur-{adminUser}/modifier-l-administrateur', [AdminController::class, 'updateAdmin'])->name('updateAdmin');
 
+        /**
+         * @description Delete the admin from database
+         * 
+         * @param adminUser id of the admin
+         */
         Route::delete('/administrateurs/administrateur-{adminUser}', [AdminController::class, 'destroyAdmin'])->name('deleteAdmin');
 
         /**
