@@ -443,6 +443,16 @@ class ReportController extends Controller
         ])->with('status', 'Le commentaire a été retiré.');
     }
 
+    /**
+     * Store the admin decision for the comment report ( fictionnal deletion )
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $admin | id of the admin
+     * @param  int $report | id of the report
+     * @param  int $project | id of the topic
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function storeAdminDecisionForCommentReport(Request $request, $admin, $report, $comment)
     {
 
