@@ -30,7 +30,7 @@ class CategoryPolicy
      */
     public function create(User $user)
     {
-        if ($user->role_id !== NULL) {
+        if ($user->role_id === 2) {
             return true;
         }
     }
@@ -39,12 +39,11 @@ class CategoryPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
      * @return mixed
      */
-    public function update(User $user, Category $category)
+    public function update(User $user)
     {
-        if ($user->role_id !== NULL) {
+        if ($user->role_id === 2) {
             return true;
         }
     }
@@ -53,12 +52,11 @@ class CategoryPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
      * @return mixed
      */
-    public function delete(User $user, Category $category)
+    public function delete(User $user)
     {
-        if ($user->role_id !== NULL) {
+        if ($user->role_id === 2) {
             return true;
         }
     }

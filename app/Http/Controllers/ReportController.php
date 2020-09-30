@@ -226,12 +226,22 @@ class ReportController extends Controller
 
     /*********** Super Admin ***********/
 
+
+    /**
+     * Show the project report ????????????????
+     *
+     * @param int $admin | id of the authenticate admin
+     * @param  int $report | id of the report
+     * @param int $project | id of the project
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function showProjectReport($admin, $report, $project)
     {
-        $admin = auth()->user();
-
+        //je récupère le signalement
         $report = Report::findOrFail($report);
 
+        //je récupère le projet
         $project = Project::where('slug', $project)->firstOrFail();
 
         return view('admins.reports.project.show', [
@@ -241,10 +251,21 @@ class ReportController extends Controller
         ]);
     }
 
+    /**
+     * Show the topic report ????????????????
+     *
+     * @param int $admin | id of the authenticate admin
+     * @param  int $report | id of the report
+     * @param int $topic | id of the topi
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function showTopicReport($admin, $report, $topic)
     {
+        //je récupère le signalement
         $report = Report::findOrFail($report);
 
+        //je récupère le topic
         $topic = Topic::findOrFail($topic);
 
         return view('admins.reports.topic.show', [
@@ -254,11 +275,20 @@ class ReportController extends Controller
         ]);
     }
 
-
+    /**
+     * Show the comment report ????????????????
+     *
+     * @param int $admin | id of the authenticate admin
+     * @param  int $report | id of the report
+     * @param int $comment | id of the comment
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function showCommentReport($admin, $report, $comment)
     {
+        //je récupère le signalement
         $report = Report::findOrFail($report);
-
+        //je récupère le commentaire
         $comment = Comment::findOrFail($comment);
 
         return view('admins.reports.comment.show', [
@@ -268,30 +298,43 @@ class ReportController extends Controller
         ]);
     }
 
-
+    /**
+     * Store the admin decision for the project report ( fictionnal deletion )
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $admin | id of the admin
+     * @param  int $report | id of the report
+     * @param  int $project | id of the project
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function storeAdminDecisionForProjectReport(Request $request, $admin, $report, $project)
     {
-
+        //je récupère le signalement
         $report = Report::findOrFail($report);
+        //je récupère le projet
         $project = Project::findOrFail($project);
 
+        //si le bouton de soumission est désapprouvé
         if ($request->submit == 'disapprove') {
 
+            //je passe le report à lu
             $report->update(['read_at' => Carbon::now()]);
 
+            //je redirige l'admin vers la page d'index
             return redirect()->route('admin.indexReports', [
                 'adminId' => auth()->user()->id,
             ]);
         }
 
+        // la suppression fictive du projet passe à 1 (il ne sera plus visible depuis l'espace utilisateur et admin)
         $project->fictionnal_deletion =  1;
+        // je sauve le projet
         $project->save();
 
-
+        //si le projet n'est pas modifié
         if (!$project->wasChanged()) {
-
-            $report->update(['read_at' => Carbon::now()]);
-
+            //je redirige l'admin à la page du signalement avec un message d'erreur
             return redirect()->route('admin.showProjectReport', [
                 'adminId' => auth()->user()->id,
                 'report' => $report,
@@ -299,51 +342,72 @@ class ReportController extends Controller
             ])->with('status', "Une erreur s'est produite lors de la suppression du projet.");
         }
 
+        //autrement, je passe le signalement à lu
         $report->update(['read_at' => Carbon::now()]);
 
+        //je récupère tous les autres signalements relatifs au projet.
         $anotherReports = $project->reports()->where('id', '!=', $report->id)->get();
-
+        //s'il y a effectivement d'autres sugnalements
         if ($anotherReports->count() > 0) {
-
+            //pour chaqun d'eux
             foreach ($anotherReports as $unreadReport) {
+                //je les passe en lu
                 $unreadReport->update(['read_at' => Carbon::now()]);
             }
         }
 
+        //je récupère l'auteur du projet
         $projectAuthor = $project->user;
 
-        $project->user->notify(new SendMailToAuthorConcerningProjectDeletion($project, $projectAuthor));
+        //je le notifie concernant la suppression de son projet
+        $projectAuthor->notify(new SendMailToAuthorConcerningProjectDeletion($project, $projectAuthor));
 
+        //je redirige l'admin vers la page des signalements
         return  redirect()->route('admin.indexReports', [
             'adminId' => auth()->user()->id,
         ])->with('status', 'Le projet a été retiré.');
     }
 
+    /**
+     * Store the admin decision for the topic report ( fictionnal deletion )
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $admin | id of the admin
+     * @param  int $report | id of the report
+     * @param  int $project | id of the topic
+     * @return \Illuminate\Http\Response
+     * 
+     */
     public function storeAdminDecisionForTopicReport(Request $request, $admin, $report, $topic)
     {
 
-        $report = Report::where('id', $report)->firstOrFail();
-        $topic = Topic::where('id', $topic)->firstOrFail();
+        //je récupère le signalement
+        $report = Report::findOrFail($report);
+        //je récupère le topic
+        $topic = Topic::findOrFail($topic);
 
+        //je récupère le project relatif au topic
         $project = $topic->topicable;
 
-        dd($project);
-
+        //si l'admin désapprouve le signalement
         if ($request->submit == 'disapprove') {
 
+            //je passe celui en lu
             $report->update(['read_at' => Carbon::now()]);
-
+            //je redirige l'utilisateur vers la page des signalements
             return redirect()->route('admin.indexReports', [
                 'adminId' => auth()->user()->id,
             ]);
         }
 
+        //autrement, je passe la suppression fictive du topic à 1
         $topic->fictionnal_deletion =  1;
+        //je l'édite
         $topic->save();
 
-
+        //si ce topic n'est pas édité
         if (!$topic->wasChanged()) {
-            $report->update(['read_at' => Carbon::now()]);
+            //je redirige l'admin vers la page du topic avec un message d'erreur
             return redirect()->route('admin.showTopicReport', [
                 'adminId' => auth()->user()->id,
                 'report' => $report,
@@ -352,20 +416,28 @@ class ReportController extends Controller
             ])->with('error', "Une erreur s'est produite lors de la suppression du topic .");
         }
 
+        //autrement je passe le signalement à lu
         $report->update(['read_at' => Carbon::now()]);
 
+        //je récupère les autres éventuels signalements relatifs à ce topic
         $anotherReports = $topic->reports()->where('id', '!=', $topic->id)->get();
 
+        // s'il en existe bien
         if ($anotherReports->count() > 0) {
+            //pour chacun d'eux
             foreach ($anotherReports as $unreadReport) {
+                //je passe le signalement à lu
                 $unreadReport->update(['read_at' => Carbon::now()]);
             }
         }
 
+        //je récupère l'auteur du topic
         $topicAuthor = $topic->user;
 
-        $topic->user->notify(new SendMailToAuthorConcerningTopicDeletion($topic, $project, $topicAuthor));
+        //je le notifie concernant la suppression de son topic
+        $topicAuthor->notify(new SendMailToAuthorConcerningTopicDeletion($topic, $project, $topicAuthor));
 
+        //e redirige l'admin vers la page des signalements avec un message de confirmation
         return  redirect()->route('admin.indexReports', [
             'adminId' => auth()->user()->id,
         ])->with('status', 'Le commentaire a été retiré.');
@@ -374,31 +446,27 @@ class ReportController extends Controller
     public function storeAdminDecisionForCommentReport(Request $request, $admin, $report, $comment)
     {
 
+        //je récupère le signalement
         $report = Report::findOrFail($report);
+        //je récupère le commentaire
         $comment = Comment::findOrFail($comment);
+        //je récupère le projet relatif au commentaire
         $project = $comment->commentable;
-
-
-
+        //si le signalement est désapprouvé
         if ($request->submit == 'disapprove') {
-            // dd('disapprove');
-
-            $report->update(['read_at' => Carbon::now()]);
-
+            //l'admin est redirigé vers la page des signalements
             return redirect()->route('admin.indexReports', [
                 'adminId' => auth()->user()->id,
             ]);
         }
-        // dd('approve');
-
+        //autrement, le commentaire est édité et la suppression fictive passe à 1
         $comment->fictionnal_deletion =  1;
+        //je le sauve
         $comment->save();
 
-
+        //si le commentaire n'est pas édité
         if (!$comment->wasChanged()) {
-
-            $report->update(['read_at' => Carbon::now()]);
-
+            //je redirige l'administrateur vers la page du signalement avec un message d'erreur
             return redirect()->route('admin.showCommentReport', [
                 'adminId' => auth()->user()->id,
                 'report' => $report,
@@ -407,21 +475,23 @@ class ReportController extends Controller
             ])->with('status', "Une erreur s'est produite lors de la suppression du commentaire.");
         }
 
+        //autrement je passe le signalement à lu
         $report->update(['read_at' => Carbon::now()]);
-
+        //je récupère les autres éventuels signalement relatifs au commentaire
         $anotherReports = $comment->reports()->where('id', '!=', $comment->id)->get();
-
+        //s'il en existe bien
         if ($anotherReports->count() > 0) {
-
+            //pour chacun d'eux
             foreach ($anotherReports as $unreadReport) {
+                //je passe le signalement à lu
                 $unreadReport->update(['read_at' => Carbon::now()]);
             }
         }
-
+        //je recupère l'auteur du commentaire
         $commentAuthor = $comment->user;
-
+        //je le notifie concernant la suppression de son commentaire
         $comment->user->notify(new SendMailToAuthorConcerningCommentDeletion($comment, $project, $commentAuthor));
-
+        //je redirige l'administrateur vers la page des signalements avec un message de confirmation
         return  redirect()->route('admin.indexReports', [
             'adminId' => auth()->user()->id,
         ])->with('status', 'Le commentaire a été retiré.');

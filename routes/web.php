@@ -205,7 +205,7 @@ Route::middleware(['member'])->group(function () {
          */
         Route::delete('/projets/{project}/{slug}', [ProjectController::class, 'destroy'])->name('delete');
 
-        
+
         /*********** Projets brouillons ***********/
 
         /**
@@ -396,7 +396,7 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
     /**
      * @description prefix of the following routes
-     * @param admin username of the administrator
+     * @param admin id of the administrator
      */
     Route::prefix('espace-administrateur/{adminId}')->group(function () {
 
@@ -456,9 +456,9 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
         /**
          * @description Delete the banned user in database
-         * @param banned_user email of the "banned user"
+         * @param ban id of the "banned user"
          */
-        Route::delete('/bannissements/ban/{ban}', [BanController::class,'destroy'])->name('deleteBan');
+        Route::delete('/bannissements/ban/{ban}', [BanController::class, 'destroy'])->name('deleteBan');
 
 
         /*********** Gestion du compte admin ***********/
@@ -545,19 +545,53 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
          */
         Route::get('/signalements', [ReportController::class, 'index'])->name('indexReports');
 
+        /**
+         * @description Show the project report
+         * 
+         * @param report id of the report
+         * @param project id of the project
+         */
         Route::get('signalements/signalement-{report}/projet-{project}/', [ReportController::class, 'showProjectReport'])->name('showProjectReport');
 
-        Route::delete('signalements/decision/signalement-{report}/projet-{project}/', [ReportController::class, 'storeAdminDecisionForProjectReport'])->name('storeAdminDecisionForProjectReport');
+        /**
+         * @description Delete fictionnaly the project report 
+         * 
+         * @param report id of the report
+         * @param project id of the project
+         */
+        Route::update('signalements/decision/signalement-{report}/projet-{project}/', [ReportController::class, 'storeAdminDecisionForProjectReport'])->name('storeAdminDecisionForProjectReport');
 
-
+        /**
+         * @description Show the comment report
+         * 
+         * @param report id of the report
+         * @param project id of the project
+         */
         Route::get('commentaires/signalements/signalement-{report}/commentaire-{comment}/', [ReportController::class, 'showCommentReport'])->name('showCommentReport');
 
-        Route::delete('commentaires/signalements/decision/signalement-{report}/commentaire-{comment}/', [ReportController::class, 'storeAdminDecisionForCommentReport'])->name('storeAdminDecisionForCommentReport');
+        /**
+         * @description Delete fictionnaly the comment report 
+         * 
+         * @param report id of the report
+         * @param project id of the project
+         */
+        Route::update('commentaires/signalements/decision/signalement-{report}/commentaire-{comment}/', [ReportController::class, 'storeAdminDecisionForCommentReport'])->name('storeAdminDecisionForCommentReport');
 
-
+        /**
+         * @description Show the topic report
+         * 
+         * @param report id of the report
+         * @param project id of the project
+         */
         Route::get('topics/signalements/signalement-{report}/topic-{topic}/', [ReportController::class, 'showTopicReport'])->name('showTopicReport');
 
-        Route::delete('topics/signalements/decision/signalement-{report}/topic-{topic}/',[ReportController::class, 'storeAdminDecisionForTopicReport'])->name('storeAdminDecisionForTopicReport');
+        /**
+         * @description Delete fictionnaly the topic report 
+         * 
+         * @param report id of the report
+         * @param project id of the project
+         */
+        Route::update('topics/signalements/decision/signalement-{report}/topic-{topic}/', [ReportController::class, 'storeAdminDecisionForTopicReport'])->name('storeAdminDecisionForTopicReport');
 
 
         /*********** Catégories ***********/
@@ -602,11 +636,10 @@ Route::middleware(['admin'])->name('admin.')->group(function () {
 
         Route::delete('/administrateurs/administrateur-{adminUser}', [AdminController::class, 'destroyAdmin'])->name('deleteAdmin');
 
-         /**
+        /**
          * @description Show listing of admins from search result
          * 
          */
         Route::get('/administrateurs/recherche', [SearchController::class, 'searchAdmins'])->name('searchAdmins');
-
     });
 });
